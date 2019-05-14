@@ -52,6 +52,14 @@
     <Compile Include="Container\DependencyContainerExtensions.cs" />
     <Compile Include="Container\IDependencyContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceFactory\IServiceConstructor.cs" />
+    <Compile Include="ServiceFactory\ServiceConstructor.cs" />
+    <Compile Include="ServiceFactory\IServiceFactoryRegistrar.cs" />
+    <Compile Include="ServiceFactory\IServiceFactory.cs" />
+    <Compile Include="ServiceFactory\ServiceFactory.cs" />
+    <Compile Include="ServiceFactory\TypeFactory.cs" />
+    <Compile Include="Utilities\ThrowHelper.ServiceFactory.cs" />
+    <Compile Include="Utilities\ThrowHelper.Throw.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
