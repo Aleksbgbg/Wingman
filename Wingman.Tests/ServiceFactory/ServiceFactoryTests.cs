@@ -11,15 +11,19 @@
 
     public class ServiceFactoryTests
     {
-        private readonly Mock<IDependencyContainer> _dependencyContainerMock;
+        private readonly Mock<IDependencyRegistrar> _dependencyRegistrarMock;
+
+        private readonly Mock<IDependencyRetriever> _dependencyRetrieverMock;
 
         private readonly ServiceFactory _serviceFactory;
 
         public ServiceFactoryTests()
         {
-            _dependencyContainerMock = new Mock<IDependencyContainer>();
+            _dependencyRegistrarMock = new Mock<IDependencyRegistrar>();
 
-            _serviceFactory = new ServiceFactory(_dependencyContainerMock.Object);
+            _dependencyRetrieverMock = new Mock<IDependencyRetriever>();
+
+            _serviceFactory = new ServiceFactory(_dependencyRegistrarMock.Object, _dependencyRetrieverMock.Object);
         }
 
         [Fact]
@@ -118,7 +122,7 @@
 
         private void SetupHasServiceHandler(bool value = true)
         {
-            _dependencyContainerMock.Setup(container => container.HasHandler(typeof(IService), null))
+            _dependencyRegistrarMock.Setup(registrar => registrar.HasHandler(typeof(IService), null))
                                     .Returns(value);
         }
 

@@ -6,15 +6,15 @@
 
     internal class TypeFactory
     {
-        private readonly IDependencyContainer _dependencyContainer;
+        private readonly IDependencyRetriever _dependencyRetriever;
 
         private readonly IServiceConstructor _serviceConstructor;
 
         private object[] _constructorArguments;
 
-        internal TypeFactory(IDependencyContainer dependencyContainer, IServiceConstructor serviceConstructor)
+        internal TypeFactory(IDependencyRetriever dependencyRetriever, IServiceConstructor serviceConstructor)
         {
-            _dependencyContainer = dependencyContainer;
+            _dependencyRetriever = dependencyRetriever;
             _serviceConstructor = serviceConstructor;
         }
 
@@ -51,7 +51,7 @@
             for (int argumentIndex = 0; argumentIndex < dependencyCount; ++argumentIndex)
             {
                 Type dependencyType = _serviceConstructor.ArgumentTypeAtIndex(argumentIndex);
-                object dependency = _dependencyContainer.GetInstance(dependencyType, key: null);
+                object dependency = _dependencyRetriever.GetInstance(dependencyType, key: null);
 
                 _constructorArguments[argumentIndex] = dependency;
             }

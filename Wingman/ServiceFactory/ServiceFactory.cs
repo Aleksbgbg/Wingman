@@ -11,13 +11,16 @@
     /// <summary> Default implementation of <see cref="IServiceFactory"/>. </summary>
     public class ServiceFactory : IServiceFactory, IServiceFactoryRegistrar
     {
-        private readonly IDependencyContainer _dependencyContainer;
+        private readonly IDependencyRegistrar _dependencyRegistrar;
+
+        private readonly IDependencyRetriever _dependencyRetriever;
 
         private readonly Dictionary<Type, Type> _interfaceToConcreteType = new Dictionary<Type, Type>();
 
-        public ServiceFactory(IDependencyContainer dependencyContainer)
+        public ServiceFactory(IDependencyRegistrar dependencyRegistrar, IDependencyRetriever dependencyRetriever)
         {
-            _dependencyContainer = dependencyContainer;
+            _dependencyRegistrar = dependencyRegistrar;
+            _dependencyRetriever = dependencyRetriever;
         }
 
         /// <inheritdoc/>
@@ -34,7 +37,7 @@
 
         private void Register(Type interfaceType, Type concreteType)
         {
-            if (!_dependencyContainer.HasHandler(interfaceType, key: null))
+            if (!_dependencyRegistrar.HasHandler(interfaceType, key: null))
             {
                 ThrowHelper.Throw.ServiceFactory.NoHandlerRegisteredWithContainer(interfaceType);
             }
@@ -78,7 +81,7 @@
 
             ServiceConstructor targetServiceConstructor = serviceConstructors[0];
 
-            return new TypeFactory(_dependencyContainer, targetServiceConstructor).MakeType();
+            return new TypeFactory(_dependencyRetriever, targetServiceConstructor).MakeType();
         }
     }
 }

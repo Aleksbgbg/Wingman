@@ -67,8 +67,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Container\DependencyContainerExtensionsTests.cs" />
     <Compile Include="Container\DependencyContainerTests.cs" />
+    <Compile Include="Container\DependencyRegistrarExtensionsTests.cs" />
+    <Compile Include="Container\DependencyRetrieverExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFactory\ServiceFactoryTests.cs" />
   </ItemGroup>

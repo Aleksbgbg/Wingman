@@ -49,8 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Container\DependencyContainer.cs" />
-    <Compile Include="Container\DependencyContainerExtensions.cs" />
-    <Compile Include="Container\IDependencyContainer.cs" />
+    <Compile Include="Container\DependencyRegistrarExtensions.cs" />
+    <Compile Include="Container\DependencyRetrieverExtensions.cs" />
+    <Compile Include="Container\IDependencyActivator.cs" />
+    <Compile Include="Container\IDependencyRegistrar.cs" />
+    <Compile Include="Container\IDependencyRetriever.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFactory\IServiceConstructor.cs" />
     <Compile Include="ServiceFactory\ServiceConstructor.cs" />

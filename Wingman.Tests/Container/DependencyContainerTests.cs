@@ -6,7 +6,7 @@
 
     public class DependencyContainerTests
     {
-        private readonly IDependencyContainer _dependencyContainer;
+        private readonly DependencyContainer _dependencyContainer;
 
         public DependencyContainerTests()
         {
