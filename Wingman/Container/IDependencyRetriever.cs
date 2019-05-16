@@ -8,7 +8,7 @@
     {
         /// <summary> Requests an instance for the specified service type. </summary>
         /// <returns> The instance, or null if a handler is not found. </returns>
-        object GetInstance(Type service, string key);
+        object GetInstance(Type service, string key = null);
 
         /// <summary> Requests all instances of a given service type. </summary>
         /// <returns> All the instances, or an empty enumerable if none are found. </returns>

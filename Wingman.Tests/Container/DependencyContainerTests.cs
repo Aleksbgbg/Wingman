@@ -16,7 +16,7 @@
         [Fact]
         public void TestRegisterHandler()
         {
-            _dependencyContainer.RegisterHandler(typeof(string), null, container => string.Empty);
+            _dependencyContainer.RegisterHandler(typeof(string), container => string.Empty);
         }
     }
 }

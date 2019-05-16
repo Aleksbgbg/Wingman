@@ -8,9 +8,27 @@
     public class DependencyContainer : SimpleContainer, IDependencyActivator, IDependencyRegistrar, IDependencyRetriever
     {
         /// <inheritdoc/>
-        public void RegisterHandler(Type service, string key, Func<IDependencyRetriever, object> handler)
+        public void RegisterInstance(Type service, object implementation, string key = null)
         {
-            RegisterHandler(service, key, (SimpleContainer container) => handler((IDependencyRetriever)container));
+            RegisterInstance(service, key, implementation);
+        }
+
+        /// <inheritdoc/>
+        public void RegisterSingleton(Type service, Type implementation, string key = null)
+        {
+            RegisterSingleton(service, key, implementation);
+        }
+
+        /// <inheritdoc/>
+        public void RegisterPerRequest(Type service, Type implementation, string key = null)
+        {
+            RegisterPerRequest(service, key, implementation);
+        }
+
+        /// <inheritdoc/>
+        public void RegisterHandler(Type service, Func<IDependencyRetriever, object> handler, string key = null)
+        {
+            RegisterHandler(service, key, container => handler((IDependencyRetriever)container));
         }
     }
 }

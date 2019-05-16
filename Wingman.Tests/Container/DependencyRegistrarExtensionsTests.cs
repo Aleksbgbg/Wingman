@@ -119,7 +119,7 @@
 
         private void VerifyRegisterInstanceCalled(Service service)
         {
-            _dependencyRegistrarMock.Verify(registrar => registrar.RegisterInstance(typeof(Service), service.InstanceKey, service));
+            _dependencyRegistrarMock.Verify(registrar => registrar.RegisterInstance(typeof(Service), service, service.InstanceKey));
         }
 
         private void VerifyRegisterSingletonCalled()
@@ -139,7 +139,7 @@
 
         private void VerifyRegisterSingletonCalled<TService, TImplementation>()
         {
-            _dependencyRegistrarMock.Verify(registrar => registrar.RegisterSingleton(typeof(TService), Service.ServiceKey, typeof(TImplementation)));
+            _dependencyRegistrarMock.Verify(registrar => registrar.RegisterSingleton(typeof(TService), typeof(TImplementation), Service.ServiceKey));
         }
 
         private void VerifyRegisterPerRequestCalled()
@@ -154,12 +154,12 @@
 
         private void VerifyRegisterPerRequestCalled<TService>()
         {
-            _dependencyRegistrarMock.Verify(registrar => registrar.RegisterPerRequest(typeof(TService), Service.ServiceKey, typeof(Service)));
+            _dependencyRegistrarMock.Verify(registrar => registrar.RegisterPerRequest(typeof(TService), typeof(Service), Service.ServiceKey));
         }
 
         private void VerifyRegisterHandlerCalled(Func<IDependencyRetriever, object> handler)
         {
-            _dependencyRegistrarMock.Verify(registrar => registrar.RegisterHandler(typeof(IService), Service.ServiceKey, handler));
+            _dependencyRegistrarMock.Verify(registrar => registrar.RegisterHandler(typeof(IService), handler, Service.ServiceKey));
         }
 
         private void VerifyUnregisterHandlerCalled()

@@ -11,7 +11,7 @@
         /// <summary> Registers a singleton instance. </summary>
         public static void Instance<TService>(this IDependencyRegistrar container, TService instance, string key = null)
         {
-            container.RegisterInstance(typeof(TService), key, instance);
+            container.RegisterInstance(typeof(TService), instance, key);
         }
 
         /// <summary> Registers a singleton implementation type. </summary>
@@ -24,26 +24,26 @@
         public static void Singleton<TService, TImplementation>(this IDependencyRegistrar container, string key = null)
                 where TImplementation : TService
         {
-            container.RegisterSingleton(typeof(TService), key, typeof(TImplementation));
+            container.RegisterSingleton(typeof(TService), typeof(TImplementation), key);
         }
 
         /// <summary> Registers a service implementation type to be instantiated on each request. </summary>
         public static void PerRequest<TImplementation>(this IDependencyRegistrar container, string key = null)
         {
-            container.RegisterPerRequest(typeof(TImplementation), key, typeof(TImplementation));
+            container.RegisterPerRequest(typeof(TImplementation), typeof(TImplementation), key);
         }
 
         /// <summary> Registers a service to be instantiated on each request. </summary>
         public static void PerRequest<TService, TImplementation>(this IDependencyRegistrar container, string key = null)
                 where TImplementation : TService
         {
-            container.RegisterPerRequest(typeof(TService), key, typeof(TImplementation));
+            container.RegisterPerRequest(typeof(TService), typeof(TImplementation), key);
         }
 
         /// <summary> Registers a custom service handler to be executed on each request. </summary>
         public static void Handler<TService>(this IDependencyRegistrar container, Func<IDependencyRetriever, object> handler, string key = null)
         {
-            container.RegisterHandler(typeof(TService), key, handler);
+            container.RegisterHandler(typeof(TService), handler, key);
         }
 
         /// <summary> Registers all matching concrete types of <typeparamref name="TService"/> in an assembly as singletons. </summary>
@@ -66,7 +66,7 @@
 
             foreach (Type type in matchingAssemblyTypes)
             {
-                container.RegisterSingleton(typeof(TService), key, type);
+                container.RegisterSingleton(typeof(TService), type, key);
             }
         }
 
