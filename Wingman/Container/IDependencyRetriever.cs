@@ -6,6 +6,12 @@
     /// <summary> Retriever for dependencies registered with a <see cref="IDependencyRegistrar"/>. </summary>
     public interface IDependencyRetriever
     {
+        /// <summary> Requests an instance of the specified type from the container. </summary>
+        TService GetInstance<TService>(string key = null);
+
+        /// <summary> Gets all instances of the specified type from the container. </summary>
+        IEnumerable<TService> GetAllInstances<TService>();
+
         /// <summary> Requests an instance for the specified service type. </summary>
         /// <returns> The instance, or null if a handler is not found. </returns>
         object GetInstance(Type service, string key = null);
