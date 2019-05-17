@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Wingman</id>
+    <version>1.0.1</version>
+    <title>Wingman</title>
+    <authors>Aleksbgbg</authors>
+    <owners>Aleksbgbg</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Aleksbgbg/Wingman/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Aleksbgbg/Wingman</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/Aleksbgbg/Wingman/master/Wingman.png</iconUrl>
+    <description>General-purpose WPF assistance library. Includes abstractions for Caliburn.Micro.</description>
+    <releaseNotes>Release 1.0.0 includes a configurable Bootstrapper implementation for Caliburn.Micro, with interfaces for a dependency container and service factory.</releaseNotes>
+    <copyright>Copyright © Aleks Todorov 2019</copyright>
+    <language>en-UK</language>
+    <tags>Wingman Caliburn.Micro WPF</tags>
+    <dependencies>
+      <dependency id="Caliburn.Micro" version="3.2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="lib\net48\Wingman.dll" target="lib\net48\Wingman.dll" />
+    <file src="lib\net48\Wingman.xml" target="lib\net48\Wingman.xml" />
+  </files>
+</package>
