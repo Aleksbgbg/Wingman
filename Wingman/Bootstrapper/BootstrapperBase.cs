@@ -27,12 +27,14 @@
 
         private readonly ServiceFactory _serviceFactory;
 
-        /* For unit tests */ private protected BootstrapperBase(TContainer dependencyContainer, object _)
+#if DEBUG
+        private protected BootstrapperBase(TContainer dependencyContainer, object _)
         {
             _dependencyContainer = dependencyContainer;
 
             Configure();
         }
+#endif
 
         protected BootstrapperBase(TContainer dependencyContainer)
         {
