@@ -8,6 +8,7 @@
 
     using Wingman.Container;
     using Wingman.ServiceFactory;
+    using Wingman.Utilities;
 
     /// <inheritdoc/>
     public abstract class BootstrapperBase<TRootViewModel> : BootstrapperBase<DependencyContainerBase, TRootViewModel>
@@ -31,8 +32,6 @@
         private protected BootstrapperBase(TContainer dependencyContainer, object _)
         {
             _dependencyContainer = dependencyContainer;
-
-            Configure();
         }
 #endif
 
@@ -64,6 +63,7 @@
             RegisterCommonDependencies();
 
             RegisterViewModels(_dependencyContainer);
+            CheckRootViewModelRegistered();
             RegisterServices(_dependencyContainer);
 
             RegisterFactoryViewModels(_serviceFactory);
@@ -111,6 +111,14 @@
         {
             _dependencyContainer.Instance<IServiceFactory>(_serviceFactory);
             _dependencyContainer.Singleton<IWindowManager, WindowManager>();
+        }
+
+        private void CheckRootViewModelRegistered()
+        {
+            if (!_dependencyContainer.HasHandler<TRootViewModel>())
+            {
+                ThrowHelper.Throw.BootstrapperBase.RootViewModelNotRegistered(typeof(TRootViewModel), nameof(RegisterViewModels));
+            }
         }
     }
 }
