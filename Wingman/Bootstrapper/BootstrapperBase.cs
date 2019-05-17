@@ -21,7 +21,7 @@
     /// <typeparam name="TContainer"> An implementer of <see cref="DependencyContainerBase"/> to use as a dependency registrar and container. </typeparam>
     /// <typeparam name="TRootViewModel"> The ViewModel to display for the root view. </typeparam>
     public abstract class BootstrapperBase<TContainer, TRootViewModel> : BootstrapperBase
-            where TContainer : DependencyContainerBase
+            where TContainer : IDependencyRegistrar, IDependencyRetriever
     {
         private readonly TContainer _dependencyContainer;
 
