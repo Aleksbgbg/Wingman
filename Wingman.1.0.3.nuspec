@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Wingman</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <title>Wingman</title>
     <authors>Aleksbgbg</authors>
     <owners>Aleksbgbg</owners>
@@ -20,7 +20,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="lib\net48\Wingman.dll" target="lib\net48\Wingman.dll" />
-    <file src="lib\net48\Wingman.xml" target="lib\net48\Wingman.xml" />
+    <file src="Wingman\bin\Release\Wingman.dll" target="lib\net48" />
+    <file src="Wingman\bin\Release\Wingman.xml" target="lib\net48" />
   </files>
 </package>
