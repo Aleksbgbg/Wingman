@@ -29,11 +29,12 @@
                 return false;
             }
 
+            int lastUserArgumentIndex = UserArguments.Length - 1;
+            int lastParameterIndex = _parameters.Length - 1;
+
             for (int argumentIndex = 0; argumentIndex < UserArguments.Length; ++argumentIndex)
             {
-                object argument = UserArguments[argumentIndex];
-
-                int lastParameterIndex = _parameters.Length - 1;
+                object argument = UserArguments[lastUserArgumentIndex - argumentIndex];
                 ParameterInfo parameter = _parameters[lastParameterIndex - argumentIndex];
 
                 if (!parameter.ParameterType.IsInstanceOfType(argument))

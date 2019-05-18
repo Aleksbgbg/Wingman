@@ -120,6 +120,24 @@
             Assert.Throws<InvalidOperationException>(create);
         }
 
+        [Fact]
+        public void TestAmbiguousConstructorParameters()
+        {
+            var service = RegisterAndCreate<ServiceWithAmbiguousConstructors>(new ServiceOne(), new ServiceTwo());
+
+            Assert.NotNull(service);
+            Assert.IsType<ServiceWithAmbiguousConstructors>(service);
+        }
+
+        [Fact]
+        public void TestAmbiguousConstructorParametersSecond()
+        {
+            var service = RegisterAndCreate<ServiceWithAmbiguousConstructors>(new ServiceOne(), new ServiceThree());
+
+            Assert.NotNull(service);
+            Assert.IsType<ServiceWithAmbiguousConstructors>(service);
+        }
+
         private void SetupHasServiceHandler(bool value = true)
         {
             _dependencyRegistrarMock.Setup(registrar => registrar.HasHandler(typeof(IService), null))
@@ -167,6 +185,20 @@
             }
         }
 
+        private class ServiceWithInternalConstructor : IService
+        {
+            internal ServiceWithInternalConstructor(object parameter)
+            {
+            }
+        }
+
+        private class ConstructorlessService : IService
+        {
+            private ConstructorlessService()
+            {
+            }
+        }
+
         private class ServiceWithMultiplePublicConstructors : IService
         {
             public ServiceWithMultiplePublicConstructors(object parameter)
@@ -182,16 +214,37 @@
             public int ParameterCount { get; }
         }
 
-        private class ServiceWithInternalConstructor : IService
+        private interface IServiceOne
         {
-            internal ServiceWithInternalConstructor(object parameter)
-            {
-            }
         }
 
-        private class ConstructorlessService : IService
+        private class ServiceOne : IServiceOne
         {
-            private ConstructorlessService()
+        }
+
+        private interface IServiceTwo
+        {
+        }
+
+        private class ServiceTwo : IServiceTwo
+        {
+        }
+
+        private interface IServiceThree
+        {
+        }
+
+        private class ServiceThree : IServiceThree
+        {
+        }
+
+        private class ServiceWithAmbiguousConstructors : IService
+        {
+            public ServiceWithAmbiguousConstructors(IServiceOne serviceOne, IServiceTwo serviceTwo)
+            {
+            }
+
+            public ServiceWithAmbiguousConstructors(IServiceOne serviceOne, IServiceThree serviceThree)
             {
             }
         }
