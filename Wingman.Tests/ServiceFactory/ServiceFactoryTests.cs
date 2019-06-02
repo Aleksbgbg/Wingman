@@ -13,161 +13,155 @@
     {
         private readonly Mock<IDependencyRegistrar> _dependencyRegistrarMock;
 
-        private readonly Mock<IDependencyRetriever> _dependencyRetrieverMock;
+        private readonly Mock<IServiceRetrievalStrategyStore> _serviceRetrievalStrategyStore;
 
         private readonly ServiceFactory _serviceFactory;
+
+        private Mock<IServiceRetrievalStrategy> _serviceRetrievalStrategyMock;
 
         public ServiceFactoryTests()
         {
             _dependencyRegistrarMock = new Mock<IDependencyRegistrar>();
 
-            _dependencyRetrieverMock = new Mock<IDependencyRetriever>();
+            _serviceRetrievalStrategyStore = new Mock<IServiceRetrievalStrategyStore>();
 
-            _serviceFactory = new ServiceFactory(_dependencyRegistrarMock.Object, _dependencyRetrieverMock.Object);
+            _serviceFactory = new ServiceFactory(_dependencyRegistrarMock.Object,
+                                                 _serviceRetrievalStrategyStore.Object);
         }
 
         [Fact]
-        public void TestRegisterThrowsWhenDoesNotHandler()
+        public void RegisterFromRetrieverThrowsWhenNoHandlerRegistered()
         {
-            SetupHasServiceHandler(false);
-
-            Action register = () => _serviceFactory.Register<IService, Service>();
+            Action register = () => _serviceFactory.RegisterFromRetriever<IService>();
 
             Assert.Throws<InvalidOperationException>(register);
+            VerifyHasHandlerCalled();
         }
 
         [Fact]
-        public void TestRegisterThrowsWhenInterfaceRegisteredTwice()
+        public void RegisterFromRetrieverThrowsWhenDuplicateRegistered()
+        {
+            SetupServiceIsRegistered();
+            SetupHasServiceHandler();
+
+            Action register = () => _serviceFactory.RegisterFromRetriever<IService>();
+
+            Assert.Throws<InvalidOperationException>(register);
+            VerifyIsRegisteredCalled();
+        }
+
+        [Fact]
+        public void RegisterFromRetrieverInsertsIntoStore()
         {
             SetupHasServiceHandler();
 
-            _serviceFactory.Register<IService, Service>();
-            Action registerAgain = () => _serviceFactory.Register<IService, Service>();
+            _serviceFactory.RegisterFromRetriever<IService>();
 
-            Assert.Throws<InvalidOperationException>(registerAgain);
+            VerifyInsertFromRetrieverCalled();
         }
 
         [Fact]
-        public void TestRegisterThrowsWhenImplementationIsNotConcrete()
+        public void RegisterPerRequestThrowsWhenDuplicateRegistered()
         {
-            SetupHasServiceHandler();
+            SetupServiceIsRegistered();
 
-            Action register = () => _serviceFactory.Register<IService, IService>();
+            Action register = () => _serviceFactory.RegisterPerRequest<IService, Service>();
 
             Assert.Throws<InvalidOperationException>(register);
+            VerifyIsRegisteredCalled();
         }
 
         [Fact]
-        public void TestMakeService()
+        public void RegisterPerRequestInsertsIntoStore()
         {
-            IService service = RegisterAndCreate<Service>();
+            _serviceFactory.RegisterPerRequest<IService, Service>();
 
-            Assert.NotNull(service);
-            Assert.IsType<Service>(service);
+            VerifyInsertPerRequestCalled();
         }
 
         [Fact]
-        public void TestMakeThrowsWhenServiceNotRegistered()
+        public void MakeThrowsIfNotRegistered()
         {
-            Action makeViewModel = () => _serviceFactory.Make<IService>();
+            Action make = () => _serviceFactory.Make<IService>();
 
-            Assert.Throws<InvalidOperationException>(makeViewModel);
+            Assert.Throws<InvalidOperationException>(make);
+            VerifyIsRegisteredCalled();
         }
 
         [Fact]
-        public void TestConstructConstructorlessTypeThrows()
+        public void MakeRetrievesServiceRetrievalStrategyFromStore()
         {
-            Action construct = () => RegisterAndCreate<ConstructorlessService>();
+            SetupServiceIsRegistered();
+            SetupServiceRetrievalStrategy(null);
 
-            Assert.Throws<InvalidOperationException>(construct);
+            _serviceFactory.Make<IService>();
+
+            VerifyRetrieveMappingCalled();
         }
 
         [Fact]
-        public void TestServiceWithCorrectConstructor()
+        public void MakeCreatesServiceFromStrategy()
         {
-            IService service = RegisterAndCreate<ServiceWithCorrectConstructor>(new object());
+            IService service = new Service();
+            SetupServiceIsRegistered();
+            SetupServiceRetrievalStrategy(service);
 
-            Assert.NotNull(service);
-            Assert.IsType<ServiceWithCorrectConstructor>(service);
+            IService createdService = _serviceFactory.Make<IService>();
+
+            Assert.Equal(service, createdService);
+            VerifyRetrieveServiceCalledOnStrategy();
         }
 
-        [Fact]
-        public void TestServiceWithMultipleConstructors()
-        {
-            const int parameterCount = 2;
-
-            var service = RegisterAndCreateStrongType<ServiceWithMultiplePublicConstructors>(FillObjects(parameterCount));
-
-            Assert.NotNull(service);
-            Assert.Equal(parameterCount, service.ParameterCount);
-        }
-
-        [Fact]
-        public void TestServiceWithMultipleConstructorsThrowsWhenTooManyConstructorsMatch()
-        {
-            const int parameterCount = 1;
-
-            Action create = () => RegisterAndCreateStrongType<ServiceWithMultiplePublicConstructors>(FillObjects(parameterCount));
-
-            Assert.Throws<InvalidOperationException>(create);
-        }
-
-        [Fact]
-        public void TestServiceWithNoPublicConstructorThrows()
-        {
-            Action create = () => RegisterAndCreate<ServiceWithInternalConstructor>();
-
-            Assert.Throws<InvalidOperationException>(create);
-        }
-
-        [Fact]
-        public void TestAmbiguousConstructorParameters()
-        {
-            var service = RegisterAndCreate<ServiceWithAmbiguousConstructors>(new ServiceOne(), new ServiceTwo());
-
-            Assert.NotNull(service);
-            Assert.IsType<ServiceWithAmbiguousConstructors>(service);
-        }
-
-        [Fact]
-        public void TestAmbiguousConstructorParametersSecond()
-        {
-            var service = RegisterAndCreate<ServiceWithAmbiguousConstructors>(new ServiceOne(), new ServiceThree());
-
-            Assert.NotNull(service);
-            Assert.IsType<ServiceWithAmbiguousConstructors>(service);
-        }
-
-        private void SetupHasServiceHandler(bool value = true)
+        private void SetupHasServiceHandler()
         {
             _dependencyRegistrarMock.Setup(registrar => registrar.HasHandler(typeof(IService), null))
-                                    .Returns(value);
+                                    .Returns(true);
         }
 
-        private TImplementation RegisterAndCreateStrongType<TImplementation>(params object[] parameters) where TImplementation : IService
+        private void SetupServiceIsRegistered()
         {
-            return (TImplementation)RegisterAndCreate<TImplementation>(parameters);
+            _serviceRetrievalStrategyStore.Setup(store => store.IsRegistered(typeof(IService)))
+                                          .Returns(true);
         }
 
-        private IService RegisterAndCreate<TImplementation>(params object[] parameters) where TImplementation : IService
+        private void SetupServiceRetrievalStrategy(IService service)
         {
-            SetupHasServiceHandler();
+            _serviceRetrievalStrategyMock = new Mock<IServiceRetrievalStrategy>();
+            _serviceRetrievalStrategyMock.Setup(strategy => strategy.RetrieveService(It.IsAny<object[]>()))
+                                         .Returns(service);
 
-            _serviceFactory.Register<IService, TImplementation>();
-
-            return _serviceFactory.Make<IService>(parameters);
+            _serviceRetrievalStrategyStore.Setup(store => store.RetrieveMappingFor(typeof(IService)))
+                                          .Returns(_serviceRetrievalStrategyMock.Object);
         }
 
-        private static object[] FillObjects(int quantity)
+        private void VerifyHasHandlerCalled()
         {
-            object[] objects = new object[quantity];
+            _dependencyRegistrarMock.Verify(registrar => registrar.HasHandler(typeof(IService), null));
+        }
 
-            for (int index = 0; index < objects.Length; index++)
-            {
-                objects[index] = new object();
-            }
+        private void VerifyInsertFromRetrieverCalled()
+        {
+            _serviceRetrievalStrategyStore.Verify(store => store.InsertFromRetriever(typeof(IService)));
+        }
 
-            return objects;
+        private void VerifyInsertPerRequestCalled()
+        {
+            _serviceRetrievalStrategyStore.Verify(store => store.InsertPerRequest(typeof(IService), typeof(Service)));
+        }
+
+        private void VerifyIsRegisteredCalled()
+        {
+            _serviceRetrievalStrategyStore.Verify(store => store.IsRegistered(typeof(IService)));
+        }
+
+        private void VerifyRetrieveMappingCalled()
+        {
+            _serviceRetrievalStrategyStore.Verify(store => store.RetrieveMappingFor(typeof(IService)));
+        }
+
+        private void VerifyRetrieveServiceCalledOnStrategy()
+        {
+            _serviceRetrievalStrategyMock.Verify(strategy => strategy.RetrieveService(It.IsAny<object[]>()));
         }
 
         private interface IService
@@ -176,77 +170,6 @@
 
         private class Service : IService
         {
-        }
-
-        private class ServiceWithCorrectConstructor : IService
-        {
-            public ServiceWithCorrectConstructor(object parameter)
-            {
-            }
-        }
-
-        private class ServiceWithInternalConstructor : IService
-        {
-            internal ServiceWithInternalConstructor(object parameter)
-            {
-            }
-        }
-
-        private class ConstructorlessService : IService
-        {
-            private ConstructorlessService()
-            {
-            }
-        }
-
-        private class ServiceWithMultiplePublicConstructors : IService
-        {
-            public ServiceWithMultiplePublicConstructors(object parameter)
-            {
-                ParameterCount = 1;
-            }
-
-            public ServiceWithMultiplePublicConstructors(object parameter, object parameter2)
-            {
-                ParameterCount = 2;
-            }
-
-            public int ParameterCount { get; }
-        }
-
-        private interface IServiceOne
-        {
-        }
-
-        private class ServiceOne : IServiceOne
-        {
-        }
-
-        private interface IServiceTwo
-        {
-        }
-
-        private class ServiceTwo : IServiceTwo
-        {
-        }
-
-        private interface IServiceThree
-        {
-        }
-
-        private class ServiceThree : IServiceThree
-        {
-        }
-
-        private class ServiceWithAmbiguousConstructors : IService
-        {
-            public ServiceWithAmbiguousConstructors(IServiceOne serviceOne, IServiceTwo serviceTwo)
-            {
-            }
-
-            public ServiceWithAmbiguousConstructors(IServiceOne serviceOne, IServiceThree serviceThree)
-            {
-            }
         }
     }
 }

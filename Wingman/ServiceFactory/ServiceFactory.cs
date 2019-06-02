@@ -1,9 +1,6 @@
 ﻿namespace Wingman.ServiceFactory
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
 
     using Wingman.Container;
     using Wingman.Utilities;
@@ -13,20 +10,25 @@
     {
         private readonly IDependencyRegistrar _dependencyRegistrar;
 
-        private readonly IDependencyRetriever _dependencyRetriever;
+        private readonly IServiceRetrievalStrategyStore _serviceRetrievalStrategyStore;
 
-        private readonly Dictionary<Type, Type> _interfaceToConcreteType = new Dictionary<Type, Type>();
-
-        public ServiceFactory(IDependencyRegistrar dependencyRegistrar, IDependencyRetriever dependencyRetriever)
+        internal ServiceFactory(IDependencyRegistrar dependencyRegistrar,
+                                IServiceRetrievalStrategyStore serviceRetrievalStrategyStore)
         {
             _dependencyRegistrar = dependencyRegistrar;
-            _dependencyRetriever = dependencyRetriever;
+            _serviceRetrievalStrategyStore = serviceRetrievalStrategyStore;
         }
 
         /// <inheritdoc/>
-        public void Register<TService, TImplementation>() where TImplementation : TService
+        public void RegisterFromRetriever<TService>()
         {
-            Register(typeof(TService), typeof(TImplementation));
+            RegisterFromRetriever(typeof(TService));
+        }
+
+        /// <inheritdoc/>
+        public void RegisterPerRequest<TService, TImplementation>() where TImplementation : TService
+        {
+            RegisterPerRequest(typeof(TService), typeof(TImplementation));
         }
 
         /// <inheritdoc/>
@@ -35,53 +37,52 @@
             return (TService)Make(typeof(TService), arguments);
         }
 
-        private void Register(Type interfaceType, Type concreteType)
+        private void RegisterFromRetriever(Type interfaceType)
         {
-            if (!_dependencyRegistrar.HasHandler(interfaceType, key: null))
-            {
-                ThrowHelper.Throw.ServiceFactory.NoHandlerRegisteredWithContainer(interfaceType);
-            }
+            EnsureNotPreviouslyRegistered(interfaceType);
+            EnsureRetrieverHasHandler(interfaceType);
 
-            if (_interfaceToConcreteType.ContainsKey(interfaceType))
+            _serviceRetrievalStrategyStore.InsertFromRetriever(interfaceType);
+        }
+
+        private void RegisterPerRequest(Type interfaceType, Type concreteType)
+        {
+            EnsureNotPreviouslyRegistered(interfaceType);
+
+            _serviceRetrievalStrategyStore.InsertPerRequest(interfaceType, concreteType);
+        }
+
+        private void EnsureNotPreviouslyRegistered(Type interfaceType)
+        {
+            if (_serviceRetrievalStrategyStore.IsRegistered(interfaceType))
             {
                 ThrowHelper.Throw.ServiceFactory.DuplicateRegistration(interfaceType);
             }
+        }
 
-            if (concreteType.IsAbstract)
+        private void EnsureRetrieverHasHandler(Type interfaceType)
+        {
+            if (!_dependencyRegistrar.HasHandler(interfaceType))
             {
-                ThrowHelper.Throw.ServiceFactory.CannotRegisterConcreteType(concreteType);
+                ThrowHelper.Throw.ServiceFactory.NoHandlerRegisteredWithContainer(interfaceType);
             }
-
-            _interfaceToConcreteType[interfaceType] = concreteType;
         }
 
         private object Make(Type interfaceType, object[] arguments)
         {
-            if (!_interfaceToConcreteType.ContainsKey(interfaceType))
+            EnsureRegistered(interfaceType);
+
+            IServiceRetrievalStrategy serviceRetrievalStrategy = _serviceRetrievalStrategyStore.RetrieveMappingFor(interfaceType);
+
+            return serviceRetrievalStrategy.RetrieveService(arguments);
+        }
+
+        private void EnsureRegistered(Type interfaceType)
+        {
+            if (!_serviceRetrievalStrategyStore.IsRegistered(interfaceType))
             {
                 ThrowHelper.Throw.ServiceFactory.NoDependencyMapping(interfaceType);
             }
-
-            Type concreteType = _interfaceToConcreteType[interfaceType];
-
-            ServiceConstructor[] serviceConstructors = concreteType.GetConstructors(BindingFlags.Public | BindingFlags.Instance)
-                                                                   .Select(constructorInfo => new ServiceConstructor(constructorInfo, arguments))
-                                                                   .Where(constructor => constructor.AcceptsUserArguments())
-                                                                   .ToArray();
-
-            if (serviceConstructors.Length == 0)
-            {
-                ThrowHelper.Throw.ServiceFactory.NoMatchingConstructors(interfaceType);
-            }
-
-            if (serviceConstructors.Length > 1)
-            {
-                ThrowHelper.Throw.ServiceFactory.TooManyConstructors(interfaceType);
-            }
-
-            ServiceConstructor targetServiceConstructor = serviceConstructors[0];
-
-            return new TypeFactory(_dependencyRetriever, targetServiceConstructor).MakeType();
         }
     }
 }
