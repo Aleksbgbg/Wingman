@@ -12,6 +12,8 @@
 
         private readonly ServiceRetrievalStrategyStore _serviceRetrievalStrategyStore;
 
+        private IServiceRetrievalStrategy _serviceRetrievalStrategy;
+
         public ServiceRetrievalStrategyStoreTests()
         {
             _retrievalStrategyFactoryMock = new Mock<IRetrievalStrategyFactory>();
@@ -51,7 +53,7 @@
 
             IServiceRetrievalStrategy serviceRetrievalStrategy = RetrieveMapping();
 
-            Assert.IsType<FromRetrieverRetrievalStrategy>(serviceRetrievalStrategy);
+            Assert.Equal(_serviceRetrievalStrategy, serviceRetrievalStrategy);
         }
 
         [Fact]
@@ -62,7 +64,7 @@
 
             IServiceRetrievalStrategy serviceRetrievalStrategy = RetrieveMapping();
 
-            Assert.IsType<PerRequestRetrievalStrategy>(serviceRetrievalStrategy);
+            Assert.Equal(_serviceRetrievalStrategy, serviceRetrievalStrategy);
         }
 
         private bool IsServiceRegistered()
@@ -88,13 +90,20 @@
         private void SetupFromRetriever()
         {
             _retrievalStrategyFactoryMock.Setup(factory => factory.FromRetriever(typeof(IService)))
-                                         .Returns(new FromRetrieverRetrievalStrategy(null, null));
+                                         .Returns(CreateServiceRetrievalStrategy());
         }
 
         private void SetupPerRequest()
         {
             _retrievalStrategyFactoryMock.Setup(factory => factory.PerRequest(typeof(IService), typeof(Service)))
-                                         .Returns(new PerRequestRetrievalStrategy());
+                                         .Returns(CreateServiceRetrievalStrategy());
+        }
+
+        private IServiceRetrievalStrategy CreateServiceRetrievalStrategy()
+        {
+            _serviceRetrievalStrategy = new Mock<IServiceRetrievalStrategy>().Object;
+
+            return _serviceRetrievalStrategy;
         }
 
         private void VerifyFromRetrieverCalled()
