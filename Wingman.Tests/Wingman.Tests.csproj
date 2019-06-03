@@ -79,6 +79,7 @@
     <Compile Include="Bootstrapper\BootstrapperBaseTests.cs" />
     <Compile Include="Container\DependencyContainerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceFactory\FromRetrieverRetrievalStrategyTests.cs" />
     <Compile Include="ServiceFactory\ServiceFactoryTests.cs" />
     <Compile Include="ServiceFactory\ServiceRetrievalStrategyStoreTests.cs" />
   </ItemGroup>

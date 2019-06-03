@@ -10,6 +10,11 @@
             {
                 throw new InvalidOperationException(message);
             }
+
+            private static void ArgumentOutOfRangeException(string paramName, object actualValue, string message)
+            {
+                throw new ArgumentOutOfRangeException(paramName, actualValue, message);
+            }
         }
     }
 }

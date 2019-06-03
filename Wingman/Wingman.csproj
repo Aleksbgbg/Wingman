@@ -76,6 +76,7 @@
     <Compile Include="ServiceFactory\ServiceRetrievalStrategyStore.cs" />
     <Compile Include="ServiceFactory\TypeFactory.cs" />
     <Compile Include="Utilities\ThrowHelper.BootstrapperBase.cs" />
+    <Compile Include="Utilities\ThrowHelper.FromRetrieverRetrievalStrategy.cs" />
     <Compile Include="Utilities\ThrowHelper.ServiceFactory.cs" />
     <Compile Include="Utilities\ThrowHelper.Throw.cs" />
   </ItemGroup>
