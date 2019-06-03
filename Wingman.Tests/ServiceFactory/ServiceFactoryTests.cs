@@ -72,6 +72,14 @@
         }
 
         [Fact]
+        public void RegisterPerRequestThrowsWhenConcreteTypeIsNotConcrete()
+        {
+            Action register = () => _serviceFactory.RegisterPerRequest<IService, IService>();
+
+            Assert.Throws<InvalidOperationException>(register);
+        }
+
+        [Fact]
         public void RegisterPerRequestInsertsIntoStore()
         {
             _serviceFactory.RegisterPerRequest<IService, Service>();

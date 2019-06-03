@@ -22,6 +22,11 @@
                 {
                     InvalidOperationException($"No dependency mapping exists for {interfaceType.Name}. Register the interface first.");
                 }
+
+                internal static void RegisterNonConcreteTypePerRequest(Type concreteType)
+                {
+                    InvalidOperationException($"Cannot register {concreteType.Name} as it is not a concrete type.");
+                }
             }
         }
     }

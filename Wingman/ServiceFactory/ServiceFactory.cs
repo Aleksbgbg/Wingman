@@ -48,6 +48,7 @@
         private void RegisterPerRequest(Type interfaceType, Type concreteType)
         {
             EnsureNotPreviouslyRegistered(interfaceType);
+            EnsureIsConcrete(concreteType);
 
             _serviceRetrievalStrategyStore.InsertPerRequest(interfaceType, concreteType);
         }
@@ -65,6 +66,14 @@
             if (!_dependencyRegistrar.HasHandler(interfaceType))
             {
                 ThrowHelper.Throw.ServiceFactory.NoHandlerRegisteredWithContainer(interfaceType);
+            }
+        }
+
+        private void EnsureIsConcrete(Type concreteType)
+        {
+            if (concreteType.IsAbstract)
+            {
+                ThrowHelper.Throw.ServiceFactory.RegisterNonConcreteTypePerRequest(concreteType);
             }
         }
 
