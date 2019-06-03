@@ -5,7 +5,14 @@
 
     internal class ServiceRetrievalStrategyStore : IServiceRetrievalStrategyStore
     {
+        private readonly IRetrievalStrategyFactory _retrievalStrategyFactory;
+
         private readonly Dictionary<Type, IServiceRetrievalStrategy> _strategies = new Dictionary<Type, IServiceRetrievalStrategy>();
+
+        public ServiceRetrievalStrategyStore(IRetrievalStrategyFactory retrievalStrategyFactory)
+        {
+            _retrievalStrategyFactory = retrievalStrategyFactory;
+        }
 
         public bool IsRegistered(Type interfaceType)
         {
@@ -14,12 +21,12 @@
 
         public void InsertFromRetriever(Type interfaceType)
         {
-            _strategies[interfaceType] = new FromRetrieverRetrievalStrategy();
+            _strategies[interfaceType] = _retrievalStrategyFactory.FromRetriever(interfaceType);
         }
 
         public void InsertPerRequest(Type interfaceType, Type concreteType)
         {
-            _strategies[interfaceType] = new PerRequestRetrievalStrategy();
+            _strategies[interfaceType] = _retrievalStrategyFactory.PerRequest(interfaceType, concreteType);
         }
 
         public IServiceRetrievalStrategy RetrieveMappingFor(Type interfaceType)
