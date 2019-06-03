@@ -3,6 +3,7 @@
     using System;
 
     using Wingman.Container;
+    using Wingman.ServiceFactory.Strategies;
     using Wingman.Utilities;
 
     /// <summary> Default implementation of <see cref="IServiceFactory"/>. </summary>

@@ -1,4 +1,4 @@
-﻿namespace Wingman.ServiceFactory
+﻿namespace Wingman.ServiceFactory.Strategies
 {
     using System;
     using System.Collections.Generic;

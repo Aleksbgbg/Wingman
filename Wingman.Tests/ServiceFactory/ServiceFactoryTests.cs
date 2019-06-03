@@ -6,6 +6,7 @@
 
     using Wingman.Container;
     using Wingman.ServiceFactory;
+    using Wingman.ServiceFactory.Strategies;
 
     using Xunit;
 

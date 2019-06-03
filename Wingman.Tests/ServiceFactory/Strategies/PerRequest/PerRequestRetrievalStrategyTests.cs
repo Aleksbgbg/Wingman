@@ -1,8 +1,8 @@
-﻿namespace Wingman.Tests.ServiceFactory
+﻿namespace Wingman.Tests.ServiceFactory.Strategies.PerRequest
 {
     using Moq;
 
-    using Wingman.ServiceFactory;
+    using Wingman.ServiceFactory.Strategies.PerRequest;
 
     using Xunit;
 

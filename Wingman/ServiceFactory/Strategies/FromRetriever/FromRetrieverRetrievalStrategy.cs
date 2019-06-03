@@ -1,4 +1,4 @@
-﻿namespace Wingman.ServiceFactory
+﻿namespace Wingman.ServiceFactory.Strategies.FromRetriever
 {
     using System;
 
