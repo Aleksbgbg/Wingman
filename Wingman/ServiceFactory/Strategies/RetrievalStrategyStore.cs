@@ -3,13 +3,13 @@
     using System;
     using System.Collections.Generic;
 
-    internal class ServiceRetrievalStrategyStore : IServiceRetrievalStrategyStore
+    internal class RetrievalStrategyStore : IRetrievalStrategyStore
     {
         private readonly IRetrievalStrategyFactory _retrievalStrategyFactory;
 
         private readonly Dictionary<Type, IServiceRetrievalStrategy> _strategies = new Dictionary<Type, IServiceRetrievalStrategy>();
 
-        public ServiceRetrievalStrategyStore(IRetrievalStrategyFactory retrievalStrategyFactory)
+        public RetrievalStrategyStore(IRetrievalStrategyFactory retrievalStrategyFactory)
         {
             _retrievalStrategyFactory = retrievalStrategyFactory;
         }

@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal interface IServiceRetrievalStrategyStore
+    internal interface IRetrievalStrategyStore
     {
         bool IsRegistered(Type interfaceType);
 

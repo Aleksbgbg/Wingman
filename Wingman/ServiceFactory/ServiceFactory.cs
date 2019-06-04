@@ -11,13 +11,13 @@
     {
         private readonly IDependencyRegistrar _dependencyRegistrar;
 
-        private readonly IServiceRetrievalStrategyStore _serviceRetrievalStrategyStore;
+        private readonly IRetrievalStrategyStore _retrievalStrategyStore;
 
         internal ServiceFactory(IDependencyRegistrar dependencyRegistrar,
-                                IServiceRetrievalStrategyStore serviceRetrievalStrategyStore)
+                                IRetrievalStrategyStore retrievalStrategyStore)
         {
             _dependencyRegistrar = dependencyRegistrar;
-            _serviceRetrievalStrategyStore = serviceRetrievalStrategyStore;
+            _retrievalStrategyStore = retrievalStrategyStore;
         }
 
         /// <inheritdoc/>
@@ -43,7 +43,7 @@
             EnsureNotPreviouslyRegistered(interfaceType);
             EnsureRetrieverHasHandler(interfaceType);
 
-            _serviceRetrievalStrategyStore.InsertFromRetriever(interfaceType);
+            _retrievalStrategyStore.InsertFromRetriever(interfaceType);
         }
 
         private void RegisterPerRequest(Type interfaceType, Type concreteType)
@@ -51,12 +51,12 @@
             EnsureNotPreviouslyRegistered(interfaceType);
             EnsureIsConcrete(concreteType);
 
-            _serviceRetrievalStrategyStore.InsertPerRequest(interfaceType, concreteType);
+            _retrievalStrategyStore.InsertPerRequest(interfaceType, concreteType);
         }
 
         private void EnsureNotPreviouslyRegistered(Type interfaceType)
         {
-            if (_serviceRetrievalStrategyStore.IsRegistered(interfaceType))
+            if (_retrievalStrategyStore.IsRegistered(interfaceType))
             {
                 ThrowHelper.Throw.ServiceFactory.DuplicateRegistration(interfaceType);
             }
@@ -82,14 +82,14 @@
         {
             EnsureRegistered(interfaceType);
 
-            IServiceRetrievalStrategy serviceRetrievalStrategy = _serviceRetrievalStrategyStore.RetrieveMappingFor(interfaceType);
+            IServiceRetrievalStrategy serviceRetrievalStrategy = _retrievalStrategyStore.RetrieveMappingFor(interfaceType);
 
             return serviceRetrievalStrategy.RetrieveService(arguments);
         }
 
         private void EnsureRegistered(Type interfaceType)
         {
-            if (!_serviceRetrievalStrategyStore.IsRegistered(interfaceType))
+            if (!_retrievalStrategyStore.IsRegistered(interfaceType))
             {
                 ThrowHelper.Throw.ServiceFactory.NoDependencyMapping(interfaceType);
             }

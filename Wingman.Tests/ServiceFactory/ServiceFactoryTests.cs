@@ -14,7 +14,7 @@
     {
         private readonly Mock<IDependencyRegistrar> _dependencyRegistrarMock;
 
-        private readonly Mock<IServiceRetrievalStrategyStore> _serviceRetrievalStrategyStore;
+        private readonly Mock<IRetrievalStrategyStore> _retrievalStrategyStore;
 
         private readonly ServiceFactory _serviceFactory;
 
@@ -24,10 +24,10 @@
         {
             _dependencyRegistrarMock = new Mock<IDependencyRegistrar>();
 
-            _serviceRetrievalStrategyStore = new Mock<IServiceRetrievalStrategyStore>();
+            _retrievalStrategyStore = new Mock<IRetrievalStrategyStore>();
 
             _serviceFactory = new ServiceFactory(_dependencyRegistrarMock.Object,
-                                                 _serviceRetrievalStrategyStore.Object);
+                                                 _retrievalStrategyStore.Object);
         }
 
         [Fact]
@@ -129,7 +129,7 @@
 
         private void SetupServiceIsRegistered()
         {
-            _serviceRetrievalStrategyStore.Setup(store => store.IsRegistered(typeof(IService)))
+            _retrievalStrategyStore.Setup(store => store.IsRegistered(typeof(IService)))
                                           .Returns(true);
         }
 
@@ -139,7 +139,7 @@
             _serviceRetrievalStrategyMock.Setup(strategy => strategy.RetrieveService(It.IsAny<object[]>()))
                                          .Returns(service);
 
-            _serviceRetrievalStrategyStore.Setup(store => store.RetrieveMappingFor(typeof(IService)))
+            _retrievalStrategyStore.Setup(store => store.RetrieveMappingFor(typeof(IService)))
                                           .Returns(_serviceRetrievalStrategyMock.Object);
         }
 
@@ -150,22 +150,22 @@
 
         private void VerifyInsertFromRetrieverCalled()
         {
-            _serviceRetrievalStrategyStore.Verify(store => store.InsertFromRetriever(typeof(IService)));
+            _retrievalStrategyStore.Verify(store => store.InsertFromRetriever(typeof(IService)));
         }
 
         private void VerifyInsertPerRequestCalled()
         {
-            _serviceRetrievalStrategyStore.Verify(store => store.InsertPerRequest(typeof(IService), typeof(Service)));
+            _retrievalStrategyStore.Verify(store => store.InsertPerRequest(typeof(IService), typeof(Service)));
         }
 
         private void VerifyIsRegisteredCalled()
         {
-            _serviceRetrievalStrategyStore.Verify(store => store.IsRegistered(typeof(IService)));
+            _retrievalStrategyStore.Verify(store => store.IsRegistered(typeof(IService)));
         }
 
         private void VerifyRetrieveMappingCalled()
         {
-            _serviceRetrievalStrategyStore.Verify(store => store.RetrieveMappingFor(typeof(IService)));
+            _retrievalStrategyStore.Verify(store => store.RetrieveMappingFor(typeof(IService)));
         }
 
         private void VerifyRetrieveServiceCalledOnStrategy()

@@ -70,7 +70,7 @@
     <Compile Include="ServiceFactory\Strategies\IRetrievalStrategyFactory.cs" />
     <Compile Include="ServiceFactory\IServiceConstructor.cs" />
     <Compile Include="ServiceFactory\Strategies\IServiceRetrievalStrategy.cs" />
-    <Compile Include="ServiceFactory\Strategies\IServiceRetrievalStrategyStore.cs" />
+    <Compile Include="ServiceFactory\Strategies\IRetrievalStrategyStore.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\PerRequestRetrievalStrategy.cs" />
     <Compile Include="ServiceFactory\ServiceConstructor.cs" />
     <Compile Include="ServiceFactory\IServiceFactoryRegistrar.cs" />
@@ -78,7 +78,7 @@
     <Compile Include="ServiceFactory\ServiceFactory.cs" />
     <Compile Include="ServiceFactory\ServiceFactoryFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyFactory.cs" />
-    <Compile Include="ServiceFactory\Strategies\ServiceRetrievalStrategyStore.cs" />
+    <Compile Include="ServiceFactory\Strategies\RetrievalStrategyStore.cs" />
     <Compile Include="ServiceFactory\TypeFactory.cs" />
     <Compile Include="Utilities\ThrowHelper.BootstrapperBase.cs" />
     <Compile Include="Utilities\ThrowHelper.FromRetrieverRetrievalStrategy.cs" />

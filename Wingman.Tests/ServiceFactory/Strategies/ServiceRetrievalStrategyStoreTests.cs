@@ -6,19 +6,19 @@
 
     using Xunit;
 
-    public class ServiceRetrievalStrategyStoreTests
+    public class RetrievalStrategyStoreTests
     {
         private readonly Mock<IRetrievalStrategyFactory> _retrievalStrategyFactoryMock;
 
-        private readonly ServiceRetrievalStrategyStore _serviceRetrievalStrategyStore;
+        private readonly RetrievalStrategyStore _retrievalStrategyStore;
 
         private IServiceRetrievalStrategy _serviceRetrievalStrategy;
 
-        public ServiceRetrievalStrategyStoreTests()
+        public RetrievalStrategyStoreTests()
         {
             _retrievalStrategyFactoryMock = new Mock<IRetrievalStrategyFactory>();
 
-            _serviceRetrievalStrategyStore = new ServiceRetrievalStrategyStore(_retrievalStrategyFactoryMock.Object);
+            _retrievalStrategyStore = new RetrievalStrategyStore(_retrievalStrategyFactoryMock.Object);
         }
 
         [Fact]
@@ -69,22 +69,22 @@
 
         private bool IsServiceRegistered()
         {
-            return _serviceRetrievalStrategyStore.IsRegistered(typeof(IService));
+            return _retrievalStrategyStore.IsRegistered(typeof(IService));
         }
 
         private void InsertFromRetriever()
         {
-            _serviceRetrievalStrategyStore.InsertFromRetriever(typeof(IService));
+            _retrievalStrategyStore.InsertFromRetriever(typeof(IService));
         }
 
         private void InsertPerRequest()
         {
-            _serviceRetrievalStrategyStore.InsertPerRequest(typeof(IService), typeof(Service));
+            _retrievalStrategyStore.InsertPerRequest(typeof(IService), typeof(Service));
         }
 
         private IServiceRetrievalStrategy RetrieveMapping()
         {
-            return _serviceRetrievalStrategyStore.RetrieveMappingFor(typeof(IService));
+            return _retrievalStrategyStore.RetrieveMappingFor(typeof(IService));
         }
 
         private void SetupFromRetriever()
