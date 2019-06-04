@@ -26,7 +26,7 @@
 
         public void InsertPerRequest(Type interfaceType, Type concreteType)
         {
-            _strategies[interfaceType] = _retrievalStrategyFactory.PerRequest(interfaceType, concreteType);
+            _strategies[interfaceType] = _retrievalStrategyFactory.PerRequest(concreteType);
         }
 
         public IServiceRetrievalStrategy RetrieveMappingFor(Type interfaceType)

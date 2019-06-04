@@ -95,7 +95,7 @@
 
         private void SetupPerRequest()
         {
-            _retrievalStrategyFactoryMock.Setup(factory => factory.PerRequest(typeof(IService), typeof(Service)))
+            _retrievalStrategyFactoryMock.Setup(factory => factory.PerRequest(typeof(Service)))
                                          .Returns(CreateServiceRetrievalStrategy());
         }
 
@@ -113,7 +113,7 @@
 
         private void VerifyPerRequestCalled()
         {
-            _retrievalStrategyFactoryMock.Verify(factory => factory.PerRequest(typeof(IService), typeof(Service)));
+            _retrievalStrategyFactoryMock.Verify(factory => factory.PerRequest(typeof(Service)));
         }
 
         private interface IService

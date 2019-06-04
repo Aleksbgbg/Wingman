@@ -77,6 +77,7 @@
     <Compile Include="ServiceFactory\IServiceFactory.cs" />
     <Compile Include="ServiceFactory\ServiceFactory.cs" />
     <Compile Include="ServiceFactory\ServiceFactoryFactory.cs" />
+    <Compile Include="ServiceFactory\Strategies\RetrievalStrategyFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\ServiceRetrievalStrategyStore.cs" />
     <Compile Include="ServiceFactory\TypeFactory.cs" />
     <Compile Include="Utilities\ThrowHelper.BootstrapperBase.cs" />

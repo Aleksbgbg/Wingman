@@ -6,6 +6,6 @@
     {
         IServiceRetrievalStrategy FromRetriever(Type interfaceType);
 
-        IServiceRetrievalStrategy PerRequest(Type interfaceType, Type concreteType);
+        IServiceRetrievalStrategy PerRequest(Type concreteType);
     }
 }
