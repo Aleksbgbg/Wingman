@@ -63,8 +63,11 @@
     <Compile Include="Container\SimpleContainerAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFactory\Strategies\FromRetriever\FromRetrieverRetrievalStrategy.cs" />
+    <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorMap.cs" />
+    <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorMapFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\IArgumentBuilder.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructor.cs" />
+    <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorMap.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorMapFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\IRetrievalStrategyFactory.cs" />
@@ -81,6 +84,7 @@
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyStore.cs" />
     <Compile Include="ServiceFactory\TypeFactory.cs" />
     <Compile Include="Utilities\ThrowHelper.BootstrapperBase.cs" />
+    <Compile Include="Utilities\ThrowHelper.ConstructorMap.cs" />
     <Compile Include="Utilities\ThrowHelper.FromRetrieverRetrievalStrategy.cs" />
     <Compile Include="Utilities\ThrowHelper.ServiceFactory.cs" />
     <Compile Include="Utilities\ThrowHelper.Throw.cs" />

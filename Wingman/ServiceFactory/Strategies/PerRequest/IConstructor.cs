@@ -2,6 +2,8 @@
 {
     internal interface IConstructor
     {
-        object Build(object[] arguments);
+        bool AcceptsUserArguments(object[] userArguments);
+
+        object Build(object[] fullArguments);
     }
 }
