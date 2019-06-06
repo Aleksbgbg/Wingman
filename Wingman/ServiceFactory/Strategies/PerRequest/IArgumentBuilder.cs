@@ -2,6 +2,6 @@
 {
     internal interface IArgumentBuilder
     {
-        object[] BuildArgumentsForConstructor(IConstructor constructor, object[] userArguments);
+        object[] BuildArguments();
     }
 }

@@ -80,6 +80,7 @@
     <Compile Include="Container\DependencyContainerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFactory\Strategies\FromRetriever\FromRetrieverRetrievalStrategyTests.cs" />
+    <Compile Include="ServiceFactory\Strategies\PerRequest\ArgumentBuilderTests.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorMapTests.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\PerRequestRetrievalStrategyTests.cs" />
     <Compile Include="ServiceFactory\ServiceFactoryTests.cs" />

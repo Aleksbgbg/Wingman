@@ -10,6 +10,8 @@
     {
         private readonly Mock<IArgumentBuilder> _argumentBuilderMock;
 
+        private readonly Mock<IArgumentBuilderFactory> _argumentBuilderFactoryMock;
+
         private readonly Mock<IConstructor> _constructorMock;
 
         private readonly Mock<IConstructorMap> _constructorMapMock;
@@ -31,8 +33,12 @@
                             .Returns(_buildResult);
 
             _argumentBuilderMock = new Mock<IArgumentBuilder>();
-            _argumentBuilderMock.Setup(builder => builder.BuildArgumentsForConstructor(_constructorMock.Object, _userArguments))
+            _argumentBuilderMock.Setup(builder => builder.BuildArguments())
                                 .Returns(_resolvedArguments);
+
+            _argumentBuilderFactoryMock = new Mock<IArgumentBuilderFactory>();
+            _argumentBuilderFactoryMock.Setup(factory => factory.CreateBuilderFor(_constructorMock.Object, _userArguments))
+                                       .Returns(_argumentBuilderMock.Object);
 
             _constructorMapMock = new Mock<IConstructorMap>();
             _constructorMapMock.Setup(constructorMap => constructorMap.FindBestFitForArguments(_userArguments))
@@ -42,7 +48,7 @@
             _constructorMapFactoryMock.Setup(factory => factory.MapConstructors(typeof(Service)))
                                       .Returns(_constructorMapMock.Object);
 
-            _perRequestRetrievalStrategy = new PerRequestRetrievalStrategy(_argumentBuilderMock.Object,
+            _perRequestRetrievalStrategy = new PerRequestRetrievalStrategy(_argumentBuilderFactoryMock.Object,
                                                                            _constructorMapFactoryMock.Object,
                                                                            typeof(Service));
         }
@@ -66,7 +72,8 @@
         {
             _perRequestRetrievalStrategy.RetrieveService(_userArguments);
 
-            VerifyBuildArgumentsForConstructorCalled();
+            VerifyCreateBuilderCalled();
+            VerifyBuildArgumentsCalled();
         }
 
         [Fact]
@@ -88,9 +95,14 @@
             _constructorMapMock.Verify(constructorMap => constructorMap.FindBestFitForArguments(_userArguments));
         }
 
-        private void VerifyBuildArgumentsForConstructorCalled()
+        private void VerifyCreateBuilderCalled()
         {
-            _argumentBuilderMock.Verify(builder => builder.BuildArgumentsForConstructor(_constructorMock.Object, _userArguments));
+            _argumentBuilderFactoryMock.Verify(factory => factory.CreateBuilderFor(_constructorMock.Object, _userArguments));
+        }
+
+        private void VerifyBuildArgumentsCalled()
+        {
+            _argumentBuilderMock.Verify(builder => builder.BuildArguments());
         }
 
         private void VerifyBuildConstructorCalled()
