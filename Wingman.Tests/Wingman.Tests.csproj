@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper\BootstrapperBaseTests.cs" />
     <Compile Include="Container\DependencyContainerTests.cs" />
+    <Compile Include="Integration\ServiceFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFactory\Strategies\FromRetriever\FromRetrieverRetrievalStrategyTests.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\ArgumentBuilderTests.cs" />
