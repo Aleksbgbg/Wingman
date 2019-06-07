@@ -4,7 +4,7 @@
 
     internal interface IConstructor
     {
-        int ArgumentCount { get; }
+        int ParameterCount { get; }
 
         Type ParameterTypeAt(int index);
 

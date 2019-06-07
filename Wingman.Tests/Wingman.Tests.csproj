@@ -82,6 +82,7 @@
     <Compile Include="ServiceFactory\Strategies\FromRetriever\FromRetrieverRetrievalStrategyTests.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\ArgumentBuilderTests.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorMapTests.cs" />
+    <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorTests.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\PerRequestRetrievalStrategyTests.cs" />
     <Compile Include="ServiceFactory\ServiceFactoryTests.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyFactoryTests.cs" />

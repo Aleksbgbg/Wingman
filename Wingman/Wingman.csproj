@@ -65,12 +65,16 @@
     <Compile Include="ServiceFactory\Strategies\FromRetriever\FromRetrieverRetrievalStrategy.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\ArgumentBuilder.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\ArgumentBuilderFactory.cs" />
+    <Compile Include="ServiceFactory\Strategies\PerRequest\Constructor.cs" />
+    <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorFactory.cs" />
+    <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorInfoAdapter.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorMap.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorMapFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\IArgumentBuilder.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\IArgumentBuilderFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructor.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorFactory.cs" />
+    <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorInfo.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorMap.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorMapFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\IRetrievalStrategyFactory.cs" />

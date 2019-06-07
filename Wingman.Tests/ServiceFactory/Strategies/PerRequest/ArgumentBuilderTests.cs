@@ -48,7 +48,7 @@
 
         private object[] SetupNArgumentsWithNDependencies(int count, int dependencies)
         {
-            _constructorMock.SetupGet(constructor => constructor.ArgumentCount)
+            _constructorMock.SetupGet(constructor => constructor.ParameterCount)
                             .Returns(count);
 
             return new object[count - dependencies];
