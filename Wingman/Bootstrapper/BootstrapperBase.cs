@@ -66,8 +66,10 @@
             CheckRootViewModelRegistered();
             RegisterServices(_dependencyContainer);
 
-            RegisterFactoryViewModels(_serviceFactory);
-            RegisterFactoryServices(_serviceFactory);
+            IServiceFactoryRegistrar serviceFactoryRegistrar = null; // TODO: Initialize
+
+            RegisterFactoryViewModels(serviceFactoryRegistrar);
+            RegisterFactoryServices(serviceFactoryRegistrar);
         }
 
         /// <summary> Override to register ViewModels in the provided dependency registrar. Required as ViewModels are always needed. </summary>

@@ -9,8 +9,7 @@
     {
         public static ServiceFactory Create(IDependencyRegistrar dependencyRegistrar, IDependencyRetriever dependencyRetriever)
         {
-            return new ServiceFactory(dependencyRegistrar,
-                                      new RetrievalStrategyStore(new RetrievalStrategyFactory(dependencyRetriever,
+            return new ServiceFactory(new RetrievalStrategyStore(new RetrievalStrategyFactory(dependencyRetriever,
                                                                                               new ArgumentBuilderFactory(dependencyRetriever),
                                                                                               new ConstructorMapFactory(new ConstructorFactory())
                                                                                               )

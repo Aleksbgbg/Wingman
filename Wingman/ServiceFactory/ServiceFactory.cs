@@ -2,80 +2,23 @@
 {
     using System;
 
-    using Wingman.Container;
     using Wingman.ServiceFactory.Strategies;
     using Wingman.Utilities;
 
     /// <summary> Default implementation of <see cref="IServiceFactory"/>. </summary>
-    public class ServiceFactory : IServiceFactory, IServiceFactoryRegistrar
+    public class ServiceFactory : IServiceFactory
     {
-        private readonly IDependencyRegistrar _dependencyRegistrar;
-
         private readonly IRetrievalStrategyStore _retrievalStrategyStore;
 
-        internal ServiceFactory(IDependencyRegistrar dependencyRegistrar,
-                                IRetrievalStrategyStore retrievalStrategyStore)
+        internal ServiceFactory(IRetrievalStrategyStore retrievalStrategyStore)
         {
-            _dependencyRegistrar = dependencyRegistrar;
             _retrievalStrategyStore = retrievalStrategyStore;
-        }
-
-        /// <inheritdoc/>
-        public void RegisterFromRetriever<TService>()
-        {
-            RegisterFromRetriever(typeof(TService));
-        }
-
-        /// <inheritdoc/>
-        public void RegisterPerRequest<TService, TImplementation>() where TImplementation : TService
-        {
-            RegisterPerRequest(typeof(TService), typeof(TImplementation));
         }
 
         /// <inheritdoc/>
         public TService Make<TService>(params object[] arguments)
         {
             return (TService)Make(typeof(TService), arguments);
-        }
-
-        private void RegisterFromRetriever(Type interfaceType)
-        {
-            EnsureNotPreviouslyRegistered(interfaceType);
-            EnsureRetrieverHasHandler(interfaceType);
-
-            _retrievalStrategyStore.InsertFromRetriever(interfaceType);
-        }
-
-        private void RegisterPerRequest(Type interfaceType, Type concreteType)
-        {
-            EnsureNotPreviouslyRegistered(interfaceType);
-            EnsureIsConcrete(concreteType);
-
-            _retrievalStrategyStore.InsertPerRequest(interfaceType, concreteType);
-        }
-
-        private void EnsureNotPreviouslyRegistered(Type interfaceType)
-        {
-            if (_retrievalStrategyStore.IsRegistered(interfaceType))
-            {
-                ThrowHelper.Throw.ServiceFactory.DuplicateRegistration(interfaceType);
-            }
-        }
-
-        private void EnsureRetrieverHasHandler(Type interfaceType)
-        {
-            if (!_dependencyRegistrar.HasHandler(interfaceType))
-            {
-                ThrowHelper.Throw.ServiceFactory.NoHandlerRegisteredWithContainer(interfaceType);
-            }
-        }
-
-        private void EnsureIsConcrete(Type concreteType)
-        {
-            if (concreteType.IsAbstract)
-            {
-                ThrowHelper.Throw.ServiceFactory.RegisterNonConcreteTypePerRequest(concreteType);
-            }
         }
 
         private object Make(Type interfaceType, object[] arguments)

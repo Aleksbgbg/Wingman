@@ -4,7 +4,6 @@
 
     using Moq;
 
-    using Wingman.Container;
     using Wingman.ServiceFactory;
     using Wingman.ServiceFactory.Strategies;
 
@@ -12,8 +11,6 @@
 
     public class ServiceFactoryTests
     {
-        private readonly Mock<IDependencyRegistrar> _dependencyRegistrarMock;
-
         private readonly Mock<IRetrievalStrategyStore> _retrievalStrategyStore;
 
         private readonly ServiceFactory _serviceFactory;
@@ -22,70 +19,9 @@
 
         public ServiceFactoryTests()
         {
-            _dependencyRegistrarMock = new Mock<IDependencyRegistrar>();
-
             _retrievalStrategyStore = new Mock<IRetrievalStrategyStore>();
 
-            _serviceFactory = new ServiceFactory(_dependencyRegistrarMock.Object,
-                                                 _retrievalStrategyStore.Object);
-        }
-
-        [Fact]
-        public void RegisterFromRetrieverThrowsWhenNoHandlerRegistered()
-        {
-            Action register = () => _serviceFactory.RegisterFromRetriever<IService>();
-
-            Assert.Throws<InvalidOperationException>(register);
-            VerifyHasHandlerCalled();
-        }
-
-        [Fact]
-        public void RegisterFromRetrieverThrowsWhenDuplicateRegistered()
-        {
-            SetupServiceIsRegistered();
-            SetupHasServiceHandler();
-
-            Action register = () => _serviceFactory.RegisterFromRetriever<IService>();
-
-            Assert.Throws<InvalidOperationException>(register);
-            VerifyIsRegisteredCalled();
-        }
-
-        [Fact]
-        public void RegisterFromRetrieverInsertsIntoStore()
-        {
-            SetupHasServiceHandler();
-
-            _serviceFactory.RegisterFromRetriever<IService>();
-
-            VerifyInsertFromRetrieverCalled();
-        }
-
-        [Fact]
-        public void RegisterPerRequestThrowsWhenDuplicateRegistered()
-        {
-            SetupServiceIsRegistered();
-
-            Action register = () => _serviceFactory.RegisterPerRequest<IService, Service>();
-
-            Assert.Throws<InvalidOperationException>(register);
-            VerifyIsRegisteredCalled();
-        }
-
-        [Fact]
-        public void RegisterPerRequestThrowsWhenConcreteTypeIsNotConcrete()
-        {
-            Action register = () => _serviceFactory.RegisterPerRequest<IService, IService>();
-
-            Assert.Throws<InvalidOperationException>(register);
-        }
-
-        [Fact]
-        public void RegisterPerRequestInsertsIntoStore()
-        {
-            _serviceFactory.RegisterPerRequest<IService, Service>();
-
-            VerifyInsertPerRequestCalled();
+            _serviceFactory = new ServiceFactory(_retrievalStrategyStore.Object);
         }
 
         [Fact]
@@ -121,12 +57,6 @@
             VerifyRetrieveServiceCalledOnStrategy();
         }
 
-        private void SetupHasServiceHandler()
-        {
-            _dependencyRegistrarMock.Setup(registrar => registrar.HasHandler(typeof(IService), null))
-                                    .Returns(true);
-        }
-
         private void SetupServiceIsRegistered()
         {
             _retrievalStrategyStore.Setup(store => store.IsRegistered(typeof(IService)))
@@ -141,21 +71,6 @@
 
             _retrievalStrategyStore.Setup(store => store.RetrieveMappingFor(typeof(IService)))
                                           .Returns(_serviceRetrievalStrategyMock.Object);
-        }
-
-        private void VerifyHasHandlerCalled()
-        {
-            _dependencyRegistrarMock.Verify(registrar => registrar.HasHandler(typeof(IService), null));
-        }
-
-        private void VerifyInsertFromRetrieverCalled()
-        {
-            _retrievalStrategyStore.Verify(store => store.InsertFromRetriever(typeof(IService)));
-        }
-
-        private void VerifyInsertPerRequestCalled()
-        {
-            _retrievalStrategyStore.Verify(store => store.InsertPerRequest(typeof(IService), typeof(Service)));
         }
 
         private void VerifyIsRegisteredCalled()
@@ -173,12 +88,8 @@
             _serviceRetrievalStrategyMock.Verify(strategy => strategy.RetrieveService(It.IsAny<object[]>()));
         }
 
-        private interface IService
-        {
-        }
+        private interface IService { }
 
-        private class Service : IService
-        {
-        }
+        private class Service : IService { }
     }
 }

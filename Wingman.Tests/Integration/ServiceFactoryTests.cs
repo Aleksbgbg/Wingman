@@ -9,6 +9,8 @@
     {
         private readonly DependencyContainer _dependencyContainer;
 
+        private readonly ServiceFactoryRegistrar _serviceFactoryRegistrar; // TODO: Initialize
+
         private readonly ServiceFactory _serviceFactory;
 
         public ServiceFactoryTests()
@@ -60,13 +62,13 @@
 
         private TService RegisterAndMakeFromRetriever<TService>()
         {
-            _serviceFactory.RegisterFromRetriever<TService>();
+            _serviceFactoryRegistrar.RegisterFromRetriever<TService>();
             return _serviceFactory.Make<TService>();
         }
 
         private TService RegisterAndMakePerRequest<TService>(params object[] arguments) where TService : IService
         {
-            _serviceFactory.RegisterPerRequest<IService, TService>();
+            _serviceFactoryRegistrar.RegisterPerRequest<IService, TService>();
             return (TService)_serviceFactory.Make<IService>(arguments);
         }
 
