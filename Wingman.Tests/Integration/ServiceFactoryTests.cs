@@ -16,7 +16,7 @@
         public ServiceFactoryTests()
         {
             _dependencyContainer = DependencyContainerFactory.Create();
-            _serviceFactory = ServiceFactoryFactory.Create(_dependencyContainer, _dependencyContainer);
+            _serviceFactory = ServiceFactoryFactory.Create();
         }
 
         [Fact]

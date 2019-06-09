@@ -38,7 +38,7 @@
         protected BootstrapperBase(TContainer dependencyContainer)
         {
             _dependencyContainer = dependencyContainer;
-            _serviceFactory = ServiceFactoryFactory.Create(dependencyContainer, dependencyContainer);
+            _serviceFactory = ServiceFactoryFactory.Create();
 
             Initialize();
         }
