@@ -26,8 +26,6 @@
     {
         private readonly TContainer _dependencyContainer;
 
-        private readonly ServiceFactory _serviceFactory;
-
 #if DEBUG
         private protected BootstrapperBase(TContainer dependencyContainer, object _)
         {
@@ -38,7 +36,6 @@
         protected BootstrapperBase(TContainer dependencyContainer)
         {
             _dependencyContainer = dependencyContainer;
-            _serviceFactory = ServiceFactoryFactory.Create();
 
             Initialize();
         }
@@ -60,16 +57,16 @@
 
         protected sealed override void Configure()
         {
-            RegisterCommonDependencies();
+            (IServiceFactoryRegistrar registrar, IServiceFactory factory) = ServiceFactoryFactory.Create(_dependencyContainer, _dependencyContainer);
+
+            RegisterCommonDependencies(factory);
 
             RegisterViewModels(_dependencyContainer);
             CheckRootViewModelRegistered();
+
             RegisterServices(_dependencyContainer);
-
-            IServiceFactoryRegistrar serviceFactoryRegistrar = null; // TODO: Initialize
-
-            RegisterFactoryViewModels(serviceFactoryRegistrar);
-            RegisterFactoryServices(serviceFactoryRegistrar);
+            RegisterFactoryViewModels(registrar);
+            RegisterFactoryServices(registrar);
         }
 
         /// <summary> Override to register ViewModels in the provided dependency registrar. Required as ViewModels are always needed. </summary>
@@ -109,10 +106,10 @@
         {
         }
 
-        private void RegisterCommonDependencies()
+        private void RegisterCommonDependencies(IServiceFactory serviceFactory)
         {
-            _dependencyContainer.Instance<IServiceFactory>(_serviceFactory);
             _dependencyContainer.Singleton<IWindowManager, WindowManager>();
+            _dependencyContainer.Instance(serviceFactory);
         }
 
         private void CheckRootViewModelRegistered()
