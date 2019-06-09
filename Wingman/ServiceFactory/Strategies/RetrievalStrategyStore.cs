@@ -19,6 +19,11 @@
             return _strategies.ContainsKey(interfaceType);
         }
 
+        public void Insert(Type interfaceType, IServiceRetrievalStrategy serviceRetrievalStrategy)
+        {
+            throw new NotImplementedException();
+        }
+
         public void InsertFromRetriever(Type interfaceType)
         {
             _strategies[interfaceType] = _retrievalStrategyFactory.FromRetriever(interfaceType);

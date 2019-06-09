@@ -62,6 +62,7 @@
     <Compile Include="Container\ISimpleContainer.cs" />
     <Compile Include="Container\SimpleContainerAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceFactory\ServiceFactoryRegistrar.cs" />
     <Compile Include="ServiceFactory\Strategies\FromRetriever\FromRetrieverRetrievalStrategy.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\ArgumentBuilder.cs" />
     <Compile Include="ServiceFactory\Strategies\PerRequest\ArgumentBuilderFactory.cs" />
