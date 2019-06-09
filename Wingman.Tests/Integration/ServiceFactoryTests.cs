@@ -7,16 +7,22 @@
 
     public class ServiceFactoryTests
     {
-        private readonly DependencyContainer _dependencyContainer;
+        private readonly IDependencyRegistrar _dependencyRegistrar;
 
-        private readonly ServiceFactoryRegistrar _serviceFactoryRegistrar; // TODO: Initialize
+        private readonly IServiceFactoryRegistrar _serviceFactoryRegistrar;
 
-        private readonly ServiceFactory _serviceFactory;
+        private readonly IServiceFactory _serviceFactory;
 
         public ServiceFactoryTests()
         {
-            _dependencyContainer = DependencyContainerFactory.Create();
-            _serviceFactory = ServiceFactoryFactory.Create();
+            DependencyContainer dependencyContainer = DependencyContainerFactory.Create();
+
+            _dependencyRegistrar = dependencyContainer;
+
+            (IServiceFactoryRegistrar registrar, IServiceFactory factory) = ServiceFactoryFactory.Create(dependencyContainer, dependencyContainer);
+
+            _serviceFactoryRegistrar = registrar;
+            _serviceFactory = factory;
         }
 
         [Fact]
@@ -46,7 +52,7 @@
         {
             Service serviceImplementation = new Service();
 
-            _dependencyContainer.RegisterInstance(typeof(IService), serviceImplementation);
+            _dependencyRegistrar.RegisterInstance(typeof(IService), serviceImplementation);
 
             return serviceImplementation;
         }
@@ -55,7 +61,7 @@
         {
             Dependency dependency = new Dependency();
 
-            _dependencyContainer.RegisterInstance(typeof(IDependency), dependency);
+            _dependencyRegistrar.RegisterInstance(typeof(IDependency), dependency);
 
             return dependency;
         }
