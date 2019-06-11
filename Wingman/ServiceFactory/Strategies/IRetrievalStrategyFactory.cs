@@ -4,8 +4,8 @@
 
     internal interface IRetrievalStrategyFactory
     {
-        IServiceRetrievalStrategy FromRetriever(Type interfaceType);
+        IServiceRetrievalStrategy CreateFromRetriever(Type interfaceType);
 
-        IServiceRetrievalStrategy PerRequest(Type concreteType);
+        IServiceRetrievalStrategy CreatePerRequest(Type concreteType);
     }
 }

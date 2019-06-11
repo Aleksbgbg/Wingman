@@ -45,7 +45,7 @@
                                .Returns(_constructorMock.Object);
 
             _constructorMapFactoryMock = new Mock<IConstructorMapFactory>();
-            _constructorMapFactoryMock.Setup(factory => factory.MapConstructors(typeof(Service)))
+            _constructorMapFactoryMock.Setup(factory => factory.CreateConstructorMap(typeof(Service)))
                                       .Returns(_constructorMapMock.Object);
 
             _perRequestRetrievalStrategy = new PerRequestRetrievalStrategy(_argumentBuilderFactoryMock.Object,
@@ -87,7 +87,7 @@
 
         private void VerifyMapConstructorsCalled()
         {
-            _constructorMapFactoryMock.Verify(factory => factory.MapConstructors(typeof(Service)));
+            _constructorMapFactoryMock.Verify(factory => factory.CreateConstructorMap(typeof(Service)));
         }
 
         private void VerifyFindBestFitCalled()

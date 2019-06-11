@@ -21,12 +21,12 @@
             _constructorMapFactory = constructorMapFactory;
         }
 
-        public IServiceRetrievalStrategy FromRetriever(Type interfaceType)
+        public IServiceRetrievalStrategy CreateFromRetriever(Type interfaceType)
         {
             return new FromRetrieverRetrievalStrategy(_dependencyRetriever, interfaceType);
         }
 
-        public IServiceRetrievalStrategy PerRequest(Type concreteType)
+        public IServiceRetrievalStrategy CreatePerRequest(Type concreteType)
         {
             return new PerRequestRetrievalStrategy(_argumentBuilderFactory, _constructorMapFactory, concreteType);
         }

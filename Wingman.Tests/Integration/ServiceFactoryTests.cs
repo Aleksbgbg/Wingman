@@ -69,13 +69,13 @@
         private TService RegisterAndMakeFromRetriever<TService>()
         {
             _serviceFactoryRegistrar.RegisterFromRetriever<TService>();
-            return _serviceFactory.Make<TService>();
+            return _serviceFactory.Create<TService>();
         }
 
         private TService RegisterAndMakePerRequest<TService>(params object[] arguments) where TService : IService
         {
             _serviceFactoryRegistrar.RegisterPerRequest<IService, TService>();
-            return (TService)_serviceFactory.Make<IService>(arguments);
+            return (TService)_serviceFactory.Create<IService>(arguments);
         }
 
         private interface IService { }

@@ -11,7 +11,7 @@
             _constructorFactory = constructorFactory;
         }
 
-        public IConstructorMap MapConstructors(Type concreteType)
+        public IConstructorMap CreateConstructorMap(Type concreteType)
         {
             return new ConstructorMap(_constructorFactory, concreteType);
         }

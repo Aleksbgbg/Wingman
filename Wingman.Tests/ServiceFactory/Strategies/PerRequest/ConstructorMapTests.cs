@@ -112,7 +112,7 @@
 
         private void VerifyMakeConstructorCalled(Times times)
         {
-            _constructorFactory.Verify(factory => factory.MakeConstructor(It.IsAny<ConstructorInfo>()), times);
+            _constructorFactory.Verify(factory => factory.CreateConstructor(It.IsAny<ConstructorInfo>()), times);
         }
 
         private static void VerifyAcceptsArgumentsCalled(Mock<IConstructor> constructorMock)
@@ -122,7 +122,7 @@
 
         private Mock<IConstructor>[] SetupConstructors(params Mock<IConstructor>[] constructors)
         {
-            var makeSequence = _constructorFactory.SetupSequence(factory => factory.MakeConstructor(It.IsAny<ConstructorInfo>()));
+            var makeSequence = _constructorFactory.SetupSequence(factory => factory.CreateConstructor(It.IsAny<ConstructorInfo>()));
 
             foreach (Mock<IConstructor> constructor in constructors)
             {

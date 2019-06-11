@@ -4,6 +4,6 @@
 
     internal interface IConstructorMapFactory
     {
-        IConstructorMap MapConstructors(Type concreteType);
+        IConstructorMap CreateConstructorMap(Type concreteType);
     }
 }

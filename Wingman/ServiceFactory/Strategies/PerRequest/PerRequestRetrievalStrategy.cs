@@ -11,7 +11,7 @@
         public PerRequestRetrievalStrategy(IArgumentBuilderFactory argumentBuilderFactory, IConstructorMapFactory constructorMapFactory, Type concreteType)
         {
             _argumentBuilderFactory = argumentBuilderFactory;
-            _constructorMap = constructorMapFactory.MapConstructors(concreteType);
+            _constructorMap = constructorMapFactory.CreateConstructorMap(concreteType);
         }
 
         public object RetrieveService(object[] arguments)

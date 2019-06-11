@@ -16,12 +16,12 @@
         }
 
         /// <inheritdoc/>
-        public TService Make<TService>(params object[] arguments)
+        public TService Create<TService>(params object[] arguments)
         {
-            return (TService)Make(typeof(TService), arguments);
+            return (TService)Create(typeof(TService), arguments);
         }
 
-        private object Make(Type interfaceType, object[] arguments)
+        private object Create(Type interfaceType, object[] arguments)
         {
             EnsureRegistered(interfaceType);
 

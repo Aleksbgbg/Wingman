@@ -13,7 +13,7 @@
         internal ConstructorMap(IConstructorFactory constructorFactory, Type concreteType)
         {
             _constructors = concreteType.GetConstructors(BindingFlags.Public | BindingFlags.Instance)
-                                        .Select(constructorFactory.MakeConstructor)
+                                        .Select(constructorFactory.CreateConstructor)
                                         .ToArray();
 
             if (_constructors.Length == 0)

@@ -27,7 +27,7 @@
         [Fact]
         public void MakeThrowsIfNotRegistered()
         {
-            Action make = () => _serviceFactory.Make<IService>();
+            Action make = () => _serviceFactory.Create<IService>();
 
             Assert.Throws<InvalidOperationException>(make);
             VerifyIsRegisteredCalled();
@@ -39,7 +39,7 @@
             SetupServiceIsRegistered();
             SetupServiceRetrievalStrategy(null);
 
-            _serviceFactory.Make<IService>();
+            _serviceFactory.Create<IService>();
 
             VerifyRetrieveMappingCalled();
         }
@@ -51,7 +51,7 @@
             SetupServiceIsRegistered();
             SetupServiceRetrievalStrategy(service);
 
-            IService createdService = _serviceFactory.Make<IService>();
+            IService createdService = _serviceFactory.Create<IService>();
 
             Assert.Equal(service, createdService);
             VerifyRetrieveServiceCalledOnStrategy();

@@ -41,7 +41,7 @@
             EnsureNotPreviouslyRegistered(interfaceType);
             EnsureRetrieverHasHandler(interfaceType);
 
-            _retrievalStrategyStore.Insert(interfaceType, _retrievalStrategyFactory.FromRetriever(interfaceType));
+            _retrievalStrategyStore.Insert(interfaceType, _retrievalStrategyFactory.CreateFromRetriever(interfaceType));
         }
 
         private void RegisterPerRequest(Type interfaceType, Type concreteType)
@@ -49,7 +49,7 @@
             EnsureNotPreviouslyRegistered(interfaceType);
             EnsureIsConcrete(concreteType);
 
-            _retrievalStrategyStore.Insert(interfaceType, _retrievalStrategyFactory.PerRequest(concreteType));
+            _retrievalStrategyStore.Insert(interfaceType, _retrievalStrategyFactory.CreatePerRequest(concreteType));
         }
 
         private void EnsureNotPreviouslyRegistered(Type interfaceType)

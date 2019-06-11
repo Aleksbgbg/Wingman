@@ -20,7 +20,7 @@
         [Fact]
         public void FromRetrieverReturnsCorrectType()
         {
-            IServiceRetrievalStrategy strategy = _retrievalStrategyFactory.FromRetriever(typeof(IService));
+            IServiceRetrievalStrategy strategy = _retrievalStrategyFactory.CreateFromRetriever(typeof(IService));
 
             Assert.IsType<FromRetrieverRetrievalStrategy>(strategy);
         }
@@ -28,7 +28,7 @@
         [Fact]
         public void PerRequestReturnsCorrectType()
         {
-            IServiceRetrievalStrategy strategy = _retrievalStrategyFactory.PerRequest(typeof(Service));
+            IServiceRetrievalStrategy strategy = _retrievalStrategyFactory.CreatePerRequest(typeof(Service));
 
             Assert.IsType<PerRequestRetrievalStrategy>(strategy);
         }

@@ -4,7 +4,7 @@
 
     internal class ConstructorFactory : IConstructorFactory
     {
-        public IConstructor MakeConstructor(ConstructorInfo constructorInfo)
+        public IConstructor CreateConstructor(ConstructorInfo constructorInfo)
         {
             return new Constructor(new ConstructorInfoAdapter(constructorInfo));
         }

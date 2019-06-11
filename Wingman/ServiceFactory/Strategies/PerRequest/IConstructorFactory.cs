@@ -4,6 +4,6 @@
 
     internal interface IConstructorFactory
     {
-        IConstructor MakeConstructor(ConstructorInfo constructorInfo);
+        IConstructor CreateConstructor(ConstructorInfo constructorInfo);
     }
 }

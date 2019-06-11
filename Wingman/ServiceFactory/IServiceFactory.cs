@@ -4,6 +4,6 @@
     public interface IServiceFactory
     {
         /// <summary> Creates the associated concrete type of <typeparamref name="TService"/>, via the appropriate retrieval strategy. </summary>
-        TService Make<TService>(params object[] arguments);
+        TService Create<TService>(params object[] arguments);
     }
 }

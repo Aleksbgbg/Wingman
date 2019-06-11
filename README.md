@@ -124,7 +124,7 @@ class MyService
 
     public MyService(IServiceFactory serviceFactory)
     {
-        _someService = serviceFactory.Make<ISomeService>(somePieceOfData);
+        _someService = serviceFactory.Create<ISomeService>(somePieceOfData);
     }
 }
 ```
@@ -166,12 +166,12 @@ The default `IServiceFactoryRegistrar` will throw if the `FromContainer` service
 
 The above registration means a use like this applies:
 ```cs
-serviceFactory.Make<IService>();
+serviceFactory.Create<IService>();
 ```
 
 However, this will throw:
 ```cs
-serviceFactory.Make<IService>(argument1, argument2); // Cannot pass arguments to FromContainer registrations
+serviceFactory.Create<IService>(argument1, argument2); // Cannot pass arguments to FromContainer registrations
 ```
 
 #### PerRequest
@@ -190,7 +190,7 @@ class ServiceImpl : IService
 
 You can create it like this:
 ```cs
-serviceFactory.Make<IService>("You are called ServiceImpl.");
+serviceFactory.Create<IService>("You are called ServiceImpl.");
 ```
 The dependencies will be resolved automagically.
 

@@ -31,9 +31,9 @@
             _dependencyRegistrarMock = new Mock<IDependencyRegistrar>();
 
             Mock<IRetrievalStrategyFactory> retrievalStrategyFactoryMock = new Mock<IRetrievalStrategyFactory>();
-            retrievalStrategyFactoryMock.Setup(factory => factory.FromRetriever(typeof(IService)))
+            retrievalStrategyFactoryMock.Setup(factory => factory.CreateFromRetriever(typeof(IService)))
                                         .Returns(_fromRetrieverRetrievalStrategy.Object);
-            retrievalStrategyFactoryMock.Setup(factory => factory.PerRequest(typeof(Service)))
+            retrievalStrategyFactoryMock.Setup(factory => factory.CreatePerRequest(typeof(Service)))
                                         .Returns(_perRequestRetrievalStrategy.Object);
 
             _retrievalStrategyStore = new Mock<IRetrievalStrategyStore>();
