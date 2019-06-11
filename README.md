@@ -112,7 +112,9 @@ The ServiceFactory is split into two interfaces:
 2. `IServiceFactory`
    - Generates instances of registered services via the appropriate strategy.
 
-The default implementation of both of these interfaces is `ServiceFactory` and can be instantiated via `ServiceFactoryFactory.Create(IDependencyRegistrar, IDependencyRetriever)`. The `BootstrapperBase` class already takes care of instantiating and registering the factory with the default dependency container.
+The default implementations of these interfaces are `ServiceFactoryRegistrar` and `ServiceFactory` (respectively), and they can both be instantiated via `ServiceFactoryFactory.Create(IDependencyRegistrar, IDependencyRetriever)`. A pair of objects are returned, `IServiceFactoryRegistrar Registrar` and `IServiceFactory Factory`. The purpose of the registrar being a separate object is so that the registrar is allocated once at startup, all the dependencies are swiftly registered, and the registrar is garbage-collected, releasing all registration-related class instances.
+
+The `BootstrapperBase` class already takes care of instantiating and registering the factory with the default dependency container.
 
 Creating a service instance is as simple as this:
 ```cs
