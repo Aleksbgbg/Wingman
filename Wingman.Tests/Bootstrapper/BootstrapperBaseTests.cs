@@ -64,11 +64,11 @@
         {
         }
 
-        private class Bootstrapper : BootstrapperBase<DependencyContainerBase, IRootViewModel>
+        private class Bootstrapper : BootstrapperBase<IRootViewModel>
         {
             private readonly bool _registerRootViewModel;
 
-            internal Bootstrapper(DependencyContainerBase dependencyContainer, bool registerRootViewModel = true) : base(dependencyContainer, null)
+            internal Bootstrapper(DependencyContainerBase dependencyContainer, bool registerRootViewModel = true) : base(dependencyContainer, dependencyContainer)
             {
                 _registerRootViewModel = registerRootViewModel;
 

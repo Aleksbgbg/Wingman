@@ -11,60 +11,66 @@
     using Wingman.Utilities;
 
     /// <inheritdoc/>
-    public abstract class BootstrapperBase<TRootViewModel> : BootstrapperBase<DependencyContainerBase, TRootViewModel>
-    {
-        protected BootstrapperBase() : base(DependencyContainerFactory.Create())
-        {
-        }
-    }
-
-    /// <inheritdoc/>
-    /// <typeparam name="TContainer"> An implementer of <see cref="DependencyContainerBase"/> to use as a dependency registrar and container. </typeparam>
     /// <typeparam name="TRootViewModel"> The ViewModel to display for the root view. </typeparam>
-    public abstract class BootstrapperBase<TContainer, TRootViewModel> : BootstrapperBase
-            where TContainer : IDependencyRegistrar, IDependencyRetriever
+    public abstract class BootstrapperBase<TRootViewModel> : BootstrapperBase
     {
-        private readonly TContainer _dependencyContainer;
+        private readonly IDependencyRegistrar _dependencyRegistrar;
 
-#if DEBUG
-        private protected BootstrapperBase(TContainer dependencyContainer, object _)
-        {
-            _dependencyContainer = dependencyContainer;
-        }
-#endif
+        private readonly IDependencyRetriever _dependencyRetriever;
 
-        protected BootstrapperBase(TContainer dependencyContainer)
+        private protected BootstrapperBase()
         {
-            _dependencyContainer = dependencyContainer;
+            DependencyContainer dependencyContainer = DependencyContainerFactory.Create();
+
+            _dependencyRegistrar = dependencyContainer;
+            _dependencyRetriever = dependencyContainer;
 
             Initialize();
         }
 
+#if !DEBUG
+        private protected BootstrapperBase(IDependencyRegistrar dependencyRegistrar, IDependencyRetriever dependencyRetriever)
+        {
+            _dependencyRegistrar = dependencyRegistrar;
+            _dependencyRetriever = dependencyRetriever;
+
+            Initialize();
+        }
+#endif
+
+#if DEBUG
+        private protected BootstrapperBase(IDependencyRegistrar dependencyRegistrar, IDependencyRetriever dependencyRetriever)
+        {
+            _dependencyRegistrar = dependencyRegistrar;
+            _dependencyRetriever = dependencyRetriever;
+        }
+#endif
+
         protected sealed override void BuildUp(object instance)
         {
-            _dependencyContainer.BuildUp(instance);
+            _dependencyRetriever.BuildUp(instance);
         }
 
         protected sealed override IEnumerable<object> GetAllInstances(Type service)
         {
-            return _dependencyContainer.GetAllInstances(service);
+            return _dependencyRetriever.GetAllInstances(service);
         }
 
         protected sealed override object GetInstance(Type service, string key)
         {
-            return _dependencyContainer.GetInstance(service, key);
+            return _dependencyRetriever.GetInstance(service, key);
         }
 
         protected sealed override void Configure()
         {
-            (IServiceFactoryRegistrar registrar, IServiceFactory factory) = ServiceFactoryFactory.Create(_dependencyContainer, _dependencyContainer);
+            (IServiceFactoryRegistrar registrar, IServiceFactory factory) = ServiceFactoryFactory.Create(_dependencyRegistrar, _dependencyRetriever);
 
             RegisterCommonDependencies(factory);
 
-            RegisterViewModels(_dependencyContainer);
+            RegisterViewModels(_dependencyRegistrar);
             CheckRootViewModelRegistered();
 
-            RegisterServices(_dependencyContainer);
+            RegisterServices(_dependencyRegistrar);
             RegisterFactoryViewModels(registrar);
             RegisterFactoryServices(registrar);
         }
@@ -108,13 +114,13 @@
 
         private void RegisterCommonDependencies(IServiceFactory serviceFactory)
         {
-            _dependencyContainer.Singleton<IWindowManager, WindowManager>();
-            _dependencyContainer.Instance(serviceFactory);
+            _dependencyRegistrar.Singleton<IWindowManager, WindowManager>();
+            _dependencyRegistrar.Instance(serviceFactory);
         }
 
         private void CheckRootViewModelRegistered()
         {
-            if (!_dependencyContainer.HasHandler<TRootViewModel>())
+            if (!_dependencyRegistrar.HasHandler<TRootViewModel>())
             {
                 ThrowHelper.Throw.BootstrapperBase.RootViewModelNotRegistered(typeof(TRootViewModel), nameof(RegisterViewModels));
             }

@@ -56,7 +56,7 @@ RegisterFactoryViewModels(IServiceFactoryRegistrar dependencyRegistrar);
 RegisterFactoryServices(IServiceFactoryRegistrar dependencyRegistrar);
 ```
 
-The first two methods are simply used to register dependencies with the default container. There is nothing to stop you from registering services in the first method, and ViewModels in the second, there is just a simple naming scheme to make bootstrapping obvious for readers.
+The first two methods are simply used to register dependencies with the default container. `TRootViewModel` must be registered in `RegisterViewModels`, however, apart from that, there is nothing to stop you from registering services in the first method, and ViewModels in the second. The convention was created to make registration easier to read, as there are usually two separate clusters of registrations in the `Configure` method.
 
 The Factory versions of these methods relate to registering with `IServiceFactory`, which is described in its own section.
 
@@ -79,16 +79,16 @@ The interfaces are split due to the fact that registrations and retrieval from t
 
 Wingman comes with a default implementation of these two interfaces (`DependencyContainer`), which can be instantiated via `DependencyContainerFactory.Create()`. `DependencyContainer` also implements `IDependencyActivator`, a simple event that is raised when an instance is created from the container, which isn't used by Wingman specifically, but is present in Caliburn's `SimpleContainer` implementation.
 
-Any custom implementations of these interfaces can either manually implement `IDependencyRegistrar` and `IDependencyRetriever`, or derive the `DependencyContainerBase` class which implements the convenience generic methods defined in the interfaces. `IDependencyActivator` is optional.
+Any custom implementations of these interfaces can either manually implement `IDependencyRegistrar` and/or `IDependencyRetriever`, or derive the `DependencyContainerBase` class which implements both interfaces and the convenience generic methods defined in the interfaces. `IDependencyActivator` is optional.
 
-For custom container implementations, your `Bootstrapper` must derive from the second generic `BootstrapperBase` alternative, and provide an instance of your container to the base constructor:
+For custom container implementations, you must pass instances of your registrar and retriever to the base constructor of `BootstrapperBase`:
 ```cs
 using Wingman.Bootstrapper;
 using Wingman.Container;
 
-class Bootstrapper : BootstrapperBase<MyCustomContainer, IShellViewModel>
+class Bootstrapper : BootstrapperBase<IShellViewModel>
 {
-    public Bootstrapper() : base(new MyCustomContainer())
+    public Bootstrapper() : base(MyCustomContainerRegistrar.Instance, MyCustomContainerRetriever.Instance)
     {
     }
 
