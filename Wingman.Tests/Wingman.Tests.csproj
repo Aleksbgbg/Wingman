@@ -89,6 +89,7 @@
     <Compile Include="ServiceFactory\ServiceFactoryTests.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyFactoryTests.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyStoreTests.cs" />
+    <Compile Include="Services\Data\DataServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wingman\Wingman.csproj">
@@ -102,6 +103,7 @@
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -88,6 +88,10 @@
     <Compile Include="ServiceFactory\ServiceFactoryFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyStore.cs" />
+    <Compile Include="Services\Data\DataService.cs" />
+    <Compile Include="Services\Data\IDataSerializer.cs" />
+    <Compile Include="Services\Data\IDataService.cs" />
+    <Compile Include="Services\Data\IPersistentStore.cs" />
     <Compile Include="Utilities\ThrowHelper.BootstrapperBase.cs" />
     <Compile Include="Utilities\ThrowHelper.ConstructorMap.cs" />
     <Compile Include="Utilities\ThrowHelper.FromRetrieverRetrievalStrategy.cs" />
