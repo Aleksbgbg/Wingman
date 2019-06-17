@@ -94,6 +94,7 @@
     <Compile Include="Services\Data\AppDataStore.cs" />
     <Compile Include="Services\Data\AppNameProvider.cs" />
     <Compile Include="Services\Data\DataService.cs" />
+    <Compile Include="Services\Data\DataServiceFactory.cs" />
     <Compile Include="Services\Data\DirectoryManipulator.cs" />
     <Compile Include="Services\Data\FileManipulator.cs" />
     <Compile Include="Services\Data\IDataSerializer.cs" />
