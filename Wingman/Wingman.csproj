@@ -91,9 +91,13 @@
     <Compile Include="ServiceFactory\ServiceFactoryFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyStore.cs" />
+    <Compile Include="Services\Data\AppDataStore.cs" />
     <Compile Include="Services\Data\DataService.cs" />
     <Compile Include="Services\Data\IDataSerializer.cs" />
     <Compile Include="Services\Data\IDataService.cs" />
+    <Compile Include="Services\Data\IDirectoryManipulator.cs" />
+    <Compile Include="Services\Data\IFileManipulator.cs" />
+    <Compile Include="Services\Data\IAppNameProvider.cs" />
     <Compile Include="Services\Data\IPersistentStore.cs" />
     <Compile Include="Services\Data\JsonSerializer.cs" />
     <Compile Include="Utilities\ThrowHelper.BootstrapperBase.cs" />

@@ -92,6 +92,7 @@
     <Compile Include="ServiceFactory\ServiceFactoryTests.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyFactoryTests.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyStoreTests.cs" />
+    <Compile Include="Services\Data\AppDataStoreTests.cs" />
     <Compile Include="Services\Data\DataServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
