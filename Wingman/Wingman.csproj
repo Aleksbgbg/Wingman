@@ -58,6 +58,7 @@
     <Compile Include="Bootstrapper\BootstrapperBase.cs" />
     <Compile Include="Container\DependencyContainer.cs" />
     <Compile Include="Container\DependencyContainerBase.cs" />
+    <Compile Include="Container\DependencyContainerCreation.cs" />
     <Compile Include="Container\DependencyContainerFactory.cs" />
     <Compile Include="Container\IDependencyActivator.cs" />
     <Compile Include="Container\IDependencyRegistrar.cs" />

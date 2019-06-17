@@ -20,10 +20,10 @@
 
         private protected BootstrapperBase()
         {
-            DependencyContainer dependencyContainer = DependencyContainerFactory.Create();
+            DependencyContainerCreation dependencyContainerCreation = DependencyContainerFactory.Create();
 
-            _dependencyRegistrar = dependencyContainer;
-            _dependencyRetriever = dependencyContainer;
+            _dependencyRegistrar = dependencyContainerCreation.Registrar;
+            _dependencyRetriever = dependencyContainerCreation.Retriever;
 
             Initialize();
         }

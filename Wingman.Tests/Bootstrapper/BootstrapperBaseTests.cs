@@ -10,13 +10,18 @@
 
     public class BootstrapperBaseTests
     {
-        private readonly DependencyContainer _dependencyContainer;
+        private readonly IDependencyRegistrar _dependencyRegistrar;
+
+        private readonly IDependencyRetriever _dependencyRetriever;
 
         private Bootstrapper _bootstrapper;
 
         public BootstrapperBaseTests()
         {
-            _dependencyContainer = DependencyContainerFactory.Create();
+            DependencyContainerCreation dependencyContainerCreation = DependencyContainerFactory.Create();
+
+            _dependencyRegistrar = dependencyContainerCreation.Registrar;
+            _dependencyRetriever = dependencyContainerCreation.Retriever;
         }
 
         [Fact]
@@ -43,17 +48,17 @@
 
         private void CreateBootstrapper()
         {
-            _bootstrapper = new Bootstrapper(_dependencyContainer);
+            _bootstrapper = new Bootstrapper(_dependencyRegistrar, _dependencyRetriever);
         }
 
         private void CreateBootstrapperNoRootViewModel()
         {
-            _bootstrapper = new Bootstrapper(_dependencyContainer, false);
+            _bootstrapper = new Bootstrapper(_dependencyRegistrar, _dependencyRetriever, false);
         }
 
         private void VerifyRegister<T>()
         {
-            Assert.True(_dependencyContainer.HasHandler(typeof(T)));
+            Assert.True(_dependencyRegistrar.HasHandler(typeof(T)));
         }
 
         private interface IRootViewModel
@@ -68,7 +73,10 @@
         {
             private readonly bool _registerRootViewModel;
 
-            internal Bootstrapper(DependencyContainerBase dependencyContainer, bool registerRootViewModel = true) : base(dependencyContainer, dependencyContainer)
+            internal Bootstrapper(IDependencyRegistrar dependencyRegistrar,
+                                  IDependencyRetriever dependencyRetriever,
+                                  bool registerRootViewModel = true)
+                    : base(dependencyRegistrar, dependencyRetriever)
             {
                 _registerRootViewModel = registerRootViewModel;
 

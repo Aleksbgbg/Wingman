@@ -15,11 +15,12 @@
 
         public ServiceFactoryTests()
         {
-            DependencyContainer dependencyContainer = DependencyContainerFactory.Create();
+            DependencyContainerCreation dependencyContainerCreation = DependencyContainerFactory.Create();
 
-            _dependencyRegistrar = dependencyContainer;
+            _dependencyRegistrar = dependencyContainerCreation.Registrar;
 
-            ServiceFactoryPair serviceFactoryPair = ServiceFactoryFactory.Create(dependencyContainer, dependencyContainer);
+            ServiceFactoryPair serviceFactoryPair = ServiceFactoryFactory.Create(dependencyContainerCreation.Registrar,
+                                                                                 dependencyContainerCreation.Retriever);
 
             _serviceFactoryRegistrar = serviceFactoryPair.Registrar;
             _serviceFactory = serviceFactoryPair.Factory;
