@@ -92,7 +92,10 @@
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyFactory.cs" />
     <Compile Include="ServiceFactory\Strategies\RetrievalStrategyStore.cs" />
     <Compile Include="Services\Data\AppDataStore.cs" />
+    <Compile Include="Services\Data\AppNameProvider.cs" />
     <Compile Include="Services\Data\DataService.cs" />
+    <Compile Include="Services\Data\DirectoryManipulator.cs" />
+    <Compile Include="Services\Data\FileManipulator.cs" />
     <Compile Include="Services\Data\IDataSerializer.cs" />
     <Compile Include="Services\Data\IDataService.cs" />
     <Compile Include="Services\Data\IDirectoryManipulator.cs" />
