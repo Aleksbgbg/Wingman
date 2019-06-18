@@ -15,6 +15,37 @@ To install the latest version, open PowerShell in your project directory, and si
 Install-Package Wingman
 ```
 
+<details>
+<summary> Supported .NET Framework Versions </summary>
+
+We target a varying range of .NET Framework versions from v4.0 to v4.8, so all of your projects from April 2010 forwards should work with Wingman.
+
+For frameworks v4.5 - v4.7, the base release and latest release are targeted, however not release v4.x.1. This means that for these frameworks, v4.x.1 projects will target the v4.x release of Wingman.
+
+Please keep in mind that .NET 4.0 projects cannot be mocked with [Moq](https://github.com/moq/moq4), so the release target isn't tested, however it compiles.
+
+Release Date                 |Framework Version|Supported|Targeted|Tested
+:---------------------------:|:---------------:|:-------:|:------:|:----:
+13<sup>th</sup> February 2002|v1.0             |❌       |❌       |❌
+24<sup>th</sup> April    2003|v1.1             |❌       |❌       |❌
+07<sup>th</sup> November 2005|v2.0             |❌       |❌       |❌
+06<sup>th</sup> November 2006|v3.0             |❌       |❌       |❌
+19<sup>th</sup> November 2007|v3.5             |❌       |❌       |❌
+12<sup>th</sup> April    2010|v4.0             |✅       |✅       |❌
+15<sup>th</sup> August   2012|v4.5             |✅       |✅       |✅
+17<sup>th</sup> October  2013|v4.5.1           |✅       |❌       |❌
+05<sup>th</sup> May      2014|v4.5.2           |✅       |✅       |✅
+20<sup>th</sup> July     2015|v4.6             |✅       |✅       |✅
+30<sup>th</sup> November 2015|v4.6.1           |✅       |❌       |❌
+02<sup>nd</sup> August   2016|v4.6.2           |✅       |✅       |✅
+05<sup>th</sup> April    2017|v4.7             |✅       |✅       |✅
+17<sup>th</sup> October  2017|v4.7.1           |✅       |❌       |❌
+30<sup>th</sup> April    2018|v4.7.2           |✅       |✅       |✅
+18<sup>th</sup> April    2019|v4.8             |✅       |✅       |✅
+
+The .NET Standard, and .NET Core and Mono are not currently supported.
+</details>
+
 ## How to Use Wingman
 Wingman currently includes basic support for Caliburn.Micro.
 

@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Extensions;
+
     using Moq;
 
     using Wingman.Container;
@@ -40,10 +42,10 @@
             object[] userArguments = SetupNArgumentsWithNDependencies(4, dependencyCount);
             object[] dependencies = SetupDependencies(dependencyCount).Cast<object>().ToArray();
 
-            HashSet<object> arguments = BuildArguments(userArguments).ToHashSet();
+            HashSet<object> arguments = BuildArguments(userArguments).ToHashSetInternal();
 
-            Assert.Subset(arguments, dependencies.ToHashSet());
-            Assert.Subset(arguments, userArguments.ToHashSet());
+            Assert.Subset(arguments, dependencies.ToHashSetInternal());
+            Assert.Subset(arguments, userArguments.ToHashSetInternal());
         }
 
         private object[] SetupNArgumentsWithNDependencies(int count, int dependencies)

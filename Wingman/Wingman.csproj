@@ -1,119 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4A28CF35-2268-4E8A-BB14-F56303164C4D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wingman</RootNamespace>
-    <AssemblyName>Wingman</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Wingman.xml</DocumentationFile>
+    <TargetFrameworks>net40;net45;net452;net46;net462;net47;net472;net48</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Caliburn.Micro" Version="3.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Bootstrapper\BootstrapperBase.cs" />
-    <Compile Include="Container\DependencyContainer.cs" />
-    <Compile Include="Container\DependencyContainerBase.cs" />
-    <Compile Include="Container\DependencyContainerCreation.cs" />
-    <Compile Include="Container\DependencyContainerFactory.cs" />
-    <Compile Include="Container\IDependencyActivator.cs" />
-    <Compile Include="Container\IDependencyRegistrar.cs" />
-    <Compile Include="Container\IDependencyRetriever.cs" />
-    <Compile Include="Container\ISimpleContainer.cs" />
-    <Compile Include="Container\SimpleContainerAdapter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceFactory\ServiceFactoryPair.cs" />
-    <Compile Include="ServiceFactory\ServiceFactoryRegistrar.cs" />
-    <Compile Include="ServiceFactory\Strategies\FromRetriever\FromRetrieverRetrievalStrategy.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\ArgumentBuilder.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\ArgumentBuilderFactory.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\Constructor.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorFactory.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorInfoAdapter.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorMap.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\ConstructorMapFactory.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\IArgumentBuilder.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\IArgumentBuilderFactory.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructor.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorFactory.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorInfo.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorMap.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\IConstructorMapFactory.cs" />
-    <Compile Include="ServiceFactory\Strategies\IRetrievalStrategyFactory.cs" />
-    <Compile Include="ServiceFactory\Strategies\IServiceRetrievalStrategy.cs" />
-    <Compile Include="ServiceFactory\Strategies\IRetrievalStrategyStore.cs" />
-    <Compile Include="ServiceFactory\Strategies\PerRequest\PerRequestRetrievalStrategy.cs" />
-    <Compile Include="ServiceFactory\IServiceFactoryRegistrar.cs" />
-    <Compile Include="ServiceFactory\IServiceFactory.cs" />
-    <Compile Include="ServiceFactory\ServiceFactory.cs" />
-    <Compile Include="ServiceFactory\ServiceFactoryFactory.cs" />
-    <Compile Include="ServiceFactory\Strategies\RetrievalStrategyFactory.cs" />
-    <Compile Include="ServiceFactory\Strategies\RetrievalStrategyStore.cs" />
-    <Compile Include="Services\Data\AppDataStore.cs" />
-    <Compile Include="Services\Data\AppNameProvider.cs" />
-    <Compile Include="Services\Data\DataService.cs" />
-    <Compile Include="Services\Data\DataServiceFactory.cs" />
-    <Compile Include="Services\Data\DirectoryManipulator.cs" />
-    <Compile Include="Services\Data\FileManipulator.cs" />
-    <Compile Include="Services\Data\IDataSerializer.cs" />
-    <Compile Include="Services\Data\IDataService.cs" />
-    <Compile Include="Services\Data\IDirectoryManipulator.cs" />
-    <Compile Include="Services\Data\IFileManipulator.cs" />
-    <Compile Include="Services\Data\IAppNameProvider.cs" />
-    <Compile Include="Services\Data\IPersistentStore.cs" />
-    <Compile Include="Services\Data\JsonSerializer.cs" />
-    <Compile Include="Utilities\ThrowHelper.BootstrapperBase.cs" />
-    <Compile Include="Utilities\ThrowHelper.ConstructorMap.cs" />
-    <Compile Include="Utilities\ThrowHelper.FromRetrieverRetrievalStrategy.cs" />
-    <Compile Include="Utilities\ThrowHelper.ServiceFactory.cs" />
-    <Compile Include="Utilities\ThrowHelper.Throw.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
