@@ -64,7 +64,7 @@
 
             foreach (Type type in matchingAssemblyTypes)
             {
-                RegisterSingleton(typeof(TService), type, key);
+                RegisterSingleton(serviceType, type, key);
             }
         }
 
