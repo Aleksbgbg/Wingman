@@ -47,25 +47,7 @@
         /// <inheritdoc/>
         public void RegisterAllTypesOf<TService>(Assembly assembly, Func<Type, bool> matchFilter = null, string key = null)
         {
-            Type serviceType = typeof(TService);
-
-            bool IsMatchNoFilter(Type type)
-            {
-                return serviceType.IsAssignableFrom(type) && !type.IsAbstract;
-            }
-
-            bool IsMatchWithFilter(Type type)
-            {
-                return IsMatchNoFilter(type) && matchFilter(type);
-            }
-
-            Type[] assemblyTypes = assembly.GetTypes();
-            IEnumerable<Type> matchingAssemblyTypes = matchFilter == null ? assemblyTypes.Where(IsMatchNoFilter) : assemblyTypes.Where(IsMatchWithFilter);
-
-            foreach (Type type in matchingAssemblyTypes)
-            {
-                RegisterSingleton(serviceType, type, key);
-            }
+            DependencyRegistrarExtensions.RegisterAllTypesOf<TService>(this, assembly, matchFilter, key);
         }
 
         /// <inheritdoc/>
