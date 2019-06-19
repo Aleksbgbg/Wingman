@@ -14,7 +14,7 @@
 
         public void Insert(Type interfaceType, IServiceRetrievalStrategy serviceRetrievalStrategy)
         {
-            _strategies[interfaceType] = serviceRetrievalStrategy;
+            _strategies.Add(interfaceType, serviceRetrievalStrategy);
         }
 
         public IServiceRetrievalStrategy RetrieveMappingFor(Type interfaceType)

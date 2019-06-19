@@ -13,7 +13,7 @@
 
         public void InsertHandler(ServiceEntry serviceEntry, IServiceLocationStrategy serviceLocationStrategy)
         {
-            _handlers[serviceEntry] = serviceLocationStrategy;
+            _handlers.Add(serviceEntry, serviceLocationStrategy);
         }
 
         public void RemoveHandler(ServiceEntry serviceEntry)
