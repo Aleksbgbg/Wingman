@@ -130,23 +130,18 @@
 
         private void SetupHasHandler(bool expectedResult)
         {
-            _serviceEntryStoreMock.Setup(store => store.HasHandler(MatchesDefaultServiceEntry()))
+            _serviceEntryStoreMock.Setup(store => store.HasHandler(DefaultServiceEntry))
                                   .Returns(expectedResult);
         }
 
         private void VerifyRegisterStrategy()
         {
-            _serviceEntryStoreMock.Verify(store => store.InsertHandler(MatchesDefaultServiceEntry(), _locationStrategy));
+            _serviceEntryStoreMock.Verify(store => store.InsertHandler(DefaultServiceEntry, _locationStrategy));
         }
 
         private void VerifyUnregisterHandler()
         {
-            _serviceEntryStoreMock.Verify(store => store.RemoveHandler(MatchesDefaultServiceEntry()));
-        }
-
-        private static ServiceEntry MatchesDefaultServiceEntry()
-        {
-            return It.Is<ServiceEntry>(entry => entry.GetHashCode() == DefaultServiceEntry.GetHashCode());
+            _serviceEntryStoreMock.Verify(store => store.RemoveHandler(DefaultServiceEntry));
         }
 
         private static ServiceEntry DefaultServiceEntry { get; } = new ServiceEntry(typeof(IService), ServiceKey);

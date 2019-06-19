@@ -54,6 +54,39 @@
             Assert.NotEqual(hashCode0, hashCode1);
         }
 
+        [Fact]
+        public void TestEqualsNull()
+        {
+            ServiceEntry serviceEntry0 = new ServiceEntry(typeof(IService), "SomeKey");
+            ServiceEntry serviceEntry1 = null;
+
+            bool equals = serviceEntry0.Equals(serviceEntry1);
+
+            Assert.False(equals);
+        }
+
+        [Fact]
+        public void TestEqualsTrue()
+        {
+            ServiceEntry serviceEntry0 = new ServiceEntry(typeof(IService), "SomeKey");
+            ServiceEntry serviceEntry1 = new ServiceEntry(typeof(IService), "SomeKey");
+
+            bool equals = serviceEntry0.Equals(serviceEntry1);
+
+            Assert.True(equals);
+        }
+
+        [Fact]
+        public void TestEqualsFalse()
+        {
+            ServiceEntry serviceEntry0 = new ServiceEntry(typeof(IService), "SomeKey");
+            ServiceEntry serviceEntry1 = new ServiceEntry(typeof(IService1), "SomeKey");
+
+            bool equals = serviceEntry0.Equals(serviceEntry1);
+
+            Assert.False(equals);
+        }
+
         private interface IService { }
 
         private interface IService1 { }

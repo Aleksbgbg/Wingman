@@ -14,6 +14,11 @@
             _key = key;
         }
 
+        public override bool Equals(object obj)
+        {
+            return (obj is ServiceEntry serviceEntry) && (GetHashCode() == serviceEntry.GetHashCode());
+        }
+
         public override int GetHashCode()
         {
             unchecked
