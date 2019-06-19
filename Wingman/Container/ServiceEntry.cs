@@ -23,8 +23,8 @@
         {
             unchecked
             {
-                const int prime1 = 17;
-                const int prime2 = 23;
+                const int prime1 = 43;
+                const int prime2 = 47;
 
                 int hash = prime1;
 
