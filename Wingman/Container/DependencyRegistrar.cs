@@ -2,6 +2,8 @@
 {
     using System;
 
+    using Wingman.Utilities;
+
     /// <summary> Default implementation of <see cref="IDependencyRegistrar"/>. </summary>
     public class DependencyRegistrar : DependencyRegistrarBase
     {
@@ -47,7 +49,14 @@
 
         private void InsertHandler(Type service, string key, IServiceLocationStrategy serviceLocationStrategy)
         {
-            _serviceEntryStore.InsertHandler(MakeServiceEntry(service, key), serviceLocationStrategy);
+            ServiceEntry serviceEntry = MakeServiceEntry(service, key);
+
+            if (_serviceEntryStore.HasHandler(serviceEntry))
+            {
+                ThrowHelper.Throw.DependencyRegistrar.DuplicateRegistration(service);
+            }
+
+            _serviceEntryStore.InsertHandler(serviceEntry, serviceLocationStrategy);
         }
 
         private static ServiceEntry MakeServiceEntry(Type serviceType, string key)

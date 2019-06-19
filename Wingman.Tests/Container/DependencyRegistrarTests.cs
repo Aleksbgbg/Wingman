@@ -102,6 +102,17 @@
             Assert.False(hasHandler);
         }
 
+        [Fact]
+        public void TestDuplicateRegistrationThrows()
+        {
+            SetupHasHandler(true);
+
+            Assert.Throws<InvalidOperationException>(() => _dependencyRegistrar.RegisterInstance(typeof(IService), null, ServiceKey));
+            Assert.Throws<InvalidOperationException>(() => _dependencyRegistrar.RegisterSingleton(typeof(IService), typeof(Service), ServiceKey));
+            Assert.Throws<InvalidOperationException>(() => _dependencyRegistrar.RegisterPerRequest(typeof(IService), typeof(Service), ServiceKey));
+            Assert.Throws<InvalidOperationException>(() => _dependencyRegistrar.RegisterHandler(typeof(IService), _ => new object(), ServiceKey));
+        }
+
         private void SetupCreateInstance(IService service)
         {
             SetupReturnsLocationStrategy(factory => factory.CreateInstance(service));
