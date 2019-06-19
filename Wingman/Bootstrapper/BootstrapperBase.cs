@@ -18,7 +18,7 @@
 
         private readonly IDependencyRetriever _dependencyRetriever;
 
-        private protected BootstrapperBase()
+        protected BootstrapperBase()
         {
             DependencyContainerCreation dependencyContainerCreation = DependencyContainerFactory.Create();
 
@@ -29,7 +29,7 @@
         }
 
 #if !DEBUG
-        private protected BootstrapperBase(IDependencyRegistrar dependencyRegistrar, IDependencyRetriever dependencyRetriever)
+        protected BootstrapperBase(IDependencyRegistrar dependencyRegistrar, IDependencyRetriever dependencyRetriever)
         {
             _dependencyRegistrar = dependencyRegistrar;
             _dependencyRetriever = dependencyRetriever;
@@ -39,7 +39,7 @@
 #endif
 
 #if DEBUG
-        private protected BootstrapperBase(IDependencyRegistrar dependencyRegistrar, IDependencyRetriever dependencyRetriever)
+        protected BootstrapperBase(IDependencyRegistrar dependencyRegistrar, IDependencyRetriever dependencyRetriever)
         {
             _dependencyRegistrar = dependencyRegistrar;
             _dependencyRetriever = dependencyRetriever;
