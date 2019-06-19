@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal class ServiceEntry
+    internal class ServiceEntry : IEquatable<ServiceEntry>
     {
         private readonly Type _serviceType;
 
@@ -14,9 +14,24 @@
             _key = key;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object other)
         {
-            return (obj is ServiceEntry serviceEntry) && (GetHashCode() == serviceEntry.GetHashCode());
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((ServiceEntry)other);
         }
 
         public override int GetHashCode()
@@ -33,6 +48,21 @@
 
                 return hash;
             }
+        }
+
+        public bool Equals(ServiceEntry other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return _serviceType == other._serviceType && string.Equals(_key, other._key);
         }
     }
 }
