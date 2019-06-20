@@ -4,7 +4,7 @@
 
     using Wingman.DI;
 
-    internal class DiStrategy : IServiceLocationStrategy
+    internal class DiStrategy : IDiStrategy
     {
         private readonly IConstructor _targetConstructor;
 
