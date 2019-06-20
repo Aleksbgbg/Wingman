@@ -3,6 +3,7 @@
     using System;
 
     using Wingman.Container;
+    using Wingman.DI;
     using Wingman.ServiceFactory.Strategies.FromRetriever;
     using Wingman.ServiceFactory.Strategies.PerRequest;
 

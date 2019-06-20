@@ -2,6 +2,8 @@
 {
     using System;
 
+    using Wingman.Container.Entries;
+    using Wingman.Container.Strategies;
     using Wingman.Utilities;
 
     /// <summary> Default implementation of <see cref="IDependencyRegistrar"/>. </summary>

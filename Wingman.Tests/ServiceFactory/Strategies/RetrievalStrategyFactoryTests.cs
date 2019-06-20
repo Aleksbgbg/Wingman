@@ -2,6 +2,7 @@
 {
     using Moq;
 
+    using Wingman.DI;
     using Wingman.ServiceFactory.Strategies;
     using Wingman.ServiceFactory.Strategies.FromRetriever;
     using Wingman.ServiceFactory.Strategies.PerRequest;

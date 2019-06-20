@@ -1,5 +1,7 @@
-﻿namespace Wingman.Container
+﻿namespace Wingman.Container.Entries
 {
+    using Wingman.Container.Strategies;
+
     internal interface IServiceEntryStore
     {
         bool HasHandler(ServiceEntry serviceEntry);

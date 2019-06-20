@@ -2,6 +2,8 @@
 {
     using System;
 
+    using Wingman.DI;
+
     internal class PerRequestRetrievalStrategy : IServiceRetrievalStrategy
     {
         private readonly IArgumentBuilderFactory _argumentBuilderFactory;

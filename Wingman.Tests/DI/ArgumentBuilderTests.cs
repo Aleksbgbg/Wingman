@@ -1,14 +1,13 @@
-﻿namespace Wingman.Tests.ServiceFactory.Strategies.PerRequest
+﻿namespace Wingman.Tests.DI
 {
     using System.Collections.Generic;
     using System.Linq;
 
-    using Extensions;
-
     using Moq;
 
     using Wingman.Container;
-    using Wingman.ServiceFactory.Strategies.PerRequest;
+    using Wingman.DI;
+    using Wingman.Tests.Extensions;
 
     using Xunit;
 

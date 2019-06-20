@@ -1,8 +1,9 @@
-﻿namespace Wingman.Tests.Container
+﻿namespace Wingman.Tests.Container.Strategies
 {
     using Moq;
 
     using Wingman.Container;
+    using Wingman.Container.Strategies;
 
     using Xunit;
 

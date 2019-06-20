@@ -1,6 +1,6 @@
-﻿namespace Wingman.Tests.Container
+﻿namespace Wingman.Tests.Container.Entries
 {
-    using Wingman.Container;
+    using Wingman.Container.Entries;
 
     using Xunit;
 

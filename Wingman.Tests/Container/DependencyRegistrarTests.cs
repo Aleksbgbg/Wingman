@@ -6,6 +6,8 @@
     using Moq;
 
     using Wingman.Container;
+    using Wingman.Container.Entries;
+    using Wingman.Container.Strategies;
 
     using Xunit;
 

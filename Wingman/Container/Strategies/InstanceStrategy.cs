@@ -1,4 +1,4 @@
-﻿namespace Wingman.Container
+﻿namespace Wingman.Container.Strategies
 {
     internal class InstanceStrategy : IServiceLocationStrategy
     {

@@ -1,6 +1,8 @@
-﻿namespace Wingman.Container
+﻿namespace Wingman.Container.Entries
 {
     using System.Collections.Generic;
+
+    using Wingman.Container.Strategies;
 
     internal class ServiceEntryStore : IServiceEntryStore
     {
