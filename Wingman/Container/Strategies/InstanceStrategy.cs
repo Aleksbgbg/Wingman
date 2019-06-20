@@ -9,7 +9,7 @@
             _implementation = implementation;
         }
 
-        public object LocateService(IDependencyRetriever dependencyRetriever)
+        public object LocateService()
         {
             return _implementation;
         }

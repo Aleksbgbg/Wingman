@@ -12,7 +12,7 @@
             object expectedService = new object();
             InstanceStrategy strategy = new InstanceStrategy(expectedService);
 
-            object actualService = strategy.LocateService(null);
+            object actualService = strategy.LocateService();
 
             Assert.Equal(expectedService, actualService);
         }

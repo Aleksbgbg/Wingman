@@ -4,16 +4,19 @@
 
     public class HandlerStrategy : IServiceLocationStrategy
     {
+        private readonly IDependencyRetriever _dependencyRetriever;
+
         private readonly Func<IDependencyRetriever, object> _handler;
 
-        public HandlerStrategy(Func<IDependencyRetriever, object> handler)
+        public HandlerStrategy(IDependencyRetriever dependencyRetriever, Func<IDependencyRetriever, object> handler)
         {
+            _dependencyRetriever = dependencyRetriever;
             _handler = handler;
         }
 
-        public object LocateService(IDependencyRetriever dependencyRetriever)
+        public object LocateService()
         {
-            return _handler(dependencyRetriever);
+            return _handler(_dependencyRetriever);
         }
     }
 }

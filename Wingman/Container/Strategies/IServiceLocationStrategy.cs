@@ -2,6 +2,6 @@
 {
     internal interface IServiceLocationStrategy
     {
-        object LocateService(IDependencyRetriever dependencyRetriever);
+        object LocateService();
     }
 }

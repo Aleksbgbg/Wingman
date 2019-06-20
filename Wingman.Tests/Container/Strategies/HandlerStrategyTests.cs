@@ -1,5 +1,7 @@
 ﻿namespace Wingman.Tests.Container.Strategies
 {
+    using System;
+
     using Moq;
 
     using Wingman.Container;
@@ -21,7 +23,7 @@
         {
             object expectedObject = new object();
 
-            object actualObject = new HandlerStrategy(_ => expectedObject).LocateService(null);
+            object actualObject = HandlerStrategy(_ => expectedObject).LocateService();
 
             Assert.Same(expectedObject, actualObject);
         }
@@ -31,9 +33,14 @@
         {
             IDependencyRetriever actualRetriever = null;
 
-            new HandlerStrategy(passedInRetriever => actualRetriever = passedInRetriever).LocateService(_dependencyRetrieverMock.Object);
+            HandlerStrategy(passedInRetriever => actualRetriever = passedInRetriever).LocateService();
 
             Assert.Same(_dependencyRetrieverMock.Object, actualRetriever);
+        }
+
+        private HandlerStrategy HandlerStrategy(Func<IDependencyRetriever, object> handler)
+        {
+            return new HandlerStrategy(_dependencyRetrieverMock.Object, handler);
         }
     }
 }
