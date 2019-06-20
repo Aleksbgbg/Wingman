@@ -19,11 +19,11 @@
 
             _dependencyRegistrar = dependencyContainerCreation.Registrar;
 
-            ServiceFactoryPair serviceFactoryPair = ServiceFactoryFactory.Create(dependencyContainerCreation.Registrar,
-                                                                                 dependencyContainerCreation.Retriever);
+            ServiceFactoryCreation serviceFactoryCreation = ServiceFactoryFactory.Create(dependencyContainerCreation.Registrar,
+                                                                                         dependencyContainerCreation.Retriever);
 
-            _serviceFactoryRegistrar = serviceFactoryPair.Registrar;
-            _serviceFactory = serviceFactoryPair.Factory;
+            _serviceFactoryRegistrar = serviceFactoryCreation.Registrar;
+            _serviceFactory = serviceFactoryCreation.Factory;
         }
 
         [Fact]

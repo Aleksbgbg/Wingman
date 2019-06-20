@@ -63,16 +63,16 @@
 
         protected sealed override void Configure()
         {
-            ServiceFactoryPair serviceFactoryPair = ServiceFactoryFactory.Create(_dependencyRegistrar, _dependencyRetriever);
+            ServiceFactoryCreation serviceFactoryCreation = ServiceFactoryFactory.Create(_dependencyRegistrar, _dependencyRetriever);
 
-            RegisterCommonDependencies(serviceFactoryPair.Factory);
+            RegisterCommonDependencies(serviceFactoryCreation.Factory);
 
             RegisterViewModels(_dependencyRegistrar);
             CheckRootViewModelRegistered();
 
             RegisterServices(_dependencyRegistrar);
-            RegisterFactoryViewModels(serviceFactoryPair.Registrar);
-            RegisterFactoryServices(serviceFactoryPair.Registrar);
+            RegisterFactoryViewModels(serviceFactoryCreation.Registrar);
+            RegisterFactoryServices(serviceFactoryCreation.Registrar);
         }
 
         /// <summary> Override to register ViewModels in the provided dependency registrar. Required as ViewModels are always needed. </summary>

@@ -1,8 +1,8 @@
 ﻿namespace Wingman.ServiceFactory
 {
-    public class ServiceFactoryPair
+    public class ServiceFactoryCreation
     {
-        public ServiceFactoryPair(IServiceFactoryRegistrar registrar, IServiceFactory factory)
+        public ServiceFactoryCreation(IServiceFactoryRegistrar registrar, IServiceFactory factory)
         {
             Registrar = registrar;
             Factory = factory;
