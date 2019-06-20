@@ -11,7 +11,7 @@
     {
         private readonly Mock<IArgumentBuilder> _argumentBuilderMock;
 
-        private readonly Mock<IArgumentBuilderFactory> _argumentBuilderFactoryMock;
+        private readonly Mock<IUserArgumentBuilderFactory> _argumentBuilderFactoryMock;
 
         private readonly Mock<IConstructor> _constructorMock;
 
@@ -37,7 +37,7 @@
             _argumentBuilderMock.Setup(builder => builder.BuildArguments())
                                 .Returns(_resolvedArguments);
 
-            _argumentBuilderFactoryMock = new Mock<IArgumentBuilderFactory>();
+            _argumentBuilderFactoryMock = new Mock<IUserArgumentBuilderFactory>();
             _argumentBuilderFactoryMock.Setup(factory => factory.CreateBuilderFor(_constructorMock.Object, _userArguments))
                                        .Returns(_argumentBuilderMock.Object);
 

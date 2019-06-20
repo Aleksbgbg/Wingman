@@ -13,7 +13,7 @@
 
             return new ServiceFactoryCreation(new ServiceFactoryRegistrar(dependencyRegistrar,
                                                                           new RetrievalStrategyFactory(dependencyRetriever,
-                                                                                                       new ArgumentBuilderFactory(dependencyRetriever),
+                                                                                                       new UserArgumentBuilderFactory(dependencyRetriever),
                                                                                                        new ConstructorMapFactory(new ConstructorFactory())
                                                                           ),
                                                                           retrievalStrategyStore

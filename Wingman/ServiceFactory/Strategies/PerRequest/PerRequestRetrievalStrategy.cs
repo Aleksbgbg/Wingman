@@ -6,13 +6,13 @@
 
     internal class PerRequestRetrievalStrategy : IServiceRetrievalStrategy
     {
-        private readonly IArgumentBuilderFactory _argumentBuilderFactory;
+        private readonly IUserArgumentBuilderFactory _userArgumentBuilderFactory;
 
         private readonly IConstructorMap _constructorMap;
 
-        public PerRequestRetrievalStrategy(IArgumentBuilderFactory argumentBuilderFactory, IConstructorMapFactory constructorMapFactory, Type concreteType)
+        public PerRequestRetrievalStrategy(IUserArgumentBuilderFactory userArgumentBuilderFactory, IConstructorMapFactory constructorMapFactory, Type concreteType)
         {
-            _argumentBuilderFactory = argumentBuilderFactory;
+            _userArgumentBuilderFactory = userArgumentBuilderFactory;
             _constructorMap = constructorMapFactory.CreateConstructorMap(concreteType);
         }
 
@@ -20,8 +20,8 @@
         {
             IConstructor constructor = _constructorMap.FindBestFitForArguments(arguments);
 
-            object[] resolvedArguments = _argumentBuilderFactory.CreateBuilderFor(constructor, arguments)
-                                                                .BuildArguments();
+            object[] resolvedArguments = _userArgumentBuilderFactory.CreateBuilderFor(constructor, arguments)
+                                                                    .BuildArguments();
 
             return constructor.Build(resolvedArguments);
         }

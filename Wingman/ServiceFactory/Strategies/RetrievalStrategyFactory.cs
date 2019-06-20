@@ -11,14 +11,14 @@
     {
         private readonly IDependencyRetriever _dependencyRetriever;
 
-        private readonly IArgumentBuilderFactory _argumentBuilderFactory;
+        private readonly IUserArgumentBuilderFactory _userArgumentBuilderFactory;
 
         private readonly IConstructorMapFactory _constructorMapFactory;
 
-        public RetrievalStrategyFactory(IDependencyRetriever dependencyRetriever, IArgumentBuilderFactory argumentBuilderFactory, IConstructorMapFactory constructorMapFactory)
+        public RetrievalStrategyFactory(IDependencyRetriever dependencyRetriever, IUserArgumentBuilderFactory userArgumentBuilderFactory, IConstructorMapFactory constructorMapFactory)
         {
             _dependencyRetriever = dependencyRetriever;
-            _argumentBuilderFactory = argumentBuilderFactory;
+            _userArgumentBuilderFactory = userArgumentBuilderFactory;
             _constructorMapFactory = constructorMapFactory;
         }
 
@@ -29,7 +29,7 @@
 
         public IServiceRetrievalStrategy CreatePerRequest(Type concreteType)
         {
-            return new PerRequestRetrievalStrategy(_argumentBuilderFactory, _constructorMapFactory, concreteType);
+            return new PerRequestRetrievalStrategy(_userArgumentBuilderFactory, _constructorMapFactory, concreteType);
         }
     }
 }

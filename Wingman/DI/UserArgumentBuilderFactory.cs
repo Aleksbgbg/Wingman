@@ -2,11 +2,11 @@
 {
     using Wingman.Container;
 
-    internal class ArgumentBuilderFactory : IArgumentBuilderFactory
+    internal class UserArgumentBuilderFactory : IUserArgumentBuilderFactory
     {
         private readonly IDependencyRetriever _dependencyRetriever;
 
-        public ArgumentBuilderFactory(IDependencyRetriever dependencyRetriever)
+        public UserArgumentBuilderFactory(IDependencyRetriever dependencyRetriever)
         {
             _dependencyRetriever = dependencyRetriever;
         }
