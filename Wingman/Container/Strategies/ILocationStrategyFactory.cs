@@ -4,7 +4,7 @@
 
     internal interface ILocationStrategyFactory
     {
-        IServiceLocationStrategy CreateInstance(object instance);
+        IServiceLocationStrategy CreateInstance(object implementation);
 
         IServiceLocationStrategy CreateSingleton(Type implementation);
 
