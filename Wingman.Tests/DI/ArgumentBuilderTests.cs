@@ -1,13 +1,13 @@
 ﻿namespace Wingman.Tests.DI
 {
     using System.Collections.Generic;
-    using System.Linq;
 
     using Moq;
 
     using Wingman.Container;
     using Wingman.DI;
     using Wingman.Tests.Extensions;
+    using Wingman.Tests.Helpers.DI;
 
     using Xunit;
 
@@ -38,8 +38,8 @@
         public void ResolvesDependenciesBasedOnArgumentTypes()
         {
             const int dependencyCount = 3;
+            object[] dependencies = SetupDependencies(dependencyCount);
             object[] userArguments = SetupNArgumentsWithNDependencies(4, dependencyCount);
-            object[] dependencies = SetupDependencies(dependencyCount).Cast<object>().ToArray();
 
             HashSet<object> arguments = BuildArguments(userArguments).ToHashSetInternal();
 
@@ -55,24 +55,9 @@
             return new object[count - dependencies];
         }
 
-        private DependencyType[] SetupDependencies(int count)
+        private object[] SetupDependencies(int count)
         {
-            DependencyType[] dependencies = new DependencyType[count];
-
-            var sequenceSetup = _dependencyRetrieverMock.SetupSequence(retriever => retriever.GetInstance(typeof(DependencyType), null));
-
-            for (int index = 0; index < count; ++index)
-            {
-                DependencyType dependency = new DependencyType();
-
-                _constructorMock.Setup(constructor => constructor.ParameterTypeAt(index))
-                                .Returns(typeof(DependencyType));
-
-                sequenceSetup.Returns(dependency);
-                dependencies[index] = dependency;
-            }
-
-            return dependencies;
+            return DiHelper.SetupDependencies(_constructorMock, _dependencyRetrieverMock, count);
         }
 
         private object[] BuildArguments(object[] userArguments)
@@ -82,7 +67,5 @@
                                        userArguments)
                     .BuildArguments();
         }
-
-        private class DependencyType { }
     }
 }
