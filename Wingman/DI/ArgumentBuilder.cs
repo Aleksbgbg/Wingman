@@ -27,8 +27,8 @@
             }
             else
             {
-                int dependencyCount = _constructor.ParameterCount - _userArguments.Length;
-                _arguments = BuildArguments(dependencyCount);
+                _arguments = new object[_constructor.ParameterCount];
+                FillArguments();
             }
 
             return _arguments;
@@ -39,14 +39,12 @@
             return _userArguments.Length == _constructor.ParameterCount;
         }
 
-        private object[] BuildArguments(int dependencyCount)
+        private void FillArguments()
         {
-            _arguments = new object[_constructor.ParameterCount];
+            int dependencyCount = _constructor.ParameterCount - _userArguments.Length;
 
             ResolveDependencies(dependencyCount);
             FillUserArguments(dependencyCount);
-
-            return _arguments;
         }
 
         private void ResolveDependencies(int dependencyCount)
