@@ -3,13 +3,13 @@
     using Wingman.Container;
     using Wingman.DI.Constructor;
 
-    internal class ArgumentBuilder : ArgumentBuilderBase
+    internal class UserArgumentBuilder : ArgumentBuilderBase
     {
         private readonly IConstructor _constructor;
 
         private readonly object[] _userArguments;
 
-        public ArgumentBuilder(IDependencyRetriever dependencyRetriever, IConstructor constructor, object[] userArguments) : base(dependencyRetriever, constructor)
+        public UserArgumentBuilder(IDependencyRetriever dependencyRetriever, IConstructor constructor, object[] userArguments) : base(dependencyRetriever, constructor)
         {
             _constructor = constructor;
             _userArguments = userArguments;

@@ -2,7 +2,7 @@
 {
     using Wingman.DI.Constructor;
 
-    internal interface IArgumentBuilderFactory
+    internal interface IDiArgumentBuilderFactory
     {
         IArgumentBuilder CreateBuilderFor(IConstructor constructor);
     }

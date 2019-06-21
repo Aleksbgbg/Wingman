@@ -10,17 +10,17 @@
     {
         private readonly IConstructorCandidateEvaluator _constructorCandidateEvaluator;
 
-        private readonly IArgumentBuilderFactory _argumentBuilderFactory;
+        private readonly IDiArgumentBuilderFactory _diArgumentBuilderFactory;
 
         private readonly IDependencyRetriever _dependencyRetriever;
 
         public LocationStrategyFactory(IConstructorCandidateEvaluator constructorCandidateEvaluator,
-                                       IArgumentBuilderFactory argumentBuilderFactory,
+                                       IDiArgumentBuilderFactory diArgumentBuilderFactory,
                                        IDependencyRetriever dependencyRetriever
         )
         {
             _constructorCandidateEvaluator = constructorCandidateEvaluator;
-            _argumentBuilderFactory = argumentBuilderFactory;
+            _diArgumentBuilderFactory = diArgumentBuilderFactory;
             _dependencyRetriever = dependencyRetriever;
         }
 
@@ -46,7 +46,7 @@
 
         private DiStrategy CreateDiStrategy(Type implementation)
         {
-            return new DiStrategy(_constructorCandidateEvaluator, _argumentBuilderFactory, implementation);
+            return new DiStrategy(_constructorCandidateEvaluator, _diArgumentBuilderFactory, implementation);
         }
     }
 }

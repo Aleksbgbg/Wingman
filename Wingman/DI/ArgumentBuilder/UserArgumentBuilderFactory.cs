@@ -14,7 +14,7 @@
 
         public IArgumentBuilder CreateBuilderFor(IConstructor constructor, object[] userArguments)
         {
-            return new ArgumentBuilder(_dependencyRetriever, constructor, userArguments);
+            return new UserArgumentBuilder(_dependencyRetriever, constructor, userArguments);
         }
     }
 }

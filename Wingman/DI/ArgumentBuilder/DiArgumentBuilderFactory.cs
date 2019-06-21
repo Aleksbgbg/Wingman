@@ -3,11 +3,11 @@
     using Wingman.Container;
     using Wingman.DI.Constructor;
 
-    internal class ArgumentBuilderFactory : IArgumentBuilderFactory
+    internal class DiArgumentBuilderFactory : IDiArgumentBuilderFactory
     {
         private readonly IDependencyRetriever _dependencyRetriever;
 
-        public ArgumentBuilderFactory(IDependencyRetriever dependencyRetriever)
+        public DiArgumentBuilderFactory(IDependencyRetriever dependencyRetriever)
         {
             _dependencyRetriever = dependencyRetriever;
         }

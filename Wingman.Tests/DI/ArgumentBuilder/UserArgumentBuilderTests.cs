@@ -12,13 +12,13 @@
 
     using Xunit;
 
-    public class ArgumentBuilderTests
+    public class UserArgumentBuilderTests
     {
         private readonly Mock<IDependencyRetriever> _dependencyRetrieverMock;
 
         private readonly Mock<IConstructor> _constructorMock;
 
-        public ArgumentBuilderTests()
+        public UserArgumentBuilderTests()
         {
             _dependencyRetrieverMock = new Mock<IDependencyRetriever>();
 
@@ -63,9 +63,9 @@
 
         private object[] BuildArguments(object[] userArguments)
         {
-            return new ArgumentBuilder(_dependencyRetrieverMock.Object,
-                                       _constructorMock.Object,
-                                       userArguments)
+            return new UserArgumentBuilder(_dependencyRetrieverMock.Object,
+                                           _constructorMock.Object,
+                                           userArguments)
                     .BuildArguments();
         }
     }

@@ -12,10 +12,10 @@
 
         private readonly IArgumentBuilder _argumentBuilder;
 
-        internal DiStrategy(IConstructorCandidateEvaluator constructorCandidateEvaluator, IArgumentBuilderFactory argumentBuilderFactory, Type implementation)
+        internal DiStrategy(IConstructorCandidateEvaluator constructorCandidateEvaluator, IDiArgumentBuilderFactory diArgumentBuilderFactory, Type implementation)
         {
             _targetConstructor = constructorCandidateEvaluator.FindBestConstructorForDi(implementation);
-            _argumentBuilder = argumentBuilderFactory.CreateBuilderFor(_targetConstructor);
+            _argumentBuilder = diArgumentBuilderFactory.CreateBuilderFor(_targetConstructor);
         }
 
         public object LocateService()

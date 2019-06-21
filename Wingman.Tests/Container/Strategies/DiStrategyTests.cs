@@ -17,7 +17,7 @@
 
         private readonly Mock<IConstructorCandidateEvaluator> _constructorEvaluatorMock;
 
-        private readonly Mock<IArgumentBuilderFactory> _argumentBuilderFactoryMock;
+        private readonly Mock<IDiArgumentBuilderFactory> _argumentBuilderFactoryMock;
 
         private Mock<IConstructor> _constructorMock;
 
@@ -25,7 +25,7 @@
         {
             _constructorEvaluatorMock = new Mock<IConstructorCandidateEvaluator>();
 
-            _argumentBuilderFactoryMock = new Mock<IArgumentBuilderFactory>();
+            _argumentBuilderFactoryMock = new Mock<IDiArgumentBuilderFactory>();
         }
 
         [Fact]
