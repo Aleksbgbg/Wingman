@@ -1,6 +1,7 @@
-﻿namespace Wingman.DI
+﻿namespace Wingman.DI.ArgumentBuilder
 {
     using Wingman.Container;
+    using Wingman.DI.Constructor;
 
     internal class ArgumentBuilder : ArgumentBuilderBase
     {

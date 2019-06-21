@@ -1,9 +1,10 @@
-﻿namespace Wingman.Tests.DI
+﻿namespace Wingman.Tests.DI.ArgumentBuilder
 {
     using Moq;
 
     using Wingman.Container;
-    using Wingman.DI;
+    using Wingman.DI.ArgumentBuilder;
+    using Wingman.DI.Constructor;
     using Wingman.Tests.Helpers.DI;
 
     using Xunit;

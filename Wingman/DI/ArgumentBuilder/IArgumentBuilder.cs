@@ -1,4 +1,4 @@
-﻿namespace Wingman.DI
+﻿namespace Wingman.DI.ArgumentBuilder
 {
     internal interface IArgumentBuilder
     {

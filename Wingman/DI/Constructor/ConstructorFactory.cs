@@ -1,4 +1,4 @@
-﻿namespace Wingman.DI
+﻿namespace Wingman.DI.Constructor
 {
     using System.Reflection;
 

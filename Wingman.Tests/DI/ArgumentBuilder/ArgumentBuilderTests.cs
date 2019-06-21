@@ -1,11 +1,12 @@
-﻿namespace Wingman.Tests.DI
+﻿namespace Wingman.Tests.DI.ArgumentBuilder
 {
     using System.Collections.Generic;
 
     using Moq;
 
     using Wingman.Container;
-    using Wingman.DI;
+    using Wingman.DI.ArgumentBuilder;
+    using Wingman.DI.Constructor;
     using Wingman.Tests.Extensions;
     using Wingman.Tests.Helpers.DI;
 

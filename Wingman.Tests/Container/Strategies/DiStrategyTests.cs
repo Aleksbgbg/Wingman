@@ -6,6 +6,8 @@
 
     using Wingman.Container.Strategies;
     using Wingman.DI;
+    using Wingman.DI.ArgumentBuilder;
+    using Wingman.DI.Constructor;
 
     using Xunit;
 

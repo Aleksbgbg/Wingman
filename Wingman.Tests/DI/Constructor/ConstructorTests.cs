@@ -1,11 +1,11 @@
-﻿namespace Wingman.Tests.DI
+﻿namespace Wingman.Tests.DI.Constructor
 {
     using System;
     using System.Reflection;
 
     using Moq;
 
-    using Wingman.DI;
+    using Wingman.DI.Constructor;
 
     using Xunit;
 

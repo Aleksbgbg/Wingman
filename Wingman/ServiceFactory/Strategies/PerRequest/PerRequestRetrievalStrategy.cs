@@ -3,6 +3,8 @@
     using System;
 
     using Wingman.DI;
+    using Wingman.DI.ArgumentBuilder;
+    using Wingman.DI.Constructor;
 
     internal class PerRequestRetrievalStrategy : IServiceRetrievalStrategy
     {

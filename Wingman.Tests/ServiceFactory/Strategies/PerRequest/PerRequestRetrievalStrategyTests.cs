@@ -3,6 +3,8 @@
     using Moq;
 
     using Wingman.DI;
+    using Wingman.DI.ArgumentBuilder;
+    using Wingman.DI.Constructor;
     using Wingman.ServiceFactory.Strategies.PerRequest;
 
     using Xunit;

@@ -6,6 +6,7 @@
 
     using Wingman.Container;
     using Wingman.DI;
+    using Wingman.DI.Constructor;
 
     internal static class DiHelper
     {
