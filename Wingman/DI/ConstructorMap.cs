@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-    using System.Reflection;
 
     using Wingman.Utilities;
 
@@ -10,11 +9,10 @@
     {
         private readonly IConstructor[] _constructors;
 
-        internal ConstructorMap(IConstructorFactory constructorFactory, Type concreteType)
+        internal ConstructorMap(IConstructorQueryProvider constructorQueryProvider, Type concreteType)
         {
-            _constructors = concreteType.GetConstructors(BindingFlags.Public | BindingFlags.Instance)
-                                        .Select(constructorFactory.CreateConstructor)
-                                        .ToArray();
+            _constructors = constructorQueryProvider.QueryPublicInstanceConstructors(concreteType)
+                                                    .ToArray();
 
             if (_constructors.Length == 0)
             {

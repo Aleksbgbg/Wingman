@@ -14,7 +14,7 @@
             return new ServiceFactoryCreation(new ServiceFactoryRegistrar(dependencyRegistrar,
                                                                           new RetrievalStrategyFactory(dependencyRetriever,
                                                                                                        new UserArgumentBuilderFactory(dependencyRetriever),
-                                                                                                       new ConstructorMapFactory(new ConstructorFactory())
+                                                                                                       new ConstructorMapFactory(new ConstructorQueryProvider(new ConstructorFactory()))
                                                                           ),
                                                                           retrievalStrategyStore
                                               ),

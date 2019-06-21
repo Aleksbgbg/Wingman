@@ -1,7 +1,8 @@
 ﻿namespace Wingman.Tests.DI
 {
     using System;
-    using System.Reflection;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using Moq;
 
@@ -11,51 +12,39 @@
 
     public class ConstructorMapTests
     {
-        private readonly Mock<IConstructorFactory> _constructorFactory;
+        private readonly Mock<IConstructorQueryProvider> _constructorQueryProviderMock;
 
         private ConstructorMap _constructorMap;
 
         public ConstructorMapTests()
         {
-            _constructorFactory = new Mock<IConstructorFactory>();
+            _constructorQueryProviderMock = new Mock<IConstructorQueryProvider>();
         }
 
         [Fact]
-        public void MapsPublicConstructor()
+        public void TestCallsQueryPublicInstanceConstructors()
         {
-            MapConstructorsOf<ServiceWithPublicConstructor>();
+            SetupConstructorCount(1);
 
-            VerifyMakeConstructorCalled(Times.Once());
+            MapConstructors();
+
+            VerifyQueryPublicInstanceConstructors();
         }
 
         [Fact]
-        public void MapsMultiplePublicConstructorsAndNotHiddenOnes()
+        public void TestThrowsOnZeroConstructors()
         {
-            MapConstructorsOf<ServiceWithPublicAndHiddenConstructors>();
+            SetupConstructorCount(0);
 
-            VerifyMakeConstructorCalled(Times.Exactly(3));
-        }
-
-        [Fact]
-        public void DoesNotMapHiddenConstructor()
-        {
-            Action map = () => MapConstructorsOf<ServiceWithHiddenConstructor>();
+            Action map = () => MapConstructors();
 
             Assert.Throws<InvalidOperationException>(map);
         }
 
         [Fact]
-        public void DoesNotMapStaticConstructor()
+        public void TestFindBestConstructorCallsAcceptsArguments()
         {
-            Action map = () => MapConstructorsOf<ServiceWithStaticConstructor>();
-
-            Assert.Throws<InvalidOperationException>(map);
-        }
-
-        [Fact]
-        public void CallsAcceptsArguments()
-        {
-            var constructors = SetupConstructors(SetupConstructorAccepts());
+            var constructors = SetupConstructors(SetupConstructorEligible());
 
             IConstructor constructor = FindBestConstructor();
 
@@ -64,11 +53,11 @@
         }
 
         [Fact]
-        public void FindsCorrectConstructor()
+        public void TestFindsElibigbleConstructor()
         {
-            var constructors = SetupConstructors(SetupConstructorDoesNotAccept(),
-                                                 SetupConstructorDoesNotAccept(),
-                                                 SetupConstructorAccepts());
+            var constructors = SetupConstructors(SetupConstructorNotEligible(),
+                                                 SetupConstructorNotEligible(),
+                                                 SetupConstructorEligible());
 
             IConstructor constructor = FindBestConstructor();
 
@@ -76,70 +65,50 @@
         }
 
         [Fact]
-        public void ThrowsOnAmbiguousConstructors()
+        public void TestThrowsOnMultipleEligibleConstructors()
         {
-            SetupConstructors(SetupConstructorAccepts(),
-                              SetupConstructorAccepts());
+            SetupConstructors(SetupConstructorEligible(),
+                              SetupConstructorEligible());
 
             Action find = () => FindBestConstructor();
 
             Assert.Throws<InvalidOperationException>(find);
         }
 
-        private void MapConstructorsOf<T>()
+        private void SetupConstructorCount(int count)
         {
-            MapConstructors(typeof(T));
+            Mock<IEnumerable<IConstructor>> enumerableMock = new Mock<IEnumerable<IConstructor>>();
+            enumerableMock.Setup(enumerable => enumerable.GetEnumerator())
+                          .Returns(((IEnumerable<IConstructor>)new IConstructor[count]).GetEnumerator());
+
+            _constructorQueryProviderMock.Setup(provider => provider.QueryPublicInstanceConstructors(typeof(SomeType)))
+                                         .Returns(enumerableMock.Object);
         }
 
-        private void MapConstructors(int quantity)
+        private void MapConstructors()
         {
-            Mock<Type> typeMock = new Mock<Type>();
-            typeMock.Setup(type => type.GetConstructors(It.IsAny<BindingFlags>()))
-                    .Returns(new ConstructorInfo[quantity]);
-
-            MapConstructors(typeMock.Object);
+            _constructorMap = new ConstructorMap(_constructorQueryProviderMock.Object, typeof(SomeType));
         }
 
-        private void MapConstructors(Type type)
+        private void VerifyQueryPublicInstanceConstructors()
         {
-            _constructorMap = new ConstructorMap(_constructorFactory.Object, type);
-        }
-
-        private IConstructor FindBestConstructor()
-        {
-            return _constructorMap.FindBestFitForArguments(null);
-        }
-
-        private void VerifyMakeConstructorCalled(Times times)
-        {
-            _constructorFactory.Verify(factory => factory.CreateConstructor(It.IsAny<ConstructorInfo>()), times);
-        }
-
-        private static void VerifyAcceptsArgumentsCalled(Mock<IConstructor> constructorMock)
-        {
-            constructorMock.Verify(constructor => constructor.AcceptsUserArguments(null));
+            _constructorQueryProviderMock.Verify(provider => provider.QueryPublicInstanceConstructors(typeof(SomeType)), Times.Once);
         }
 
         private Mock<IConstructor>[] SetupConstructors(params Mock<IConstructor>[] constructors)
         {
-            var makeSequence = _constructorFactory.SetupSequence(factory => factory.CreateConstructor(It.IsAny<ConstructorInfo>()));
-
-            foreach (Mock<IConstructor> constructor in constructors)
-            {
-                makeSequence.Returns(constructor.Object);
-            }
-
-            MapConstructors(constructors.Length);
+            _constructorQueryProviderMock.Setup(provider => provider.QueryPublicInstanceConstructors(typeof(SomeType)))
+                                         .Returns(constructors.Select(constructor => constructor.Object).ToArray());
 
             return constructors;
         }
 
-        private static Mock<IConstructor> SetupConstructorAccepts()
+        private static Mock<IConstructor> SetupConstructorEligible()
         {
             return SetupConstructor(true);
         }
 
-        private static Mock<IConstructor> SetupConstructorDoesNotAccept()
+        private static Mock<IConstructor> SetupConstructorNotEligible()
         {
             return SetupConstructor(false);
         }
@@ -153,34 +122,18 @@
             return constructorMock;
         }
 
-        private class ServiceWithPublicConstructor
+        private IConstructor FindBestConstructor()
         {
-            public ServiceWithPublicConstructor(object _) { }
+            MapConstructors();
+
+            return _constructorMap.FindBestFitForArguments(null);
         }
 
-        private class ServiceWithPublicAndHiddenConstructors
+        private static void VerifyAcceptsArgumentsCalled(Mock<IConstructor> constructorMock)
         {
-            public ServiceWithPublicAndHiddenConstructors() { }
-
-            public ServiceWithPublicAndHiddenConstructors(object _) { }
-
-            public ServiceWithPublicAndHiddenConstructors(object _, object _1) { }
-
-            internal ServiceWithPublicAndHiddenConstructors(object _, object _1, object _2) { }
-
-            private ServiceWithPublicAndHiddenConstructors(object _, object _1, object _2, object _3) { }
+            constructorMock.Verify(constructor => constructor.AcceptsUserArguments(null));
         }
 
-        private class ServiceWithHiddenConstructor
-        {
-            internal ServiceWithHiddenConstructor(object _) { }
-        }
-
-        private class ServiceWithStaticConstructor
-        {
-            private ServiceWithStaticConstructor() { }
-
-            static ServiceWithStaticConstructor() { }
-        }
+        private class SomeType { }
     }
 }

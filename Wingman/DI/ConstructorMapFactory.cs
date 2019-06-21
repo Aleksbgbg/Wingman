@@ -4,16 +4,16 @@
 
     internal class ConstructorMapFactory : IConstructorMapFactory
     {
-        private readonly IConstructorFactory _constructorFactory;
+        private readonly IConstructorQueryProvider _constructorQueryProvider;
 
-        public ConstructorMapFactory(IConstructorFactory constructorFactory)
+        public ConstructorMapFactory(IConstructorQueryProvider constructorQueryProvider)
         {
-            _constructorFactory = constructorFactory;
+            _constructorQueryProvider = constructorQueryProvider;
         }
 
         public IConstructorMap CreateConstructorMap(Type concreteType)
         {
-            return new ConstructorMap(_constructorFactory, concreteType);
+            return new ConstructorMap(_constructorQueryProvider, concreteType);
         }
     }
 }
