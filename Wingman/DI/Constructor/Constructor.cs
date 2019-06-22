@@ -27,9 +27,9 @@
             return ArgumentsFitIntoParameters(userArguments) && ParameterTypesMatchFromEnd(userArguments);
         }
 
-        public object Build(object[] fullArguments)
+        public object BuildWith(object[] arguments)
         {
-            return _constructorInfo.Invoke(fullArguments);
+            return _constructorInfo.Invoke(arguments);
         }
 
         private bool ArgumentsFitIntoParameters(object[] userArguments)

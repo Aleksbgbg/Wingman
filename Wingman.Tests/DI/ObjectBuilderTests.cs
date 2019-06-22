@@ -10,7 +10,7 @@
 
     public class ObjectBuilderTests
     {
-        private readonly Mock<IConstructor> _constructorMock;
+        private readonly Mock<IConstructorBuilder> _constructorBuilderMock;
 
         private readonly Mock<IArgumentBuilder> _argumentBuilderMock;
 
@@ -18,11 +18,11 @@
 
         public ObjectBuilderTests()
         {
-            _constructorMock = new Mock<IConstructor>();
+            _constructorBuilderMock = new Mock<IConstructorBuilder>();
 
             _argumentBuilderMock = new Mock<IArgumentBuilder>();
 
-            _objectBuilder = new ObjectBuilder(_constructorMock.Object, _argumentBuilderMock.Object);
+            _objectBuilder = new ObjectBuilder(_constructorBuilderMock.Object, _argumentBuilderMock.Object);
         }
 
         [Fact]
@@ -42,8 +42,8 @@
             _argumentBuilderMock.Setup(builder => builder.BuildArguments())
                                 .Returns(arguments);
 
-            _constructorMock.Setup(constructor => constructor.Build(arguments))
-                            .Returns(value);
+            _constructorBuilderMock.Setup(constructor => constructor.BuildWith(arguments))
+                                   .Returns(value);
         }
 
         private class SomeType { }

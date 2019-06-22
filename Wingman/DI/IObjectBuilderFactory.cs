@@ -5,6 +5,6 @@
 
     internal interface IObjectBuilderFactory
     {
-        IObjectBuilder CreateBuilder(IConstructor constructor, IArgumentBuilder argumentBuilder);
+        IObjectBuilder CreateBuilder(IConstructorBuilder constructorBuilder, IArgumentBuilder argumentBuilder);
     }
 }
