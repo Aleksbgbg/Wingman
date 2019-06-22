@@ -4,6 +4,6 @@
 
     internal interface IUserArgumentBuilderFactory
     {
-        IArgumentBuilder CreateBuilderFor(IConstructor constructor, object[] userArguments);
+        IArgumentBuilder CreateBuilderFor(IConstructorParameterInfo constructorParameterInfo, object[] userArguments);
     }
 }

@@ -5,13 +5,13 @@
 
     internal class UserArgumentBuilder : ArgumentBuilderBase
     {
-        private readonly IConstructor _constructor;
+        private readonly IConstructorParameterInfo _constructorParameterInfo;
 
         private readonly object[] _userArguments;
 
-        public UserArgumentBuilder(IDependencyRetriever dependencyRetriever, IConstructor constructor, object[] userArguments) : base(dependencyRetriever, constructor)
+        public UserArgumentBuilder(IDependencyRetriever dependencyRetriever, IConstructorParameterInfo constructorParameterInfo, object[] userArguments) : base(dependencyRetriever, constructorParameterInfo)
         {
-            _constructor = constructor;
+            _constructorParameterInfo = constructorParameterInfo;
             _userArguments = userArguments;
         }
 
@@ -23,19 +23,19 @@
             }
             else
             {
-                Arguments = new object[_constructor.ParameterCount];
+                Arguments = new object[_constructorParameterInfo.ParameterCount];
                 FillArguments();
             }
         }
 
         private bool UserArgumentsFitConstructor()
         {
-            return _userArguments.Length == _constructor.ParameterCount;
+            return _userArguments.Length == _constructorParameterInfo.ParameterCount;
         }
 
         private void FillArguments()
         {
-            int dependencyCount = _constructor.ParameterCount - _userArguments.Length;
+            int dependencyCount = _constructorParameterInfo.ParameterCount - _userArguments.Length;
 
             ResolveDependenciesFromStart(dependencyCount);
             FillUserArguments(dependencyCount);

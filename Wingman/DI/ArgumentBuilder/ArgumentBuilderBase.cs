@@ -7,12 +7,12 @@
     {
         private readonly IDependencyRetriever _dependencyRetriever;
 
-        private readonly IConstructor _constructor;
+        private readonly IConstructorParameterInfo _constructorParameterInfo;
 
-        private protected ArgumentBuilderBase(IDependencyRetriever dependencyRetriever, IConstructor constructor)
+        private protected ArgumentBuilderBase(IDependencyRetriever dependencyRetriever, IConstructorParameterInfo constructorParameterInfo)
         {
             _dependencyRetriever = dependencyRetriever;
-            _constructor = constructor;
+            _constructorParameterInfo = constructorParameterInfo;
         }
 
         private protected object[] Arguments { get; set; }
@@ -29,7 +29,7 @@
         {
             for (int dependencyIndex = 0; dependencyIndex < dependencyCount; ++dependencyIndex)
             {
-                Arguments[dependencyIndex] = _dependencyRetriever.GetInstance(_constructor.ParameterTypeAt(dependencyIndex));
+                Arguments[dependencyIndex] = _dependencyRetriever.GetInstance(_constructorParameterInfo.ParameterTypeAt(dependencyIndex));
             }
         }
     }

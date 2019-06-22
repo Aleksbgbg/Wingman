@@ -139,7 +139,8 @@
         private static Mock<IConstructor> SetupConstructorWithParameterCount(int count)
         {
             Mock<IConstructor> constructorMock = new Mock<IConstructor>();
-            constructorMock.Setup(constructor => constructor.ParameterCount).Returns(count);
+            constructorMock.Setup(constructor => constructor.ParameterCount)
+                           .Returns(count);
 
             return constructorMock;
         }

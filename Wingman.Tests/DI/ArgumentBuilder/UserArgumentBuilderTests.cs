@@ -16,13 +16,13 @@
     {
         private readonly Mock<IDependencyRetriever> _dependencyRetrieverMock;
 
-        private readonly Mock<IConstructor> _constructorMock;
+        private readonly Mock<IConstructorParameterInfo> _constructorParameterInfoMock;
 
         public UserArgumentBuilderTests()
         {
             _dependencyRetrieverMock = new Mock<IDependencyRetriever>();
 
-            _constructorMock = new Mock<IConstructor>();
+            _constructorParameterInfoMock = new Mock<IConstructorParameterInfo>();
         }
 
         [Fact]
@@ -50,7 +50,7 @@
 
         private object[] SetupNArgumentsWithNDependencies(int count, int dependencies)
         {
-            _constructorMock.SetupGet(constructor => constructor.ParameterCount)
+            _constructorParameterInfoMock.SetupGet(constructor => constructor.ParameterCount)
                             .Returns(count);
 
             return new object[count - dependencies];
@@ -58,13 +58,13 @@
 
         private object[] SetupDependencies(int count)
         {
-            return DiHelper.SetupDependencies(_constructorMock, _dependencyRetrieverMock, count);
+            return DiHelper.SetupDependencies(_constructorParameterInfoMock, _dependencyRetrieverMock, count);
         }
 
         private object[] BuildArguments(object[] userArguments)
         {
             return new UserArgumentBuilder(_dependencyRetrieverMock.Object,
-                                           _constructorMock.Object,
+                                           _constructorParameterInfoMock.Object,
                                            userArguments)
                     .BuildArguments();
         }

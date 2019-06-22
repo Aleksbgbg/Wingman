@@ -5,16 +5,16 @@
 
     internal class DiArgumentBuilder : ArgumentBuilderBase
     {
-        private readonly IConstructor _constructor;
+        private readonly IConstructorParameterInfo _constructorParameterInfo;
 
-        internal DiArgumentBuilder(IDependencyRetriever dependencyRetriever, IConstructor constructor) : base(dependencyRetriever, constructor)
+        internal DiArgumentBuilder(IDependencyRetriever dependencyRetriever, IConstructorParameterInfo constructorParameterInfo) : base(dependencyRetriever, constructorParameterInfo)
         {
-            _constructor = constructor;
+            _constructorParameterInfo = constructorParameterInfo;
         }
 
         private protected override void InstantiateAndFillArguments()
         {
-            Arguments = new object[_constructor.ParameterCount];
+            Arguments = new object[_constructorParameterInfo.ParameterCount];
             ResolveDependenciesFromStart(Arguments.Length);
         }
     }

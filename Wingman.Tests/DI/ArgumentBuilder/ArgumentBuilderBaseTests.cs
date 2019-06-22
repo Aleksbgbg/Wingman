@@ -13,13 +13,13 @@
     {
         private readonly Mock<IDependencyRetriever> _dependencyRetrieverMock;
 
-        private readonly Mock<IConstructor> _constructorMock;
+        private readonly Mock<IConstructorParameterInfo> _constructorParameterInfoMock;
 
         public ArgumentBuilderBaseTests()
         {
             _dependencyRetrieverMock = new Mock<IDependencyRetriever>();
 
-            _constructorMock = new Mock<IConstructor>();
+            _constructorParameterInfoMock = new Mock<IConstructorParameterInfo>();
         }
 
         [Fact]
@@ -34,26 +34,26 @@
 
         private object[] SetupDependencies(int count)
         {
-            return DiHelper.SetupDependencies(_constructorMock, _dependencyRetrieverMock, count);
+            return DiHelper.SetupDependencies(_constructorParameterInfoMock, _dependencyRetrieverMock, count);
         }
 
         private object[] ResolveDependencies()
         {
-            return new ArgumentBuilderBaseMock(_dependencyRetrieverMock.Object, _constructorMock.Object).BuildArguments();
+            return new ArgumentBuilderBaseMock(_dependencyRetrieverMock.Object, _constructorParameterInfoMock.Object).BuildArguments();
         }
 
         private class ArgumentBuilderBaseMock : ArgumentBuilderBase
         {
-            private readonly IConstructor _constructor;
+            private readonly IConstructorParameterInfo _constructorParameterInfo;
 
-            internal ArgumentBuilderBaseMock(IDependencyRetriever dependencyRetriever, IConstructor constructor) : base(dependencyRetriever, constructor)
+            internal ArgumentBuilderBaseMock(IDependencyRetriever dependencyRetriever, IConstructorParameterInfo constructorParameterInfo) : base(dependencyRetriever, constructorParameterInfo)
             {
-                _constructor = constructor;
+                _constructorParameterInfo = constructorParameterInfo;
             }
 
             private protected override void InstantiateAndFillArguments()
             {
-                Arguments = new object[_constructor.ParameterCount];
+                Arguments = new object[_constructorParameterInfo.ParameterCount];
                 ResolveDependenciesFromStart(Arguments.Length);
             }
         }

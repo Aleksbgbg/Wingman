@@ -13,13 +13,13 @@
     {
         private readonly Mock<IDependencyRetriever> _dependencyRetrieverMock;
 
-        private readonly Mock<IConstructor> _constructorMock;
+        private readonly Mock<IConstructorParameterInfo> _constructorParameterInfoMock;
 
         public DiArgumentBuilderTests()
         {
             _dependencyRetrieverMock = new Mock<IDependencyRetriever>();
 
-            _constructorMock = new Mock<IConstructor>();
+            _constructorParameterInfoMock = new Mock<IConstructorParameterInfo>();
         }
 
         [Fact]
@@ -34,12 +34,12 @@
 
         private object[] SetupDependencies(int count)
         {
-            return DiHelper.SetupDependencies(_constructorMock, _dependencyRetrieverMock, count);
+            return DiHelper.SetupDependencies(_constructorParameterInfoMock, _dependencyRetrieverMock, count);
         }
 
         private object[] ResolveDependencies()
         {
-            return new DiArgumentBuilder(_dependencyRetrieverMock.Object, _constructorMock.Object).BuildArguments();
+            return new DiArgumentBuilder(_dependencyRetrieverMock.Object, _constructorParameterInfoMock.Object).BuildArguments();
         }
     }
 }

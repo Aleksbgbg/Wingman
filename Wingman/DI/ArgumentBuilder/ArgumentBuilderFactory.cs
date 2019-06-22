@@ -12,14 +12,14 @@
             _dependencyRetriever = dependencyRetriever;
         }
 
-        public IArgumentBuilder CreateBuilderFor(IConstructor constructor)
+        public IArgumentBuilder CreateBuilderFor(IConstructorParameterInfo constructorParameterInfo)
         {
-            return new DiArgumentBuilder(_dependencyRetriever, constructor);
+            return new DiArgumentBuilder(_dependencyRetriever, constructorParameterInfo);
         }
 
-        public IArgumentBuilder CreateBuilderFor(IConstructor constructor, object[] userArguments)
+        public IArgumentBuilder CreateBuilderFor(IConstructorParameterInfo constructorParameterInfo, object[] userArguments)
         {
-            return new UserArgumentBuilder(_dependencyRetriever, constructor, userArguments);
+            return new UserArgumentBuilder(_dependencyRetriever, constructorParameterInfo, userArguments);
         }
     }
 }

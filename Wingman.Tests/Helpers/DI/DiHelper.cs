@@ -5,12 +5,11 @@
     using Moq;
 
     using Wingman.Container;
-    using Wingman.DI;
     using Wingman.DI.Constructor;
 
     internal static class DiHelper
     {
-        internal static object[] SetupDependencies(Mock<IConstructor> constructorMock, Mock<IDependencyRetriever> dependencyRetrieverMock, int count)
+        internal static object[] SetupDependencies(Mock<IConstructorParameterInfo> constructorMock, Mock<IDependencyRetriever> dependencyRetrieverMock, int count)
         {
             DependencyType[] dependencies = new DependencyType[count];
 

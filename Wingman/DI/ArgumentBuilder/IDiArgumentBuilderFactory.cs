@@ -4,6 +4,6 @@
 
     internal interface IDiArgumentBuilderFactory
     {
-        IArgumentBuilder CreateBuilderFor(IConstructor constructor);
+        IArgumentBuilder CreateBuilderFor(IConstructorParameterInfo constructorParameterInfo);
     }
 }
