@@ -8,20 +8,24 @@
 
     internal class LocationStrategyFactory : ILocationStrategyFactory
     {
-        private readonly IConstructorCandidateEvaluator _constructorCandidateEvaluator;
+        private readonly IDependencyRetriever _dependencyRetriever;
+
+        private readonly IDiConstructorMapFactory _diConstructorMapFactory;
 
         private readonly IDiArgumentBuilderFactory _diArgumentBuilderFactory;
 
-        private readonly IDependencyRetriever _dependencyRetriever;
+        private readonly IObjectBuilderFactory _objectBuilderFactory;
 
-        public LocationStrategyFactory(IConstructorCandidateEvaluator constructorCandidateEvaluator,
+        public LocationStrategyFactory(IDependencyRetriever dependencyRetriever,
+                                       IDiConstructorMapFactory diConstructorMapFactory,
                                        IDiArgumentBuilderFactory diArgumentBuilderFactory,
-                                       IDependencyRetriever dependencyRetriever
+                                       IObjectBuilderFactory objectBuilderFactory
         )
         {
-            _constructorCandidateEvaluator = constructorCandidateEvaluator;
-            _diArgumentBuilderFactory = diArgumentBuilderFactory;
             _dependencyRetriever = dependencyRetriever;
+            _diConstructorMapFactory = diConstructorMapFactory;
+            _diArgumentBuilderFactory = diArgumentBuilderFactory;
+            _objectBuilderFactory = objectBuilderFactory;
         }
 
         public IServiceLocationStrategy CreateInstance(object implementation)
@@ -46,7 +50,7 @@
 
         private DiStrategy CreateDiStrategy(Type implementation)
         {
-            return new DiStrategy(_constructorCandidateEvaluator, _diArgumentBuilderFactory, implementation);
+            return new DiStrategy(_diConstructorMapFactory.CreateConstructorMap(implementation), _diArgumentBuilderFactory, _objectBuilderFactory);
         }
     }
 }
