@@ -6,7 +6,7 @@
 
     internal class ServiceEntryStore : IServiceEntryStore
     {
-        private readonly Dictionary<ServiceEntry, IServiceLocationStrategy> _handlers = new Dictionary<ServiceEntry, IServiceLocationStrategy>();
+        private readonly Dictionary<ServiceEntry, List<IServiceLocationStrategy>> _handlers = new Dictionary<ServiceEntry, List<IServiceLocationStrategy>>();
 
         public bool HasHandler(ServiceEntry serviceEntry)
         {
@@ -15,7 +15,17 @@
 
         public void InsertHandler(ServiceEntry serviceEntry, IServiceLocationStrategy serviceLocationStrategy)
         {
-            _handlers.Add(serviceEntry, serviceLocationStrategy);
+            if (HasHandler(serviceEntry))
+            {
+                _handlers[serviceEntry].Add(serviceLocationStrategy);
+            }
+            else
+            {
+                _handlers.Add(serviceEntry, new List<IServiceLocationStrategy>
+                {
+                    serviceLocationStrategy
+                });
+            }
         }
 
         public void RemoveHandler(ServiceEntry serviceEntry)

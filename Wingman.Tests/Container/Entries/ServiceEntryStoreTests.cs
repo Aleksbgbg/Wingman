@@ -32,8 +32,18 @@
         }
 
         [Fact]
+        public void TestInsertDuplicateHandler()
+        {
+            _serviceEntryStore.InsertHandler(DefaultServiceEntry, null);
+            _serviceEntryStore.InsertHandler(DefaultServiceEntry, null);
+
+            Assert.True(_serviceEntryStore.HasHandler(DefaultServiceEntry));
+        }
+
+        [Fact]
         public void TestHasHandlerAfterRemoving()
         {
+            _serviceEntryStore.InsertHandler(DefaultServiceEntry, null);
             _serviceEntryStore.InsertHandler(DefaultServiceEntry, null);
             _serviceEntryStore.RemoveHandler(DefaultServiceEntry);
 
