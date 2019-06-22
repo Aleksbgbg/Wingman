@@ -5,7 +5,7 @@
 
     using Wingman.Utilities;
 
-    internal class ConstructorMap : IConstructorMap
+    internal class ConstructorMap : IArgumentConstructorMap, IDiConstructorMap
     {
         private readonly IConstructor[] _constructors;
 
@@ -20,9 +20,15 @@
             }
         }
 
-        public IConstructor FindBestFitForArguments(object[] arguments)
+        public IConstructor FindBestConstructorForArguments(object[] arguments)
         {
             return _constructors.Single(constructor => constructor.AcceptsUserArguments(arguments));
+        }
+
+        public IConstructor FindBestConstructorForDi()
+        {
+            return _constructors.OrderBy(constructor => constructor.ParameterCount)
+                                .First();
         }
     }
 }

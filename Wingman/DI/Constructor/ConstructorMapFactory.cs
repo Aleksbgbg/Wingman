@@ -11,7 +11,7 @@
             _constructorQueryProvider = constructorQueryProvider;
         }
 
-        public IConstructorMap CreateConstructorMap(Type concreteType)
+        public IArgumentConstructorMap CreateConstructorMap(Type concreteType)
         {
             return new ConstructorMap(_constructorQueryProvider, concreteType);
         }

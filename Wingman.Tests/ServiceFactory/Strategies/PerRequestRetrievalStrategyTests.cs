@@ -27,9 +27,9 @@
 
             _argumentBuilderMock = new Mock<IArgumentBuilder>();
 
-            Mock<IConstructorMap> constructorMapMock = new Mock<IConstructorMap>();
-            constructorMapMock.Setup(constructorMap => constructorMap.FindBestFitForArguments(_userArguments))
-                               .Returns(_constructorMock.Object);
+            Mock<IArgumentConstructorMap> argumentConstructorMapMock = new Mock<IArgumentConstructorMap>();
+            argumentConstructorMapMock.Setup(map => map.FindBestConstructorForArguments(_userArguments))
+                                      .Returns(_constructorMock.Object);
 
             Mock<IUserArgumentBuilderFactory> userArgumentBuilderFactoryMock = new Mock<IUserArgumentBuilderFactory>();
             userArgumentBuilderFactoryMock.Setup(factory => factory.CreateBuilderFor(_constructorMock.Object, _userArguments))
@@ -37,7 +37,7 @@
 
             _objectBuilderFactoryMock = new Mock<IObjectBuilderFactory>();
 
-            _perRequestRetrievalStrategy = new PerRequestRetrievalStrategy(constructorMapMock.Object,
+            _perRequestRetrievalStrategy = new PerRequestRetrievalStrategy(argumentConstructorMapMock.Object,
                                                                            userArgumentBuilderFactoryMock.Object,
                                                                            _objectBuilderFactoryMock.Object);
         }

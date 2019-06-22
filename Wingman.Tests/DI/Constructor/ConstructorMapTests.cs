@@ -26,7 +26,7 @@
         {
             SetupConstructorCount(1);
 
-            MapConstructors();
+            CreateConstructorMap();
 
             VerifyQueryPublicInstanceConstructors();
         }
@@ -36,7 +36,7 @@
         {
             SetupConstructorCount(0);
 
-            Action map = () => MapConstructors();
+            Action map = () => CreateConstructorMap();
 
             Assert.Throws<InvalidOperationException>(map);
         }
@@ -46,7 +46,7 @@
         {
             var constructors = SetupConstructors(SetupConstructorEligible());
 
-            IConstructor constructor = FindBestConstructor();
+            IConstructor constructor = FindBestConstructorForArguments();
 
             Assert.NotNull(constructor);
             VerifyAcceptsArgumentsCalled(constructors[0]);
@@ -59,7 +59,7 @@
                                                  SetupConstructorNotEligible(),
                                                  SetupConstructorEligible());
 
-            IConstructor constructor = FindBestConstructor();
+            IConstructor constructor = FindBestConstructorForArguments();
 
             Assert.Equal(constructors[2].Object, constructor);
         }
@@ -70,9 +70,22 @@
             SetupConstructors(SetupConstructorEligible(),
                               SetupConstructorEligible());
 
-            Action find = () => FindBestConstructor();
+            Action find = () => FindBestConstructorForArguments();
 
             Assert.Throws<InvalidOperationException>(find);
+        }
+
+        [Fact]
+        public void TestReturnsSmallestArgumentCountConstructor()
+        {
+            const int expectedParameterCount = 12;
+            SetupConstructors(SetupConstructorWithParameterCount(50),
+                              SetupConstructorWithParameterCount(expectedParameterCount),
+                              SetupConstructorWithParameterCount(18));
+
+            IConstructor constructor = FindBestConstructorForDi();
+
+            Assert.Equal(expectedParameterCount, constructor.ParameterCount);
         }
 
         private void SetupConstructorCount(int count)
@@ -85,22 +98,23 @@
                                          .Returns(enumerableMock.Object);
         }
 
-        private void MapConstructors()
+        private IConstructor FindBestConstructorForArguments()
+        {
+            CreateConstructorMap();
+
+            return _constructorMap.FindBestConstructorForArguments(null);
+        }
+
+        private IConstructor FindBestConstructorForDi()
+        {
+            CreateConstructorMap();
+
+            return _constructorMap.FindBestConstructorForDi();
+        }
+
+        private void CreateConstructorMap()
         {
             _constructorMap = new ConstructorMap(_constructorQueryProviderMock.Object, typeof(SomeType));
-        }
-
-        private void VerifyQueryPublicInstanceConstructors()
-        {
-            _constructorQueryProviderMock.Verify(provider => provider.QueryPublicInstanceConstructors(typeof(SomeType)), Times.Once);
-        }
-
-        private Mock<IConstructor>[] SetupConstructors(params Mock<IConstructor>[] constructors)
-        {
-            _constructorQueryProviderMock.Setup(provider => provider.QueryPublicInstanceConstructors(typeof(SomeType)))
-                                         .Returns(constructors.Select(constructor => constructor.Object).ToArray());
-
-            return constructors;
         }
 
         private static Mock<IConstructor> SetupConstructorEligible()
@@ -122,11 +136,24 @@
             return constructorMock;
         }
 
-        private IConstructor FindBestConstructor()
+        private static Mock<IConstructor> SetupConstructorWithParameterCount(int count)
         {
-            MapConstructors();
+            Mock<IConstructor> constructorMock = new Mock<IConstructor>();
+            constructorMock.Setup(constructor => constructor.ParameterCount).Returns(count);
 
-            return _constructorMap.FindBestFitForArguments(null);
+            return constructorMock;
+        }
+
+        private Mock<IConstructor>[] SetupConstructors(params Mock<IConstructor>[] constructors)
+        {
+            _constructorQueryProviderMock.Setup(provider => provider.QueryPublicInstanceConstructors(typeof(SomeType))).Returns(constructors.Select(constructor => constructor.Object).ToArray());
+
+            return constructors;
+        }
+
+        private void VerifyQueryPublicInstanceConstructors()
+        {
+            _constructorQueryProviderMock.Verify(provider => provider.QueryPublicInstanceConstructors(typeof(SomeType)), Times.Once);
         }
 
         private static void VerifyAcceptsArgumentsCalled(Mock<IConstructor> constructorMock)
