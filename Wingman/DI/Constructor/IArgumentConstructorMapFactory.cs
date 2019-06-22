@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal interface IConstructorMapFactory
+    internal interface IArgumentConstructorMapFactory
     {
         IArgumentConstructorMap CreateConstructorMap(Type concreteType);
     }

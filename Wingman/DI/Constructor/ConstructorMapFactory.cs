@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal class ConstructorMapFactory : IConstructorMapFactory
+    internal class ConstructorMapFactory : IArgumentConstructorMapFactory, IDiConstructorMapFactory
     {
         private readonly IConstructorQueryProvider _constructorQueryProvider;
 
@@ -11,9 +11,19 @@
             _constructorQueryProvider = constructorQueryProvider;
         }
 
-        public IArgumentConstructorMap CreateConstructorMap(Type concreteType)
+        IArgumentConstructorMap IArgumentConstructorMapFactory.CreateConstructorMap(Type concreteType)
         {
-            return new ConstructorMap(_constructorQueryProvider, concreteType);
+            return CreateConstructorMap(concreteType);
+        }
+
+        IDiConstructorMap IDiConstructorMapFactory.CreateConstructorMap(Type implementation)
+        {
+            return CreateConstructorMap(implementation);
+        }
+
+        private ConstructorMap CreateConstructorMap(Type type)
+        {
+            return new ConstructorMap(_constructorQueryProvider, type);
         }
     }
 }
