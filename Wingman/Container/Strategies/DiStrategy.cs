@@ -1,28 +1,24 @@
 ﻿namespace Wingman.Container.Strategies
 {
-    using System;
-
     using Wingman.DI;
     using Wingman.DI.ArgumentBuilder;
     using Wingman.DI.Constructor;
 
     internal class DiStrategy : IDiStrategy
     {
-        private readonly IConstructor _targetConstructor;
+        private readonly IObjectBuilder _objectBuilder;
 
-        private readonly IArgumentBuilder _argumentBuilder;
-
-        internal DiStrategy(IConstructorCandidateEvaluator constructorCandidateEvaluator, IDiArgumentBuilderFactory diArgumentBuilderFactory, Type implementation)
+        internal DiStrategy(IDiConstructorMap diConstructorMap, IDiArgumentBuilderFactory diArgumentBuilderFactory, IObjectBuilderFactory objectBuilderFactory)
         {
-            _targetConstructor = constructorCandidateEvaluator.FindBestConstructorForDi(implementation);
-            _argumentBuilder = diArgumentBuilderFactory.CreateBuilderFor(_targetConstructor);
+            IConstructor constructor = diConstructorMap.FindBestConstructorForDi();
+            IArgumentBuilder argumentBuilder = diArgumentBuilderFactory.CreateBuilderFor(constructor);
+
+            _objectBuilder = objectBuilderFactory.CreateBuilder(constructor, argumentBuilder);
         }
 
         public object LocateService()
         {
-            object[] arguments = _argumentBuilder.BuildArguments();
-
-            return _targetConstructor.Build(arguments);
+            return _objectBuilder.BuildObject();
         }
     }
 }

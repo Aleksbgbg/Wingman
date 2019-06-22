@@ -1,7 +1,5 @@
 ﻿namespace Wingman.Tests.Container.Strategies
 {
-    using System;
-
     using Moq;
 
     using Wingman.Container.Strategies;
@@ -13,111 +11,45 @@
 
     public class DiStrategyTests
     {
-        private static readonly Type TargetType = typeof(RequestType);
+        private readonly Mock<IObjectBuilder> _objectBuilderMock;
 
-        private readonly Mock<IConstructorCandidateEvaluator> _constructorEvaluatorMock;
-
-        private readonly Mock<IDiArgumentBuilderFactory> _argumentBuilderFactoryMock;
-
-        private Mock<IConstructor> _constructorMock;
+        private readonly DiStrategy _diStrategy;
 
         public DiStrategyTests()
         {
-            _constructorEvaluatorMock = new Mock<IConstructorCandidateEvaluator>();
-
-            _argumentBuilderFactoryMock = new Mock<IDiArgumentBuilderFactory>();
-        }
-
-        [Fact]
-        public void TestEvaluatesBestConstructor()
-        {
-            MakeStrategy();
-
-            VerifyFindBestConstructor();
-        }
-
-        [Fact]
-        public void TestCreatesArgumentBuilderForConstructor()
-        {
-            IConstructor constructor = SetupConstructor();
-
-            MakeStrategy();
-
-            VerifyCreateArgumentBuilderFor(constructor);
-        }
-
-        [Fact]
-        public void TestLocateBuildsArgumentsAndBuildsConstructor()
-        {
-            object[] arguments = { "1", 2, 3.0f };
-            SetupConstructorWithArguments(arguments);
-
-            MakeStrategy().LocateService();
-
-            VerifyBuildConstructorWithArguments(arguments);
-        }
-
-        [Fact]
-        public void TestLocateReturnsBuildResult()
-        {
-            object expectedService = new object();
-            SetupConstructorBuilds(expectedService);
-
-            object actualService = MakeStrategy().LocateService();
-
-            Assert.Same(expectedService, actualService);
-        }
-
-        private DiStrategy MakeStrategy()
-        {
-            return new DiStrategy(_constructorEvaluatorMock.Object, _argumentBuilderFactoryMock.Object, TargetType);
-        }
-
-        private IConstructor SetupConstructor()
-        {
-            _constructorMock = new Mock<IConstructor>();
-
-            _constructorEvaluatorMock.Setup(evaluator => evaluator.FindBestConstructorForDi(TargetType))
-                                     .Returns(_constructorMock.Object);
-
-            return _constructorMock.Object;
-        }
-
-        private void SetupConstructorWithArguments(object[] arguments)
-        {
-            IConstructor constructor = SetupConstructor();
+            Mock<IConstructor> constructorMock = new Mock<IConstructor>();
+            Mock<IDiConstructorMap> diConstructorMapMock = new Mock<IDiConstructorMap>();
+            diConstructorMapMock.Setup(map => map.FindBestConstructorForDi())
+                                .Returns(constructorMock.Object);
 
             Mock<IArgumentBuilder> argumentBuilderMock = new Mock<IArgumentBuilder>();
-            argumentBuilderMock.Setup(builder => builder.BuildArguments())
-                               .Returns(arguments);
+            Mock<IDiArgumentBuilderFactory> diArgumentBuilderFactoryMock = new Mock<IDiArgumentBuilderFactory>();
+            diArgumentBuilderFactoryMock.Setup(factory => factory.CreateBuilderFor(constructorMock.Object))
+                                        .Returns(argumentBuilderMock.Object);
 
-            _argumentBuilderFactoryMock.Setup(factory => factory.CreateBuilderFor(constructor))
-                                       .Returns(argumentBuilderMock.Object);
+            _objectBuilderMock = new Mock<IObjectBuilder>();
+            Mock<IObjectBuilderFactory> objectBuilderFactoryMock = new Mock<IObjectBuilderFactory>();
+            objectBuilderFactoryMock.Setup(factory => factory.CreateBuilder(constructorMock.Object, argumentBuilderMock.Object))
+                                    .Returns(_objectBuilderMock.Object);
+
+            _diStrategy = new DiStrategy(diConstructorMapMock.Object, diArgumentBuilderFactoryMock.Object, objectBuilderFactoryMock.Object);
         }
 
-        private void SetupConstructorBuilds(object obj)
+        [Fact]
+        public void TestLocateService()
         {
-            SetupConstructorWithArguments(It.IsAny<object[]>());
+            object expectedObject = new object();
+            SetupBuildObject(expectedObject);
 
-            _constructorMock.Setup(constructor => constructor.Build(It.IsAny<object[]>()))
-                            .Returns(obj);
+            object actualObject = _diStrategy.LocateService();
+
+            Assert.Same(expectedObject, actualObject);
         }
 
-        private void VerifyFindBestConstructor()
+        private void SetupBuildObject(object expectedObject)
         {
-            _constructorEvaluatorMock.Verify(evaluator => evaluator.FindBestConstructorForDi(TargetType));
+            _objectBuilderMock.Setup(builder => builder.BuildObject())
+                              .Returns(expectedObject);
         }
-
-        private void VerifyCreateArgumentBuilderFor(IConstructor constructor)
-        {
-            _argumentBuilderFactoryMock.Verify(factory => factory.CreateBuilderFor(constructor));
-        }
-
-        private void VerifyBuildConstructorWithArguments(object[] arguments)
-        {
-            _constructorMock.Verify(constructor => constructor.Build(arguments));
-        }
-
-        private class RequestType { }
     }
 }
