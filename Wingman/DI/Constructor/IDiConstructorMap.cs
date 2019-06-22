@@ -2,6 +2,6 @@
 {
     internal interface IDiConstructorMap
     {
-        IConstructor FindBestConstructorForDi();
+        IConstructionInfo FindBestConstructorForDi();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Wingman.DI.Constructor
 {
-    internal interface IConstructor : IConstructorParameterInfo, IConstructorBuilder
+    internal interface IConstructor : IConstructionInfo
     {
         bool AcceptsUserArguments(object[] userArguments);
     }

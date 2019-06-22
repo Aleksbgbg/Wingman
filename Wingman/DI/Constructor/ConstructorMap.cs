@@ -20,12 +20,12 @@
             }
         }
 
-        public IConstructor FindBestConstructorForArguments(object[] arguments)
+        public IConstructionInfo FindBestConstructorForArguments(object[] arguments)
         {
             return _constructors.Single(constructor => constructor.AcceptsUserArguments(arguments));
         }
 
-        public IConstructor FindBestConstructorForDi()
+        public IConstructionInfo FindBestConstructorForDi()
         {
             return _constructors.OrderBy(constructor => constructor.ParameterCount)
                                 .First();

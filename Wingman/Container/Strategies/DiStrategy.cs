@@ -10,10 +10,10 @@
 
         internal DiStrategy(IDiConstructorMap diConstructorMap, IDiArgumentBuilderFactory diArgumentBuilderFactory, IObjectBuilderFactory objectBuilderFactory)
         {
-            IConstructor constructor = diConstructorMap.FindBestConstructorForDi();
-            IArgumentBuilder argumentBuilder = diArgumentBuilderFactory.CreateBuilderFor(constructor);
+            IConstructionInfo constructionInfo = diConstructorMap.FindBestConstructorForDi();
+            IArgumentBuilder argumentBuilder = diArgumentBuilderFactory.CreateBuilderFor(constructionInfo);
 
-            _objectBuilder = objectBuilderFactory.CreateBuilder(constructor, argumentBuilder);
+            _objectBuilder = objectBuilderFactory.CreateBuilder(constructionInfo, argumentBuilder);
         }
 
         public object LocateService()

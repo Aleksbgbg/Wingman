@@ -2,6 +2,6 @@
 {
     internal interface IArgumentConstructorMap
     {
-        IConstructor FindBestConstructorForArguments(object[] arguments);
+        IConstructionInfo FindBestConstructorForArguments(object[] arguments);
     }
 }

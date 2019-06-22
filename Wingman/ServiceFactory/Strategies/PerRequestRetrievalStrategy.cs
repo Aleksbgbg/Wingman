@@ -23,10 +23,10 @@
 
         public object RetrieveService(object[] arguments)
         {
-            IConstructor constructor = _argumentConstructorMap.FindBestConstructorForArguments(arguments);
-            IArgumentBuilder argumentBuilder = _userArgumentBuilderFactory.CreateBuilderFor(constructor, arguments);
+            IConstructionInfo constructionInfo = _argumentConstructorMap.FindBestConstructorForArguments(arguments);
+            IArgumentBuilder argumentBuilder = _userArgumentBuilderFactory.CreateBuilderFor(constructionInfo, arguments);
 
-            IObjectBuilder objectBuilder = _objectBuilderFactory.CreateBuilder(constructor, argumentBuilder);
+            IObjectBuilder objectBuilder = _objectBuilderFactory.CreateBuilder(constructionInfo, argumentBuilder);
 
             return objectBuilder.BuildObject();
         }

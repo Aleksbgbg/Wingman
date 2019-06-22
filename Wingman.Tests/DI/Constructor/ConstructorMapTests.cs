@@ -46,9 +46,9 @@
         {
             var constructors = SetupConstructors(SetupConstructorEligible());
 
-            IConstructor constructor = FindBestConstructorForArguments();
+            IConstructionInfo constructionInfo = FindBestConstructorForArguments();
 
-            Assert.NotNull(constructor);
+            Assert.NotNull(constructionInfo);
             VerifyAcceptsArgumentsCalled(constructors[0]);
         }
 
@@ -59,9 +59,9 @@
                                                  SetupConstructorNotEligible(),
                                                  SetupConstructorEligible());
 
-            IConstructor constructor = FindBestConstructorForArguments();
+            IConstructionInfo constructionInfo = FindBestConstructorForArguments();
 
-            Assert.Equal(constructors[2].Object, constructor);
+            Assert.Equal(constructors[2].Object, constructionInfo);
         }
 
         [Fact]
@@ -83,9 +83,9 @@
                               SetupConstructorWithParameterCount(expectedParameterCount),
                               SetupConstructorWithParameterCount(18));
 
-            IConstructor constructor = FindBestConstructorForDi();
+            IConstructionInfo constructionInfo = FindBestConstructorForDi();
 
-            Assert.Equal(expectedParameterCount, constructor.ParameterCount);
+            Assert.Equal(expectedParameterCount, constructionInfo.ParameterCount);
         }
 
         private void SetupConstructorCount(int count)
@@ -98,14 +98,14 @@
                                          .Returns(enumerableMock.Object);
         }
 
-        private IConstructor FindBestConstructorForArguments()
+        private IConstructionInfo FindBestConstructorForArguments()
         {
             CreateConstructorMap();
 
             return _constructorMap.FindBestConstructorForArguments(null);
         }
 
-        private IConstructor FindBestConstructorForDi()
+        private IConstructionInfo FindBestConstructorForDi()
         {
             CreateConstructorMap();
 
