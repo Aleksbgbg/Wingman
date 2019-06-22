@@ -5,9 +5,9 @@
 
     internal class ObjectBuilderFactory : IObjectBuilderFactory
     {
-        public IObjectBuilder CreateBuilder(IConstructorBuilder constructorBuilder, IArgumentBuilder argumentBuilder)
+        public IObjectBuilder CreateBuilder(IConstructorInvoker constructorInvoker, IArgumentBuilder argumentBuilder)
         {
-            return new ObjectBuilder(constructorBuilder, argumentBuilder);
+            return new ObjectBuilder(constructorInvoker, argumentBuilder);
         }
     }
 }

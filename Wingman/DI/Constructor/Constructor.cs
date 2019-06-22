@@ -27,7 +27,7 @@
             return ArgumentsFitIntoParameters(userArguments) && ParameterTypesMatchFromEnd(userArguments);
         }
 
-        public object BuildWith(object[] arguments)
+        public object InvokeConstructor(object[] arguments)
         {
             return _constructorInfo.Invoke(arguments);
         }

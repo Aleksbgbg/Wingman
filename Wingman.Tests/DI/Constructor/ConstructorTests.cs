@@ -88,7 +88,7 @@
             object[] arguments = new object[5];
             object expectedObject = SetupConstructorInvoke(arguments);
 
-            object resultant = Constructor.BuildWith(arguments);
+            object resultant = Constructor.InvokeConstructor(arguments);
 
             Assert.Equal(expectedObject, resultant);
             VerifyConstructorInvokeCalled(arguments);
