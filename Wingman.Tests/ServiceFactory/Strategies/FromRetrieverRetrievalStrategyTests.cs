@@ -1,11 +1,11 @@
-﻿namespace Wingman.Tests.ServiceFactory.Strategies.FromRetriever
+﻿namespace Wingman.Tests.ServiceFactory.Strategies
 {
     using System;
 
     using Moq;
 
     using Wingman.Container;
-    using Wingman.ServiceFactory.Strategies.FromRetriever;
+    using Wingman.ServiceFactory.Strategies;
 
     using Xunit;
 

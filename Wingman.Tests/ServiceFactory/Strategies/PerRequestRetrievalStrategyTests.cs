@@ -1,11 +1,11 @@
-﻿namespace Wingman.Tests.ServiceFactory.Strategies.PerRequest
+﻿namespace Wingman.Tests.ServiceFactory.Strategies
 {
     using Moq;
 
     using Wingman.DI;
     using Wingman.DI.ArgumentBuilder;
     using Wingman.DI.Constructor;
-    using Wingman.ServiceFactory.Strategies.PerRequest;
+    using Wingman.ServiceFactory.Strategies;
 
     using Xunit;
 

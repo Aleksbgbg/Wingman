@@ -1,4 +1,4 @@
-﻿namespace Wingman.ServiceFactory.Strategies.PerRequest
+﻿namespace Wingman.ServiceFactory.Strategies
 {
     using System;
 
