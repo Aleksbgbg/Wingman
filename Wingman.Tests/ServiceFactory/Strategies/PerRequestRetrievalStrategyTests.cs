@@ -31,20 +31,15 @@
             constructorMapMock.Setup(constructorMap => constructorMap.FindBestFitForArguments(_userArguments))
                                .Returns(_constructorMock.Object);
 
-            Mock<IConstructorMapFactory> constructorMapFactoryMock = new Mock<IConstructorMapFactory>();
-            constructorMapFactoryMock.Setup(factory => factory.CreateConstructorMap(typeof(Service)))
-                                     .Returns(constructorMapMock.Object);
-
             Mock<IUserArgumentBuilderFactory> userArgumentBuilderFactoryMock = new Mock<IUserArgumentBuilderFactory>();
             userArgumentBuilderFactoryMock.Setup(factory => factory.CreateBuilderFor(_constructorMock.Object, _userArguments))
                                           .Returns(_argumentBuilderMock.Object);
 
             _objectBuilderFactoryMock = new Mock<IObjectBuilderFactory>();
 
-            _perRequestRetrievalStrategy = new PerRequestRetrievalStrategy(constructorMapFactoryMock.Object,
+            _perRequestRetrievalStrategy = new PerRequestRetrievalStrategy(constructorMapMock.Object,
                                                                            userArgumentBuilderFactoryMock.Object,
-                                                                           _objectBuilderFactoryMock.Object,
-                                                                           typeof(Service));
+                                                                           _objectBuilderFactoryMock.Object);
         }
 
         [Fact]
@@ -72,7 +67,5 @@
         {
             return _perRequestRetrievalStrategy.RetrieveService(_userArguments);
         }
-
-        private class Service { }
     }
 }

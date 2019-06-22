@@ -35,7 +35,7 @@
 
         public IServiceRetrievalStrategy CreatePerRequest(Type concreteType)
         {
-            return new PerRequestRetrievalStrategy(_constructorMapFactory, _userArgumentBuilderFactory, _objectBuilderFactory, concreteType);
+            return new PerRequestRetrievalStrategy(_constructorMapFactory.CreateConstructorMap(concreteType), _userArgumentBuilderFactory, _objectBuilderFactory);
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿namespace Wingman.ServiceFactory.Strategies
 {
-    using System;
-
     using Wingman.DI;
     using Wingman.DI.ArgumentBuilder;
     using Wingman.DI.Constructor;
@@ -14,12 +12,11 @@
 
         private readonly IObjectBuilderFactory _objectBuilderFactory;
 
-        public PerRequestRetrievalStrategy(IConstructorMapFactory constructorMapFactory,
+        public PerRequestRetrievalStrategy(IConstructorMap constructorMap,
                                            IUserArgumentBuilderFactory userArgumentBuilderFactory,
-                                           IObjectBuilderFactory objectBuilderFactory,
-                                           Type concreteType)
+                                           IObjectBuilderFactory objectBuilderFactory)
         {
-            _constructorMap = constructorMapFactory.CreateConstructorMap(concreteType);
+            _constructorMap = constructorMap;
             _userArgumentBuilderFactory = userArgumentBuilderFactory;
             _objectBuilderFactory = objectBuilderFactory;
         }
