@@ -2,6 +2,6 @@
 {
     internal interface IObjectBuilder
     {
-        object Build();
+        object BuildObject();
     }
 }

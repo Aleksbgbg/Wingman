@@ -15,7 +15,7 @@
             _argumentBuilder = argumentBuilder;
         }
 
-        public object Build()
+        public object BuildObject()
         {
             object[] arguments = _argumentBuilder.BuildArguments();
             return _constructor.Build(arguments);

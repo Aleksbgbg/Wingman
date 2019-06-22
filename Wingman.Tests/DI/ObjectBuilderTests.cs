@@ -32,7 +32,7 @@
             object[] arguments = { new SomeType(), new SomeType() };
             SetupBuildObject(arguments, expectedObject);
 
-            object builtObject = _objectBuilder.Build();
+            object builtObject = _objectBuilder.BuildObject();
 
             Assert.Same(expectedObject, builtObject);
         }
