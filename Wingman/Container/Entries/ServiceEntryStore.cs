@@ -32,5 +32,10 @@
         {
             _handlers.Remove(serviceEntry);
         }
+
+        public IEnumerable<IServiceLocationStrategy> RetrieveHandlers(ServiceEntry serviceEntry)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

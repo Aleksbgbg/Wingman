@@ -1,5 +1,7 @@
 ﻿namespace Wingman.Container.Entries
 {
+    using System.Collections.Generic;
+
     using Wingman.Container.Strategies;
 
     internal interface IServiceEntryStore
@@ -9,5 +11,7 @@
         void InsertHandler(ServiceEntry serviceEntry, IServiceLocationStrategy serviceLocationStrategy);
 
         void RemoveHandler(ServiceEntry serviceEntry);
+
+        IEnumerable<IServiceLocationStrategy> RetrieveHandlers(ServiceEntry serviceEntry);
     }
 }
