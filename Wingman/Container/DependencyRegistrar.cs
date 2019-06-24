@@ -52,12 +52,6 @@
         private void InsertHandler(Type service, string key, IServiceLocationStrategy serviceLocationStrategy)
         {
             ServiceEntry serviceEntry = MakeServiceEntry(service, key);
-
-            if (_serviceEntryStore.HasHandler(serviceEntry))
-            {
-                ThrowHelper.Throw.DependencyRegistrar.DuplicateRegistration(service);
-            }
-
             _serviceEntryStore.InsertHandler(serviceEntry, serviceLocationStrategy);
         }
 

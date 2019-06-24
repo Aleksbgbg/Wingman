@@ -13,7 +13,9 @@
 
     public class DependencyRegistrarTests
     {
-        private const string ServiceKey = "Key";
+        private const string DefaultServiceKey = "Key";
+
+        private static readonly ServiceEntry DefaultServiceEntry = new ServiceEntry(typeof(IService), DefaultServiceKey);
 
         private readonly Mock<IServiceEntryStore> _serviceEntryStoreMock;
 
@@ -40,7 +42,7 @@
             IService service = new Service();
             SetupCreateInstance(service);
 
-            _dependencyRegistrar.RegisterInstance(typeof(IService), service, ServiceKey);
+            RegisterInstance(service);
 
             VerifyRegisterStrategy();
         }
@@ -50,7 +52,7 @@
         {
             SetupCreateSingleton();
 
-            _dependencyRegistrar.RegisterSingleton(typeof(IService), typeof(Service), ServiceKey);
+            RegisterSingleton();
 
             VerifyRegisterStrategy();
         }
@@ -60,7 +62,7 @@
         {
             SetupCreatePerRequest();
 
-            _dependencyRegistrar.RegisterPerRequest(typeof(IService), typeof(Service), ServiceKey);
+            RegisterPerRequest();
 
             VerifyRegisterStrategy();
         }
@@ -71,7 +73,7 @@
             Func<IDependencyRetriever, object> handler = _ => new object();
             SetupRegisterHandler(handler);
 
-            _dependencyRegistrar.RegisterHandler(typeof(IService), handler, ServiceKey);
+            RegisterHandler(handler);
 
             VerifyRegisterStrategy();
         }
@@ -79,7 +81,7 @@
         [Fact]
         public void TestUnregisterHandler()
         {
-            _dependencyRegistrar.UnregisterHandler(typeof(IService), ServiceKey);
+            UnregisterHandler();
 
             VerifyUnregisterHandler();
         }
@@ -89,9 +91,7 @@
         {
             SetupHasHandler(true);
 
-            bool hasHandler = _dependencyRegistrar.HasHandler(typeof(IService), ServiceKey);
-
-            Assert.True(hasHandler);
+            Assert.True(HasHandler());
         }
 
         [Fact]
@@ -99,20 +99,18 @@
         {
             SetupHasHandler(false);
 
-            bool hasHandler = _dependencyRegistrar.HasHandler(typeof(IService), ServiceKey);
-
-            Assert.False(hasHandler);
+            Assert.False(HasHandler());
         }
 
         [Fact]
-        public void TestDuplicateRegistrationThrows()
+        public void TestDuplicateRegistrationDoesNotThrow()
         {
             SetupHasHandler(true);
 
-            Assert.Throws<InvalidOperationException>(() => _dependencyRegistrar.RegisterInstance(typeof(IService), null, ServiceKey));
-            Assert.Throws<InvalidOperationException>(() => _dependencyRegistrar.RegisterSingleton(typeof(IService), typeof(Service), ServiceKey));
-            Assert.Throws<InvalidOperationException>(() => _dependencyRegistrar.RegisterPerRequest(typeof(IService), typeof(Service), ServiceKey));
-            Assert.Throws<InvalidOperationException>(() => _dependencyRegistrar.RegisterHandler(typeof(IService), _ => new object(), ServiceKey));
+            RegisterInstance(null);
+            RegisterSingleton();
+            RegisterPerRequest();
+            RegisterHandler();
         }
 
         private void SetupCreateInstance(IService service)
@@ -147,6 +145,41 @@
                                   .Returns(expectedResult);
         }
 
+        private void RegisterInstance(IService implementation)
+        {
+            _dependencyRegistrar.RegisterInstance(typeof(IService), implementation, DefaultServiceKey);
+        }
+
+        private void RegisterSingleton()
+        {
+            _dependencyRegistrar.RegisterSingleton(typeof(IService), typeof(Service), DefaultServiceKey);
+        }
+
+        private void RegisterPerRequest()
+        {
+            _dependencyRegistrar.RegisterPerRequest(typeof(IService), typeof(Service), DefaultServiceKey);
+        }
+
+        private void RegisterHandler()
+        {
+            RegisterHandler(_ => new object());
+        }
+
+        private void RegisterHandler(Func<IDependencyRetriever, object> handler)
+        {
+            _dependencyRegistrar.RegisterHandler(typeof(IService), handler, DefaultServiceKey);
+        }
+
+        private bool HasHandler()
+        {
+            return _dependencyRegistrar.HasHandler(typeof(IService), DefaultServiceKey);
+        }
+
+        private void UnregisterHandler()
+        {
+            _dependencyRegistrar.UnregisterHandler(typeof(IService), DefaultServiceKey);
+        }
+
         private void VerifyRegisterStrategy()
         {
             _serviceEntryStoreMock.Verify(store => store.InsertHandler(DefaultServiceEntry, _locationStrategy));
@@ -156,8 +189,6 @@
         {
             _serviceEntryStoreMock.Verify(store => store.RemoveHandler(DefaultServiceEntry));
         }
-
-        private static ServiceEntry DefaultServiceEntry { get; } = new ServiceEntry(typeof(IService), ServiceKey);
 
         private interface IService { }
 
