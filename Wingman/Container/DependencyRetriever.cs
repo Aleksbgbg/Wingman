@@ -7,7 +7,7 @@
 
     using Wingman.Container.Entries;
     using Wingman.Container.Strategies;
-    using Wingman.Utilities;
+    using Wingman.Utilities.ThrowHelper;
 
     /// <summary> Default implementation of <see cref="IDependencyRetriever"/> and <see cref="IDependencyActivator"/>. </summary>
     public class DependencyRetriever : DependencyRetrieverBase, IDependencyActivator
@@ -32,7 +32,7 @@
 
             if (service == null)
             {
-                ThrowHelper.Throw.DependencyRetriever.NoDefinitionForKey(key);
+                throw ThrowHelper.DependencyRetriever.NoDefinitionForKey(key);
             }
 
             if (IsFactoryFuncType(service))
@@ -45,8 +45,7 @@
                 return CreateEnumerable(service);
             }
 
-            ThrowHelper.Throw.DependencyRetriever.CannotSatisfyRequestFor(service, key);
-            return null;
+            throw ThrowHelper.DependencyRetriever.CannotSatisfyRequestFor(service, key);
         }
 
         public override IEnumerable<object> GetAllInstances(Type service)
@@ -58,8 +57,7 @@
                 return LocateAllServicesFor(serviceEntry);
             }
 
-            ThrowHelper.Throw.DependencyRetriever.CannotSatisfyMultipleRequestFor(service);
-            return null;
+            throw ThrowHelper.DependencyRetriever.CannotSatisfyMultipleRequestFor(service);
         }
 
         public override void BuildUp(object instance)

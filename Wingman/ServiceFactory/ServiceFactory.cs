@@ -3,7 +3,7 @@
     using System;
 
     using Wingman.ServiceFactory.Strategies;
-    using Wingman.Utilities;
+    using Wingman.Utilities.ThrowHelper;
 
     /// <summary> Default implementation of <see cref="IServiceFactory"/>. </summary>
     public class ServiceFactory : IServiceFactory
@@ -34,7 +34,7 @@
         {
             if (!_retrievalStrategyStore.IsRegistered(interfaceType))
             {
-                ThrowHelper.Throw.ServiceFactory.NoDependencyMapping(interfaceType);
+                throw ThrowHelper.ServiceFactory.NoDependencyMapping(interfaceType);
             }
         }
     }

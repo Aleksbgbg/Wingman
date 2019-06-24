@@ -3,7 +3,7 @@
     using System;
 
     using Wingman.Container;
-    using Wingman.Utilities;
+    using Wingman.Utilities.ThrowHelper;
 
     internal class FromRetrieverRetrievalStrategy : IServiceRetrievalStrategy
     {
@@ -28,7 +28,7 @@
         {
             if (arguments.Length != 0)
             {
-                ThrowHelper.Throw.FromRetrieverRetrievalStrategy.ArgumentsNotEmpty(nameof(arguments), arguments);
+                throw ThrowHelper.FromRetrieverRetrievalStrategy.ArgumentsNotEmpty(nameof(arguments), arguments);
             }
         }
     }

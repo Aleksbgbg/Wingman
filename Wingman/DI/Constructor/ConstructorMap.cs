@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
 
-    using Wingman.Utilities;
+    using Wingman.Utilities.ThrowHelper;
 
     internal class ConstructorMap : IArgumentConstructorMap, IDiConstructorMap
     {
@@ -16,7 +16,7 @@
 
             if (_constructors.Length == 0)
             {
-                ThrowHelper.Throw.ConstructorMap.NoPublicInstanceConstructors(concreteType);
+                throw ThrowHelper.ConstructorMap.NoPublicInstanceConstructors(concreteType);
             }
         }
 

@@ -8,7 +8,7 @@
 
     using Wingman.Container;
     using Wingman.ServiceFactory;
-    using Wingman.Utilities;
+    using Wingman.Utilities.ThrowHelper;
 
     /// <inheritdoc/>
     /// <typeparam name="TRootViewModel"> The ViewModel to display for the root view. </typeparam>
@@ -122,7 +122,7 @@
         {
             if (!_dependencyRegistrar.HasHandler<TRootViewModel>())
             {
-                ThrowHelper.Throw.BootstrapperBase.RootViewModelNotRegistered(typeof(TRootViewModel), nameof(RegisterViewModels));
+                throw ThrowHelper.BootstrapperBase.RootViewModelNotRegistered(typeof(TRootViewModel), nameof(RegisterViewModels));
             }
         }
     }

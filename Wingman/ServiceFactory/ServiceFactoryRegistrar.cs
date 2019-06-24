@@ -4,7 +4,7 @@
 
     using Wingman.Container;
     using Wingman.ServiceFactory.Strategies;
-    using Wingman.Utilities;
+    using Wingman.Utilities.ThrowHelper;
 
     /// <summary> Default implementation of <see cref="IServiceFactoryRegistrar"/>. </summary>
     public class ServiceFactoryRegistrar : IServiceFactoryRegistrar
@@ -56,7 +56,7 @@
         {
             if (_retrievalStrategyStore.IsRegistered(interfaceType))
             {
-                ThrowHelper.Throw.ServiceFactory.DuplicateRegistration(interfaceType);
+                throw ThrowHelper.ServiceFactory.DuplicateRegistration(interfaceType);
             }
         }
 
@@ -64,7 +64,7 @@
         {
             if (!_dependencyRegistrar.HasHandler(interfaceType))
             {
-                ThrowHelper.Throw.ServiceFactory.NoHandlerRegisteredWithContainer(interfaceType);
+                throw ThrowHelper.ServiceFactory.NoHandlerRegisteredWithContainer(interfaceType);
             }
         }
 
@@ -72,7 +72,7 @@
         {
             if (concreteType.IsAbstract)
             {
-                ThrowHelper.Throw.ServiceFactory.RegisterNonConcreteTypePerRequest(concreteType);
+                throw ThrowHelper.ServiceFactory.RegisterNonConcreteTypePerRequest(concreteType);
             }
         }
     }
