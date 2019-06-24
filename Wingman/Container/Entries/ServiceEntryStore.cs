@@ -35,7 +35,7 @@
 
         public IEnumerable<IServiceLocationStrategy> RetrieveHandlers(ServiceEntry serviceEntry)
         {
-            throw new System.NotImplementedException();
+            return _handlers[serviceEntry];
         }
     }
 }
