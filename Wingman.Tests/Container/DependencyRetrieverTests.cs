@@ -129,6 +129,30 @@
             Assert.Same(services.First(), buildUpType.Service);
         }
 
+        [Fact]
+        public void TestInvokesActivatedOnGetInstance()
+        {
+            IService expectedService = SetupIServiceHandler();
+            object actualService = null;
+
+            _dependencyRetriever.Activated += service => actualService = service;
+            GetIServiceInstance();
+
+            Assert.Same(expectedService, actualService);
+        }
+
+        [Fact]
+        public void TestInvokesActivatedOnGetAllInstances()
+        {
+            IEnumerable<object> expectedCollection = SetupIServiceHandlers(5);
+            List<object> actualCollection = new List<object>();
+
+            _dependencyRetriever.Activated += service => actualCollection.Add(service);
+            GetAllInstances();
+
+            Assert.Equal(expectedCollection, actualCollection);
+        }
+
         private Func<IService> SetupFactoryFunc()
         {
             SetupIServiceHandler();
@@ -215,7 +239,7 @@
 
         private IEnumerable<object> GetAllInstances()
         {
-            return _dependencyRetriever.GetAllInstances(DefaultServiceType);
+            return _dependencyRetriever.GetAllInstances(DefaultServiceType).ToArray();
         }
 
         private void BuildUp(object instance)

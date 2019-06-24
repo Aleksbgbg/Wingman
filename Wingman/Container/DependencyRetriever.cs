@@ -9,8 +9,8 @@
     using Wingman.Container.Strategies;
     using Wingman.Utilities;
 
-    /// <summary> Default implementation of <see cref="IDependencyRetriever"/>. </summary>
-    public class DependencyRetriever : DependencyRetrieverBase
+    /// <summary> Default implementation of <see cref="IDependencyRetriever"/> and <see cref="IDependencyActivator"/>. </summary>
+    public class DependencyRetriever : DependencyRetrieverBase, IDependencyActivator
     {
         private readonly IServiceEntryStore _serviceEntryStore;
 
@@ -18,6 +18,8 @@
         {
             _serviceEntryStore = serviceEntryStore;
         }
+
+        public event Action<object> Activated;
 
         public override object GetInstance(Type service, string key = null)
         {
@@ -90,12 +92,21 @@
 
         private object LocateServiceFor(ServiceEntry serviceEntry)
         {
-            return RetrieveHandlers(serviceEntry).Single().LocateService();
+            return LocateService(RetrieveHandlers(serviceEntry).Single());
         }
 
         private IEnumerable<object> LocateAllServicesFor(ServiceEntry serviceEntry)
         {
-            return RetrieveHandlers(serviceEntry).Select(handler => handler.LocateService());
+            return RetrieveHandlers(serviceEntry).Select(LocateService);
+        }
+
+        private object LocateService(IServiceLocationStrategy serviceLocationStrategy)
+        {
+            object service = serviceLocationStrategy.LocateService();
+
+            Activated?.Invoke(service);
+
+            return service;
         }
 
         private IEnumerable<IServiceLocationStrategy> RetrieveHandlers(ServiceEntry serviceEntry)
