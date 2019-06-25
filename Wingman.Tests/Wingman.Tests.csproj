@@ -8,6 +8,8 @@
     <PackageReference Include="Xunit" Version="2.4.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wingman\Wingman.csproj" />
+    <ProjectReference Include="..\Wingman.DI\Wingman.DI.csproj" />
+    <ProjectReference Include="..\Wingman.Services\Wingman.Services.csproj" />
+    <ProjectReference Include="..\Wingman.WPF\Wingman.WPF.csproj" />
   </ItemGroup>
 </Project>

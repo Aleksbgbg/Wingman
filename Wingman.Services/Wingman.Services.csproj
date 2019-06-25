@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.0;netcoreapp2.2;net40;net45;net452;net46;net462;net47;net472;net48</TargetFrameworks>
+    <RootNamespace>Wingman</RootNamespace>
+    <Version>1.3.2.0</Version>
+    <AssemblyVersion>1.3.2.0</AssemblyVersion>
+    <FileVersion>1.3.2.0</FileVersion>
+    <Authors>Aleks Todorov</Authors>
+    <Copyright>Copyright Aleks Todorov © 2019</Copyright>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants />
+    <DocumentationFile>E:\Programming\C#\Wingman\Wingman.Services\bin\Release\Wingman.Services.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+</Project>

@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wingman", "Wingman\Wingman.csproj", "{2BFBC4A3-34A2-4549-A58F-DCDB487B5097}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wingman.Tests", "Wingman.Tests\Wingman.Tests.csproj", "{2A458BDC-F4EB-4AC9-A2E4-8006CF75DB12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wingman.Tests", "Wingman.Tests\Wingman.Tests.csproj", "{2A458BDC-F4EB-4AC9-A2E4-8006CF75DB12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wingman.WPF", "Wingman.WPF\Wingman.WPF.csproj", "{BEDA8A67-D525-4468-A7C3-59BF96660D2D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wingman.DI", "Wingman.DI\Wingman.DI.csproj", "{BF62515F-6E78-4EBE-A31A-9EBCCC627CA3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wingman.Services", "Wingman.Services\Wingman.Services.csproj", "{7A957CDF-9139-4E18-88D6-110C27BB5671}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wingman.WpfAppExample", "Wingman.WpfAppExample\Wingman.WpfAppExample.csproj", "{18CFA0B7-D0EA-4E57-B11D-1301E70D774B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +19,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2BFBC4A3-34A2-4549-A58F-DCDB487B5097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BFBC4A3-34A2-4549-A58F-DCDB487B5097}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BFBC4A3-34A2-4549-A58F-DCDB487B5097}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BFBC4A3-34A2-4549-A58F-DCDB487B5097}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2A458BDC-F4EB-4AC9-A2E4-8006CF75DB12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2A458BDC-F4EB-4AC9-A2E4-8006CF75DB12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A458BDC-F4EB-4AC9-A2E4-8006CF75DB12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A458BDC-F4EB-4AC9-A2E4-8006CF75DB12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEDA8A67-D525-4468-A7C3-59BF96660D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEDA8A67-D525-4468-A7C3-59BF96660D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEDA8A67-D525-4468-A7C3-59BF96660D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEDA8A67-D525-4468-A7C3-59BF96660D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF62515F-6E78-4EBE-A31A-9EBCCC627CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF62515F-6E78-4EBE-A31A-9EBCCC627CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF62515F-6E78-4EBE-A31A-9EBCCC627CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF62515F-6E78-4EBE-A31A-9EBCCC627CA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A957CDF-9139-4E18-88D6-110C27BB5671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A957CDF-9139-4E18-88D6-110C27BB5671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A957CDF-9139-4E18-88D6-110C27BB5671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A957CDF-9139-4E18-88D6-110C27BB5671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18CFA0B7-D0EA-4E57-B11D-1301E70D774B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18CFA0B7-D0EA-4E57-B11D-1301E70D774B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18CFA0B7-D0EA-4E57-B11D-1301E70D774B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18CFA0B7-D0EA-4E57-B11D-1301E70D774B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
