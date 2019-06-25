@@ -53,12 +53,26 @@
 
         protected sealed override IEnumerable<object> GetAllInstances(Type service)
         {
-            return _dependencyRetriever.GetAllInstances(service);
+            try
+            {
+                return _dependencyRetriever.GetAllInstances(service);
+            }
+            catch (InvalidOperationException)
+            {
+                return new object[0];
+            }
         }
 
         protected sealed override object GetInstance(Type service, string key)
         {
-            return _dependencyRetriever.GetInstance(service, key);
+            try
+            {
+                return _dependencyRetriever.GetInstance(service, key);
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         protected sealed override void Configure()
