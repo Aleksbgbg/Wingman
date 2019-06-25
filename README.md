@@ -15,6 +15,15 @@ To install the latest version, open PowerShell in your project directory, and si
 Install-Package Wingman
 ```
 
+Wingman has several sub-packages. The main package installs all of them, but you can install any of the sub-packages individually:
+```ps
+Install-Package Wingman.DI
+Install-Package Wingman.Services
+Install-Package Wingman.WPF
+```
+
+The packages have inter-dependencies. For example, Wingman.WPF will always install Wingman.DI.
+
 <details>
 <summary> Supported .NET Framework Versions </summary>
 
