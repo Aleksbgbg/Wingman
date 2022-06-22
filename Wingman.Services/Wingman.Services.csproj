@@ -13,6 +13,6 @@
     <DocumentationFile>E:\Programming\C#\Wingman\Wingman.Services\bin\Release\Wingman.Services.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>
